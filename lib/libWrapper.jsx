@@ -1,5 +1,15 @@
-import React from 'react';
+import React from "react";
 import ReactDOM from "react-dom";
-import Underwood from './index'
+import { Editor, Playground, Controls } from "./index";
 
-ReactDOM.render(<Underwood />, document.getElementById("body"));
+ReactDOM.render(
+  <Editor>
+    <Controls>
+      <Controls.Group>
+        <Controls.Italic />
+      </Controls.Group>
+    </Controls>
+    <Playground />
+  </Editor>,
+  document.getElementById("body")
+);
