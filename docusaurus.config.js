@@ -16,7 +16,7 @@ module.exports = {
       },
       items: [
         {
-          to: "docs/doc1",
+          to: "docs/displayer",
           activeBasePath: "docs",
           label: "Docs",
           position: "left",
@@ -72,7 +72,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Underwood. Built with Docusaurus.`,
+      copyright: `Built with Docusaurus.`,
     },
   },
   presets: [
