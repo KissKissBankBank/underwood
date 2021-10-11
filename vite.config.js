@@ -11,10 +11,17 @@ export default defineConfig({
       fileName: (format) => `underwood.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "styled-components", "lodash"],
+      external: [
+        "react",
+        "react-dom",
+        "styled-components",
+        "lodash",
+        "@kisskissbankbank/kitten",
+      ],
       output: {
         globals: {
           react: "React",
+          ["react-dom"]: "ReactDOM",
         },
       },
     },
