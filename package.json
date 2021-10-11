@@ -2,6 +2,15 @@
   "name": "underwood",
   "description": "Text editor based on DraftJS",
   "version": "1.0.0",
+  "license": "MIT",
+  "author": "KissKissBankBank & Co",
+  "homepage": "https://underwood.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KissKissBankBank/underwood.git"
+  },
+  "bugs": "https://github.com/KissKissBankBank/underwood/issues",
+  "keywords": ["react", "editor", "text", "texteditor","draftjs", "wysiwyg"],
   "files": ["dist"],
   "main": "./dist/my-lib.umd.js",
   "module": "./dist/my-lib.es.js",
