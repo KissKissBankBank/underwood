@@ -11,7 +11,7 @@ export default defineConfig({
       fileName: (format) => `underwood.${format}.js`,
     },
     rollupOptions: {
-      external: ["react"],
+      external: ["react", "styled-components", "lodash"],
       output: {
         globals: {
           react: "React",
