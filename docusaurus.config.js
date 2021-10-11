@@ -13,7 +13,7 @@ module.exports = {
         alt: "Underwood logo",
         src: "img/logo.svg",
       },
-      links: [
+      items: [
         {
           to: "docs/doc1",
           activeBasePath: "docs",
