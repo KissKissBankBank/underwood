@@ -1,9 +1,20 @@
 {
-  "name": "docusaurus-2",
-  "version": "0.0.0",
-  "private": true,
+  "name": "underwood",
+  "description": "Text editor based on DraftJS",
+  "version": "1.0.0",
+  "files": ["dist"],
+  "main": "./dist/my-lib.umd.js",
+  "module": "./dist/my-lib.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/my-lib.es.js",
+      "require": "./dist/my-lib.umd.js"
+    }
+  },
+  "private": false,
   "scripts": {
     "dev": "vite serve lib",
+    "build:lib": "vite build",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
@@ -30,6 +41,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "1.0.2",
+    "prettier": "2.4.1",
     "vite": "2.6.5"
   }
 }
