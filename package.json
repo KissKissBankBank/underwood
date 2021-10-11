@@ -1,5 +1,5 @@
 {
-  "name": "underwood",
+  "name": "@kisskissbankbank/underwood",
   "description": "Text editor based on DraftJS",
   "version": "1.0.0",
   "license": "MIT",
@@ -21,12 +21,12 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/my-lib.umd.js",
-  "module": "./dist/my-lib.es.js",
+  "main": "./dist/underwood.umd.js",
+  "module": "./dist/underwood.es.js",
   "exports": {
     ".": {
-      "import": "./dist/my-lib.es.js",
-      "require": "./dist/my-lib.umd.js"
+      "import": "./dist/underwood.es.js",
+      "require": "./dist/underwood.umd.js"
     }
   },
   "private": false,
