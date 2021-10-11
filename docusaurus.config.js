@@ -4,8 +4,9 @@ module.exports = {
   url: "https://underwood.vercel.app/",
   baseUrl: "/",
   favicon: "img/favicon.ico",
-  organizationName: "KissKissBankBank", // Usually your GitHub org/user name.
-  projectName: "underwood", // Usually your repo name.
+  organizationName: "KissKissBankBank",
+  projectName: "underwood",
+  onBrokenLinks: "warn",
   themeConfig: {
     navbar: {
       title: "Underwood",
@@ -22,7 +23,7 @@ module.exports = {
         },
         { to: "blog", label: "Blog", position: "left" },
         {
-          href: "https://github.com/facebook/docusaurus",
+          href: "https://github.com/KissKissBankBank/underwood",
           label: "GitHub",
           position: "right",
         },
@@ -49,15 +50,11 @@ module.exports = {
           items: [
             {
               label: "Stack Overflow",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
-            },
-            {
-              label: "Discord",
-              href: "https://discordapp.com/invite/docusaurus",
+              href: "https://stackoverflow.com/questions/tagged/underwood",
             },
             {
               label: "Twitter",
-              href: "https://twitter.com/docusaurus",
+              href: "https://twitter.com/Kissbankers",
             },
           ],
         },
@@ -70,7 +67,7 @@ module.exports = {
             },
             {
               label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              href: "https://github.com/KissKissBankBank/underwood",
             },
           ],
         },
@@ -84,15 +81,13 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/",
+            "https://github.com/KissKissBankBank/underwood/edit/master/website/",
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/blog/",
+            "https://github.com/KissKissBankBank/underwood/edit/master/website/blog/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
