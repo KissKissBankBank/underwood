@@ -7,6 +7,10 @@ module.exports = {
   organizationName: "KissKissBankBank",
   projectName: "underwood",
   onBrokenLinks: "warn",
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
   themeConfig: {
     navbar: {
       title: "Underwood",
@@ -16,7 +20,7 @@ module.exports = {
       },
       items: [
         {
-          to: "docs/displayer",
+          to: "docs/editor",
           activeBasePath: "docs",
           label: "Docs",
           position: "left",
@@ -26,6 +30,10 @@ module.exports = {
           href: "https://github.com/KissKissBankBank/underwood",
           label: "GitHub",
           position: "right",
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
         },
       ],
     },
