@@ -29,11 +29,11 @@ var __objRest = (source, exclude) => {
     }
   return target;
 };
-import require$$0, { createContext, useReducer, useContext, useRef, useState, useEffect } from "react";
+import require$$0, { createContext, useReducer, useContext, useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { EditorState, CompositeDecorator, convertToRaw, Editor as Editor$1, DefaultDraftBlockRenderMap, AtomicBlockUtils, RichUtils, Modifier, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
-import { ScreenConfig, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyObserver, ResponsiveIframeContainer, parseHtml, domElementHelper, Button as Button$1, BUTTON_STYLE_ICON, buttonModifierStyles, pxToRem, COLORS, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, VisuallyHidden, ModalNext, Title as Title$1, ArrowContainer, Text, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
-import styled, { keyframes, createGlobalStyle, css } from "styled-components";
+import { ScreenConfig, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, ResponsiveIframeContainer, parseHtml, domElementHelper, Button as Button$1, buttonModifierStyles, pxToRem, COLORS, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, VisuallyHidden, ModalNext, Title as Title$1, ArrowContainer, Text, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
+import styled, { createGlobalStyle, css } from "styled-components";
 import { Map as Map$4, OrderedMap } from "immutable";
 import { convertFromHTML } from "draft-convert";
 import classNames from "classnames";
@@ -3584,24 +3584,6 @@ var responsiveImageDecorator = {
   strategy: imageStrategy$2,
   component: Image$1
 };
-const LazyLoader = (_a) => {
-  var _b = _a, {
-    children
-  } = _b, others = __objRest(_b, [
-    "children"
-  ]);
-  const [isVisible, setVisible] = useState(false);
-  const lazyComponentRef = useRef(null);
-  useEffect(() => {
-    LazyObserver.observe(lazyComponentRef.current, () => setVisible(true));
-    return () => LazyObserver.unobserve(lazyComponentRef.current);
-  }, []);
-  return /* @__PURE__ */ jsx("div", __spreadProps(__spreadValues({
-    ref: lazyComponentRef
-  }, others), {
-    children: isVisible && children
-  }));
-};
 const Media = (props) => {
   const {
     html
@@ -4054,15 +4036,20 @@ HtmlEditor.propTypes = {
 HtmlEditor.defaultProps = {
   useRichTextStyle: true
 };
-const StyledButton = styled((props) => /* @__PURE__ */ jsx(Button$1, __spreadValues({
-  as: "button",
-  type: "button"
-}, props)))`
-  ${BUTTON_STYLE_ICON};
+const StyledButton = styled(Button$1)`
   ${buttonModifierStyles("hydrogen")};
 
   &.Editor__toolbar__button--large {
     width: ${pxToRem(80)};
+  }
+
+  &:not(:last-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &:not(:first-of-type) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   // Lithium modifier.
@@ -4105,6 +4092,7 @@ const iconComponents = {
   quote: BlockquoteIcon
 };
 const Button = ({
+  tag,
   onToggle,
   style,
   active,
@@ -4132,18 +4120,23 @@ const Button = ({
     onMouseDown: handleMouseDown,
     title,
     "aria-label": title,
+    fit: "icon",
+    tag,
+    type: tag === "button" ? tag : null,
     children: /* @__PURE__ */ jsx(Icon, {})
   });
 };
 Button.propTypes = {
   disabled: PropTypes.bool,
   active: PropTypes.bool,
-  onToggle: PropTypes.func
+  onToggle: PropTypes.func,
+  tag: PropTypes.string
 };
 Button.defaultProps = {
   disabled: false,
   active: false,
-  onToggle: () => null
+  onToggle: () => null,
+  tag: "button"
 };
 const Label = ({
   htmlFor,
@@ -4178,8 +4171,8 @@ Label.propTypes = {
 Label.defaultProps = {
   size: "micro"
 };
-const InputText = (_c) => {
-  var _d = _c, {
+const InputText = (_a) => {
+  var _b = _a, {
     name,
     form,
     placeholder: placeholder2,
@@ -4197,7 +4190,7 @@ const InputText = (_c) => {
     onBlur,
     normalize,
     validate
-  } = _d, others = __objRest(_d, [
+  } = _b, others = __objRest(_b, [
     "name",
     "form",
     "placeholder",
@@ -4297,12 +4290,12 @@ InputText.propTypes = {
   onChange: PropTypes.func,
   normalize: PropTypes.func
 };
-const FormikInputWithButton = (_e) => {
-  var _f = _e, {
+const FormikInputWithButton = (_c) => {
+  var _d = _c, {
     name,
     onClick,
     isDisabled
-  } = _f, props = __objRest(_f, [
+  } = _d, props = __objRest(_d, [
     "name",
     "onClick",
     "isDisabled"
@@ -4329,72 +4322,12 @@ FormikInputWithButton.propTypes = {
   onClick: PropTypes.func,
   isDisabled: PropTypes.bool
 };
-const animation = "1.6s ease-in-out 0s infinite";
-const heartAnim = keyframes`
-  0% { transform: translateX(0); }
-  20%, 30% { transform: translateX(${pxToRem(7)}); }
-  50%, 100% { transform: translateX(0); }
-`;
-const circleAnim = keyframes`
-  0%, 5% { transform: rotate(0deg); }
-  46%, 100% { transform: rotate(360deg); }
-`;
-const StyledLoadingAnimation = styled.div`
-  .kiss-LoadingAnimation__svg {
-    overflow: visible;
-    width: ${pxToRem(21)};
-    height: ${pxToRem(16)};
-  }
-
-  .kiss-LoadingAnimation__path-heart {
-    animation: ${animation} ${heartAnim};
-    backface-visibility: hidden;
-  }
-
-  .kiss-LoadingAnimation__path-circle {
-    animation: ${animation} ${circleAnim};
-    transform-origin: ${pxToRem(8)} ${pxToRem(8)};
-    backface-visibility: hidden;
-  }
-`;
-const LoadingAnimation = (_g) => {
-  var _h = _g, {
-    color,
-    svgProps
-  } = _h, props = __objRest(_h, [
-    "color",
-    "svgProps"
+var SubmitLoader = (_e) => {
+  var _f = _e, {
+    className
+  } = _f, props = __objRest(_f, [
+    "className"
   ]);
-  return /* @__PURE__ */ jsx(StyledLoadingAnimation, __spreadProps(__spreadValues({
-    "aria-hidden": true
-  }, props), {
-    className: classNames("kiss-LoadingAnimation", props.className),
-    children: /* @__PURE__ */ jsxs("svg", __spreadProps(__spreadValues({
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 21 16"
-    }, svgProps), {
-      className: classNames("kiss-LoadingAnimation__svg", svgProps.className),
-      children: [/* @__PURE__ */ jsx("path", {
-        className: "kiss-LoadingAnimation__path kiss-LoadingAnimation__path-heart",
-        fill: color,
-        d: "M18.81 8a2.59 2.59 0 002.18-2.6c0-1.45-1.25-2.7-2.7-2.7-.73 0-1.35.31-1.87.73L11.85 8l4.47 4.47c.52.52 1.24.83 1.97.83 1.45 0 2.7-1.25 2.7-2.7.1-1.15-.83-2.4-2.18-2.6z"
-      }), /* @__PURE__ */ jsx("path", {
-        className: "kiss-LoadingAnimation__path kiss-LoadingAnimation__path-circle",
-        fill: color,
-        d: "M13.82 2.5A7.91 7.91 0 008 0C3.53 0 0 3.53 0 8c0 4.47 3.53 8 8 8a8 8 0 005.71-2.39L8 8l5.82-5.5z"
-      })]
-    }))
-  }));
-};
-LoadingAnimation.defaultProps = {
-  color: COLORS.font1,
-  svgProps: {}
-};
-LoadingAnimation.propTypes = {
-  color: PropTypes.string,
-  svgProps: PropTypes.object
-};
-var SubmitLoader = (props) => {
   const [{
     translations
   }] = useContext(EditorContext);
@@ -4402,10 +4335,10 @@ var SubmitLoader = (props) => {
     modifier: "helium",
     size: "big",
     "aria-live": "polite",
-    as: "div"
+    as: "div",
+    className: classNames("kiss-SubmitLoader", "k-u-cursor-not-allowed", className)
   }, props), {
-    className: classNames("kiss-SubmitLoader", "k-u-cursor-not-allowed", props.className),
-    children: [/* @__PURE__ */ jsx(LoadingAnimation, {
+    children: [/* @__PURE__ */ jsx(KissKissLoadingAnimation, {
       color: COLORS.background1
     }), /* @__PURE__ */ jsx(VisuallyHidden, {
       children: translations.button_loading
@@ -5995,8 +5928,8 @@ const Wrapper = styled.div`
       border-radius: 0.25rem;
     `}
 `;
-const Playground = (_i) => {
-  var _j = _i, {
+const Playground = (_g) => {
+  var _h = _g, {
     className,
     hasError,
     onFocus,
@@ -6009,7 +5942,7 @@ const Playground = (_i) => {
     isDisabled,
     compact,
     variant
-  } = _j, props = __objRest(_j, [
+  } = _h, props = __objRest(_h, [
     "className",
     "hasError",
     "onFocus",
@@ -6182,6 +6115,8 @@ const List = styled.ul`
 `;
 const StyledDetails = styled(Details)`
   summary.Editor__toolbar__tagListToggle {
+    border-radius: ${pxToRem(8)};
+
     .Editor__toolbar__tagListToggle__button {
       pointer-events: none;
       width: ${pxToRem(75)};
@@ -6202,6 +6137,14 @@ const StyledDetails = styled(Details)`
           fill: ${COLORS.primary1};
         }
       }
+    }
+  }
+
+  &[open] {
+    summary.Editor__toolbar__tagListToggle
+      .Editor__toolbar__tagListToggle__button {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
 
@@ -6261,6 +6204,8 @@ const TagsList = ({
       className: "Editor__toolbar__tagListToggle"
     },
     disabled: contextDisabled || disabled,
+    fit: "icon",
+    tag: "span",
     children: /* @__PURE__ */ jsx(List, {
       children: tags.map((tag) => {
         const component = componentByTagType(tag);
