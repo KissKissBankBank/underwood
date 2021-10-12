@@ -31,7 +31,7 @@ var __objRest = (source, exclude) => {
 };
 import require$$0, { createContext, useReducer, useContext, useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { EditorState, CompositeDecorator, Editor as Editor$1, DefaultDraftBlockRenderMap, convertToRaw, AtomicBlockUtils, RichUtils, Modifier, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
+import { EditorState, CompositeDecorator, convertToRaw, Editor as Editor$1, DefaultDraftBlockRenderMap, AtomicBlockUtils, RichUtils, Modifier, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
 import { ScreenConfig, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyObserver, ResponsiveIframeContainer, parseHtml, domElementHelper, Button as Button$1, BUTTON_STYLE_ICON, buttonModifierStyles, pxToRem, COLORS, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, VisuallyHidden, ModalNext, Title as Title$1, ArrowContainer, Text, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
 import styled, { keyframes, createGlobalStyle, css } from "styled-components";
 import { Map as Map$4, OrderedMap } from "immutable";
@@ -5562,6 +5562,9 @@ const isJSONContent$1 = (content) => {
     return false;
   }
 };
+const getJSONContent = (value) => {
+  return isJSONContent$1(value) ? JSON.parse(value) : getRawContent(value, true);
+};
 const getEditorValue = (value) => {
   if (!domElementHelper.canUseDom())
     return null;
@@ -6805,4 +6808,4 @@ const editorPropTypes = {
 };
 Editor.propTypes = editorPropTypes.props;
 Editor.defaultProps = editorPropTypes.defaultProps;
-export { Controls, DraftDisplayer as Displayer, Editor, Playground, Title, editorPropTypes, isEditorEmpty };
+export { Controls, DraftDisplayer as Displayer, Editor, Playground, Title, editorPropTypes, getJSONContent, isEditorEmpty };

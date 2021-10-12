@@ -111,4 +111,4 @@ export { default as Playground } from "./playground";
 export { default as Controls } from "./controls";
 export { default as Displayer } from "./draft-displayer";
 export { default as Title } from "./title";
-export { isEditorEmpty } from "./utils";
+export { isEditorEmpty, getJSONContent } from "./utils";
