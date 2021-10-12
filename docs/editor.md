@@ -24,7 +24,7 @@ An object that contains all the necessary translations (default: `{}`)
 ```javascript
 import { Editor } from '@kisskissbankbank/underwood';
 
-<Displayer
+<Editor
     translations={{
         title: "Such a great lib!"
         description: "Doc created with Dicosaurus"
@@ -38,7 +38,7 @@ As the images are optimized and saved in a lambda service, we need to be sure th
 ```javascript
 import { Editor } from '@kisskissbankbank/underwood';
 
-<Displayer
+<Editor
     configResponsiveImageHandler={{
         host: "https://www.kisskissbankbank.com/resize",
         allowedServers: ["localhost:1234", "localhost:5678"]
@@ -52,7 +52,7 @@ Children passed to Editor component.
 ```javascript
 import { Editor, Playground } from '@kisskissbankbank/underwood';
 
-<Displayer>
+<Editor>
     <Playground />
 <Editor/>;
 ```
