@@ -4,11 +4,10 @@ title: <Editor />
 sidebar_label: <Editor />
 ---
 # Editor
-
-Editor is used to create the context, define all translations and initialize EditorState (from [draft.js](https://draftjs.org/docs/api-reference-editor-state/))
+Editor est utilisé pour créer le contexte, définir toutes les traductions et initialiser EditorState. (from [draft.js](https://draftjs.org/docs/api-reference-editor-state/))
 
 ## onInit
-Function called when component is mount. Can serve to set editor values for example. (default: `() => null`)
+Fonction appelée lorsque le composant est monté. Peut servir à définir les valeurs de l'éditeur par exemple. (default: `() => null`)
 
 ```javascript
 import { Editor } from '@kisskissbankbank/underwood';
@@ -20,7 +19,7 @@ import { Editor } from '@kisskissbankbank/underwood';
 
 
 ## translations
-An object that contains all the necessary translations (default: `{}`)
+Un object qui contient toutes les traductions nécessaires à l'éditeur. (default: `{}`)
 ```javascript
 import { Editor } from '@kisskissbankbank/underwood';
 
@@ -33,7 +32,7 @@ import { Editor } from '@kisskissbankbank/underwood';
 ```
 
 ## configResponsiveImageHandler
-As the images are optimized and saved in a lambda service, we need to be sure that the server request is authorized. So we pass the configuration with authorized servers and hosts. (default: `{}`)
+Comme les images sont optimisées et sauvegardées dans un service lambda, nous devons être sûrs que la requête du serveur est autorisée. Nous passons donc la configuration avec les serveurs et hôtes autorisés. (default: `{}`)
 
 ```javascript
 import { Editor } from '@kisskissbankbank/underwood';
@@ -47,7 +46,7 @@ import { Editor } from '@kisskissbankbank/underwood';
 ```
 
 ## children
-Children passed to Editor component.
+Enfants transmis au composant Editor.
 
 ```javascript
 import { Editor, Playground } from '@kisskissbankbank/underwood';

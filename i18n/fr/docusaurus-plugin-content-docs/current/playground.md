@@ -5,19 +5,19 @@ sidebar_label: <Playground />
 ---
 # Playground
 
-Playground contains the draftJs editor (from [draft.js](https://draftjs.org/docs/api-reference-editor/))
+Playground contient l'édietru draftJS (from [draft.js](https://draftjs.org/docs/api-reference-editor/))
 
 ## onInit
 :::warning
 
-Deprecated
+Déprécié
 
 :::
 
 
 
 ## onChange
-The onChange event is called when when edits and selection changes occur. (default: `() => null`)
+L'événement onChange est appelé lorsque des modifications d'édition et de sélection se produisent. (default: `() => null`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -28,7 +28,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## onFocus
-The onFocus event is called when the element receives focus. (default: `() => null`)
+L'événement onFocus est appelé lorsque l'élément reçoit le focus. (default: `() => null`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -39,7 +39,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## onBlur
-The onBlur event handler is called when focus has left the element. (default: `() => null`)
+Le gestionnaire d'événement onBlur est appelé lorsque le focus a quitté l'élément. (default: `() => null`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -50,7 +50,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## initialValue
-An object that contains values that will be defined in the content of the editor when the component is mounted. It must be of type [ContentState](https://draftjs.org/docs/api-reference-content-state). (default: `EditorState.createEmpty()`)
+Un objet contenant les valeurs qui seront définies dans le contenu de l'éditeur lorsque le composant sera monté. Il doit être de type [ContentState](https://draftjs.org/docs/api-reference-content-state). (default: `EditorState.createEmpty()`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -61,7 +61,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## hasError
-A boolean which allows to put in error the field linked to the editor with a red border. (default: `false`)
+Un booléen qui permet de mettre en erreur le champ lié à l'éditeur avec une bordure rouge. (default: `false`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -70,7 +70,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## rawValue
-A boolean which allows to converts draftJS content to raw content. (default: `true`)
+Un booléen qui permet de convertir le contenu de draftJS en contenu brut. (default: `true`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -79,7 +79,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## placeholder
-Placeholder string to display when the editor is empty. (default: `''`)
+Chaîne de caractères à afficher lorsque l'éditeur est vide. (default: `''`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -88,7 +88,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## withoutBorder
-A boolean which allows to display or not a border around the editor (default: `false`)
+Un booléen qui permet d'afficher ou non une bordure autour de l'éditeur. (default: `false`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -97,7 +97,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## useRichTextStyle
-A boolean that allows to manage the style. If it's `false` font-size will be set to 14px instead of 20px. (default: `false`)
+Un booléen qui permet de gérer le style. Si `false`, la taille de la police sera fixée à 14px au lieu de 20px. (default: `false`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -106,7 +106,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## isDisabled
-A boolean that defines whether the editor should be rendered as a static DOM, with all editing capabilities disabled.(default: `false`)
+Un booléen qui définit si l'éditeur doit être rendu comme un DOM statique, avec toutes les capacités d'édition désactivées.(default: `false`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -115,7 +115,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## compact
-A boolean that allows to manage the style. If it's `true` line-height will be set to 20px instead of 32px and the container margin will be set to 0.(default: `false`)
+A boolean that allows to manage the style. If it's `true` line-height will be set to 20px instead of 32px and the container margin will be set to 0. (default: `false`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';
@@ -124,7 +124,7 @@ import { Playground } from '@kisskissbankbank/underwood';
 ```
 
 ## variant
-A string that allows to manage the style. If it's "orion" the border aroud the editor will have border-radius style (default: `''`)
+Une chaîne de caractère qui permet de gérer le style. Si c'est "orion", la bordure autour de l'éditeur aura un border-radius. (default: `''`)
 
 ```javascript
 import { Playground } from '@kisskissbankbank/underwood';

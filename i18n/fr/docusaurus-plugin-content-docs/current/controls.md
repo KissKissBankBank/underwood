@@ -5,11 +5,11 @@ sidebar_label: <Controls />
 ---
 # Controls
 
-Controls allows to display formatting buttons like alignment, adding an image or a link
+Controls permet d'afficher des boutons de mise en forme comme l'alignement, l'ajout d'une image ou d'un lien.
 
 
 ## disabled
-A global boolean which allows to make clickable or not the different children of the Controls component (default: `false`)
+Un booléen global qui permet de rendre cliquable ou non les différents enfants du composant Controls (default: `false`)
 
 ```javascript
 import { Controls } from '@kisskissbankbank/underwood';
@@ -18,7 +18,7 @@ import { Controls } from '@kisskissbankbank/underwood';
 ```
 
 ## whiteMode
-A boolean that allows to manage the background color. If `false` the background will be light grey, otherwise the background will be white. (default: `false`)
+Un booléen qui permet de gérer la couleur du fond. Si `false` le fond sera gris clair, sinon le fond sera blanc. (default: `false`)
 
 ```javascript
 import { Controls } from '@kisskissbankbank/underwood';
@@ -27,7 +27,7 @@ import { Controls } from '@kisskissbankbank/underwood';
 ```
 
 ## centered
-A boolean that allows to manage the alignement of the controls buttons. If `true` the buttons will be centered instead of right aligned. (default: `false`)
+Un booléen qui permet de gérer l'alignement des boutons de contrôle. Si `true` les boutons seront centrés au lieu d'être alignés à gauche. (default: `false`)
 
 ```javascript
 import { Controls } from '@kisskissbankbank/underwood';
@@ -36,7 +36,7 @@ import { Controls } from '@kisskissbankbank/underwood';
 ```
 
 ## className
-A string with class name to override style.
+Une chaîne de caractère avec un nom de classe pour surcharger le style.
 
 ```javascript
 import { Controls } from '@kisskissbankbank/underwood';
@@ -47,7 +47,7 @@ import { Controls } from '@kisskissbankbank/underwood';
 ```
 
 ## children
-Children passed to Controls component. Use it to add the controls buttons
+Enfants transmis au composant Controls. Utilisez-le pour ajouter les boutons de contrôle.
 
 ```javascript
 import { Controls } from '@kisskissbankbank/underwood';

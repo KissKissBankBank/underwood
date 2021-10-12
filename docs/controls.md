@@ -27,7 +27,7 @@ import { Controls } from '@kisskissbankbank/underwood';
 ```
 
 ## centered
-A boolean that allows to manage the alignement of the controls buttons. If `true` the buttons will be centered instead of right aligned. (default: `false`)
+A boolean that allows to manage the alignement of the controls buttons. If `true` the buttons will be centered instead of left aligned. (default: `false`)
 
 ```javascript
 import { Controls } from '@kisskissbankbank/underwood';
