@@ -1,6 +1,9 @@
 import React from 'react'
-import LazyLoader from '../components/lazy-loader'
-import { parseHtml, ResponsiveIframeContainer } from '@kisskissbankbank/kitten'
+import {
+  parseHtml,
+  ResponsiveIframeContainer,
+  LazyLoader
+} from '@kisskissbankbank/kitten'
 
 const Media = (props) => {
   const { html } = props.contentState.getEntity(props.entityKey).getData()
