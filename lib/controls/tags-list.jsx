@@ -63,6 +63,8 @@ const List = styled.ul`
 
 const StyledDetails = styled(Details)`
   summary.Editor__toolbar__tagListToggle {
+    border-radius: ${pxToRem(8)};
+
     .Editor__toolbar__tagListToggle__button {
       pointer-events: none;
       width: ${pxToRem(75)};
@@ -83,6 +85,14 @@ const StyledDetails = styled(Details)`
           fill: ${COLORS.primary1};
         }
       }
+    }
+  }
+
+  &[open] {
+    summary.Editor__toolbar__tagListToggle
+      .Editor__toolbar__tagListToggle__button {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
 
@@ -142,7 +152,9 @@ const TagsList = ({ disabled, onChange, tags }) => {
       )}
       summaryProps={{ className: 'Editor__toolbar__tagListToggle' }}
       disabled={contextDisabled || disabled}
-    >
+      fit="icon"
+      tag="span"
+      >
       <List>
         {tags.map((tag) => {
           const component = componentByTagType(tag)

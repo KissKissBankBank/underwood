@@ -18,20 +18,25 @@ import {
 } from "../controls/icons";
 import {
   Button as KittenButton,
-  BUTTON_STYLE_ICON as ICON,
   buttonModifierStyles as modifierStyles,
   COLORS,
   pxToRem,
 } from "@kisskissbankbank/kitten";
 
-export const StyledButton = styled((props) => (
-  <KittenButton as="button" type="button" {...props} />
-))`
-  ${ICON};
+export const StyledButton = styled(KittenButton)`
   ${modifierStyles("hydrogen")};
 
   &.Editor__toolbar__button--large {
     width: ${pxToRem(80)};
+  }
+
+  &:not(:last-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &:not(:first-of-type) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   // Lithium modifier.
@@ -75,7 +80,15 @@ const iconComponents = {
   quote: BlockquoteIcon,
 };
 
-const Button = ({ onToggle, style, active, icon, disabled, className }) => {
+const Button = ({
+  tag,
+  onToggle,
+  style,
+  active,
+  icon,
+  disabled,
+  className
+}) => {
   const [{ focus, translations }] = useContext(EditorContext);
   const Icon = iconComponents[icon];
   const title = translations?.controls[active ? `activated_${icon}` : icon];
@@ -95,6 +108,9 @@ const Button = ({ onToggle, style, active, icon, disabled, className }) => {
       onMouseDown={handleMouseDown}
       title={title}
       aria-label={title}
+      fit="icon"
+      tag={tag}
+      type={tag === 'button' ? tag : null}
     >
       <Icon />
     </StyledButton>
@@ -105,12 +121,14 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   active: PropTypes.bool,
   onToggle: PropTypes.func,
+  tag: PropTypes.string,
 };
 
 Button.defaultProps = {
   disabled: false,
   active: false,
   onToggle: () => null,
+  tag: 'button',
 };
 
 export default Button;

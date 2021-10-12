@@ -1,10 +1,14 @@
 import React, { useContext } from 'react'
-import { Button, COLORS, VisuallyHidden } from '@kisskissbankbank/kitten'
+import {
+  Button,
+  COLORS,
+  VisuallyHidden,
+  KissKissLoadingAnimation,
+} from '@kisskissbankbank/kitten'
 import classNames from 'classnames'
-import { LoadingAnimation } from '../loading-animation'
 import { EditorContext } from '../../context'
 
-export default (props) => {
+export default ({className, ...props}) => {
   const [{ translations }] = useContext(EditorContext)
   return (
     <Button
@@ -12,14 +16,14 @@ export default (props) => {
       size="big"
       aria-live="polite"
       as="div"
-      {...props}
       className={classNames(
         'kiss-SubmitLoader',
         'k-u-cursor-not-allowed',
-        props.className,
+        className,
       )}
+      {...props}
     >
-      <LoadingAnimation color={COLORS.background1} />
+      <KissKissLoadingAnimation color={COLORS.background1} />
       <VisuallyHidden>{translations.button_loading}</VisuallyHidden>
     </Button>
   )
