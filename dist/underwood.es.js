@@ -3150,13 +3150,14 @@ function baseReduce$1(collection, iteratee2, accumulator, initAccum, eachFunc) {
 }
 var _baseReduce = baseReduce$1;
 var arrayReduce = _arrayReduce, baseEach = _baseEach, baseIteratee$2 = _baseIteratee, baseReduce = _baseReduce, isArray$1 = isArray_1;
-function reduce(collection, iteratee2, accumulator) {
+function reduce$1(collection, iteratee2, accumulator) {
   var func2 = isArray$1(collection) ? arrayReduce : baseReduce, initAccum = arguments.length < 3;
   return func2(collection, baseIteratee$2(iteratee2), accumulator, initAccum, baseEach);
 }
-var reduce_1 = reduce;
+var reduce_1 = reduce$1;
 var convert$7 = convert_1, func$7 = convert$7("reduce", reduce_1);
 func$7.placeholder = placeholder;
+var reduce = func$7;
 var convert$6 = convert_1, func$6 = convert$6("get", get_1);
 func$6.placeholder = placeholder;
 var get = func$6;
@@ -5629,6 +5630,9 @@ const hasEntityFocus = (contentState, editorState, entityKey) => {
   const currentEntityFocused = currentContent.getEntityAt(editorState.getSelection().getStartOffset());
   return entityKey === currentEntityFocused;
 };
+const isEditorEmpty = (rawTextEditor) => {
+  return flow(get("blocks"), reduce((acc, block) => `${acc}${block.text}`, ""), isEmpty)(rawTextEditor);
+};
 const isPreviousBlockAnImage = (editorState) => {
   const currentContent = editorState.getCurrentContent();
   const selectionState = editorState.getSelection();
@@ -6801,4 +6805,4 @@ const editorPropTypes = {
 };
 Editor.propTypes = editorPropTypes.props;
 Editor.defaultProps = editorPropTypes.defaultProps;
-export { Controls, DraftDisplayer as Displayer, Editor, Playground, Title, editorPropTypes };
+export { Controls, DraftDisplayer as Displayer, Editor, Playground, Title, editorPropTypes, isEditorEmpty };
