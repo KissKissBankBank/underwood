@@ -1,6 +1,6 @@
 module.exports = {
   someSidebar: {
-    API: ["displayer"],
+    API: ["editor", "playground", "controls"],
     tESt: ["mdx"],
   },
 };
