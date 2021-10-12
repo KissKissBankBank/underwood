@@ -39,8 +39,6 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.6",
-    "@docusaurus/preset-classic": "2.0.0-beta.6",
     "@kisskissbankbank/kitten": "^4.14.1",
     "classnames": "^2.3.1",
     "draft-convert": "^2.1.12",
@@ -52,11 +50,13 @@
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "qs": "^6.10.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "styled-components": "^4.4.1",
     "tlds": "^1.224.0",
     "yup": "^0.32.10"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "browserslist": {
     "production": [
@@ -71,8 +71,10 @@
     ]
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "1.0.2",
+    "@docusaurus/core": "2.0.0-beta.6",
+    "@docusaurus/preset-classic": "2.0.0-beta.6",
+    "@vitejs/plugin-react": "1.0.4",
     "prettier": "2.4.1",
-    "vite": "2.6.5"
+    "vite": "2.6.7"
   }
 }

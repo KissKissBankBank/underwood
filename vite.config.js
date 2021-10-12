@@ -12,6 +12,8 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
+        "formik",
+        "yup",
         "react",
         "react-dom",
         "styled-components",
@@ -22,6 +24,10 @@ export default defineConfig({
         globals: {
           react: "React",
           ["react-dom"]: "ReactDOM",
+          "@kisskissbankbank/kitten": "Kitten",
+          "styled-components": "styled",
+          formik: "Formik",
+          yup: "Yup",
         },
       },
     },
