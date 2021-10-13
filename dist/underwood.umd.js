@@ -335,7 +335,7 @@ object-assign
       outline-offset: ${s.pxToRem(2)};
     }
 
-    &[aria-selected='true'] {
+    &[aria-selected="true"] {
       svg,
       path {
         fill: ${s.COLORS.primary1};
@@ -370,7 +370,7 @@ object-assign
   }
 
   &[open] {
-    summary.Editor__toolbar__tagListToggle
+    summary.Editor__toolbar__tagListToggle {
       .Editor__toolbar__tagListToggle__button {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
@@ -381,7 +381,7 @@ object-assign
       pointer-events: none;
       cursor: not-allowed;
     `}
-`,vi=e=>{switch(e){case"header-one":return u(s.Title1Icon,{});case"header-two":return u(s.Title2Icon,{});case"header-three":return u(s.Title3Icon,{});case"header-four":return u(s.Title4Icon,{});case"unstyled":default:return u(s.ParagraphIcon,{})}},Ir=({disabled:e,onChange:t,tags:r})=>{const[{editorState:n,disabled:a},o]=v.useContext(D),i=n.getCurrentContent(),l=n.getSelection(),c=i.getBlockForKey(l.getStartKey()).getType();v.useEffect(()=>{t(c)},[c]);const d=f=>()=>{o(B(y.RichUtils.toggleBlockType(n,f)))};return u(RE,{summaryRender:({open:f})=>L(Uo,{className:"Editor__toolbar__tagListToggle__button",tabIndex:"-1",disabled:a||e,children:[vi(c),u(s.ArrowIcon,{width:"6",direction:f?"top":"bottom"})]}),summaryProps:{className:"Editor__toolbar__tagListToggle"},disabled:a||e,fit:"icon",tag:"span",children:u(EE,{children:r.map(f=>{const g=vi(f);if(!!g)return u("li",{children:u("button",{onClick:d(f),type:"button","aria-selected":f===c,className:"Editor__toolbar__tagsList__Item",children:g})},f)})})},i)};Ir.propTypes={tags:p.default.array,disabled:p.default.bool,onChange:p.default.func},Ir.defaultProps={tags:["header-one","header-two","header-three","header-four","unstyled"],disabled:!1,onChange:()=>null};const xE=F.default.div`
+`,vi=e=>{switch(e){case"header-one":return u(s.Title1Icon,{});case"header-two":return u(s.Title2Icon,{});case"header-three":return u(s.Title3Icon,{});case"header-four":return u(s.Title4Icon,{});case"unstyled":default:return u(s.ParagraphIcon,{})}},Ir=({disabled:e,onChange:t,tags:r})=>{const[{editorState:n,disabled:a},o]=v.useContext(D),i=n.getCurrentContent(),l=n.getSelection(),c=i.getBlockForKey(l.getStartKey()).getType();v.useEffect(()=>{t(c)},[c]);const d=f=>()=>{o(B(y.RichUtils.toggleBlockType(n,f)))};return u(RE,{summaryRender:({open:f})=>L(Uo,{className:"Editor__toolbar__tagListToggle__button",tabIndex:"-1",disabled:a||e,fit:"icon",tag:"span",children:[vi(c),u(s.ArrowIcon,{width:"6",direction:f?"top":"bottom"})]}),summaryProps:{className:"Editor__toolbar__tagListToggle"},disabled:a||e,children:u(EE,{children:r.map(f=>{const g=vi(f);if(!!g)return u("li",{children:u("button",{onClick:d(f),type:"button","aria-selected":f===c,className:"Editor__toolbar__tagsList__Item",children:g})},f)})})},i)};Ir.propTypes={tags:p.default.array,disabled:p.default.bool,onChange:p.default.func},Ir.defaultProps={tags:["header-one","header-two","header-three","header-four","unstyled"],disabled:!1,onChange:()=>null};const xE=F.default.div`
   display: flex;
 
   > * {
