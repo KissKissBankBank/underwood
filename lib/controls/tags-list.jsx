@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
-import { RichUtils } from 'draft-js'
+import React, { useContext, useEffect } from "react";
+import PropTypes from "prop-types";
+import styled, { css } from "styled-components";
+import { RichUtils } from "draft-js";
 import {
   ArrowIcon,
   COLORS,
@@ -12,9 +12,9 @@ import {
   Title2Icon,
   Title3Icon,
   Title4Icon,
-} from '@kisskissbankbank/kitten'
-import { EditorContext, updateEditor } from '../context'
-import { StyledButton } from '../components/button'
+} from "@kisskissbankbank/kitten";
+import { EditorContext, updateEditor } from "../context";
+import { StyledButton } from "../components/button";
 
 const List = styled.ul`
   position: absolute;
@@ -52,14 +52,14 @@ const List = styled.ul`
       outline-offset: ${pxToRem(2)};
     }
 
-    &[aria-selected='true'] {
+    &[aria-selected="true"] {
       svg,
       path {
         fill: ${COLORS.primary1};
       }
     }
   }
-`
+`;
 
 const StyledDetails = styled(Details)`
   summary.Editor__toolbar__tagListToggle {
@@ -89,7 +89,7 @@ const StyledDetails = styled(Details)`
   }
 
   &[open] {
-    summary.Editor__toolbar__tagListToggle
+    summary.Editor__toolbar__tagListToggle {
       .Editor__toolbar__tagListToggle__button {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
@@ -102,40 +102,40 @@ const StyledDetails = styled(Details)`
       pointer-events: none;
       cursor: not-allowed;
     `}
-`
+`;
 
 const componentByTagType = (tagType) => {
   switch (tagType) {
-    case 'header-one':
-      return <Title1Icon />
-    case 'header-two':
-      return <Title2Icon />
-    case 'header-three':
-      return <Title3Icon />
-    case 'header-four':
-      return <Title4Icon />
-    case 'unstyled':
+    case "header-one":
+      return <Title1Icon />;
+    case "header-two":
+      return <Title2Icon />;
+    case "header-three":
+      return <Title3Icon />;
+    case "header-four":
+      return <Title4Icon />;
+    case "unstyled":
     default:
-      return <ParagraphIcon />
+      return <ParagraphIcon />;
   }
-}
+};
 
 const TagsList = ({ disabled, onChange, tags }) => {
   const [{ editorState, disabled: contextDisabled }, dispatch] =
-    useContext(EditorContext)
-  const currentContent = editorState.getCurrentContent()
-  const selection = editorState.getSelection()
+    useContext(EditorContext);
+  const currentContent = editorState.getCurrentContent();
+  const selection = editorState.getSelection();
   const currentBlockType = currentContent
     .getBlockForKey(selection.getStartKey())
-    .getType()
+    .getType();
 
   useEffect(() => {
-    onChange(currentBlockType)
-  }, [currentBlockType])
+    onChange(currentBlockType);
+  }, [currentBlockType]);
 
   const handleClick = (type) => () => {
-    dispatch(updateEditor(RichUtils.toggleBlockType(editorState, type)))
-  }
+    dispatch(updateEditor(RichUtils.toggleBlockType(editorState, type)));
+  };
 
   return (
     <StyledDetails
@@ -145,21 +145,21 @@ const TagsList = ({ disabled, onChange, tags }) => {
           className="Editor__toolbar__tagListToggle__button"
           tabIndex="-1"
           disabled={contextDisabled || disabled}
+          fit="icon"
+          tag="span"
         >
           {componentByTagType(currentBlockType)}
-          <ArrowIcon width="6" direction={open ? 'top' : 'bottom'} />
+          <ArrowIcon width="6" direction={open ? "top" : "bottom"} />
         </StyledButton>
       )}
-      summaryProps={{ className: 'Editor__toolbar__tagListToggle' }}
+      summaryProps={{ className: "Editor__toolbar__tagListToggle" }}
       disabled={contextDisabled || disabled}
-      fit="icon"
-      tag="span"
-      >
+    >
       <List>
         {tags.map((tag) => {
-          const component = componentByTagType(tag)
+          const component = componentByTagType(tag);
 
-          if (!component) return
+          if (!component) return;
 
           return (
             <li key={tag}>
@@ -172,23 +172,23 @@ const TagsList = ({ disabled, onChange, tags }) => {
                 {component}
               </button>
             </li>
-          )
+          );
         })}
       </List>
     </StyledDetails>
-  )
-}
+  );
+};
 
 TagsList.propTypes = {
   tags: PropTypes.array,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-}
+};
 
 TagsList.defaultProps = {
-  tags: ['header-one', 'header-two', 'header-three', 'header-four', 'unstyled'],
+  tags: ["header-one", "header-two", "header-three", "header-four", "unstyled"],
   disabled: false,
   onChange: () => null,
-}
+};
 
-export default TagsList
+export default TagsList;
