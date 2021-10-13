@@ -6105,7 +6105,7 @@ const List = styled.ul`
       outline-offset: ${pxToRem(2)};
     }
 
-    &[aria-selected='true'] {
+    &[aria-selected="true"] {
       svg,
       path {
         fill: ${COLORS.primary1};
@@ -6141,7 +6141,7 @@ const StyledDetails = styled(Details)`
   }
 
   &[open] {
-    summary.Editor__toolbar__tagListToggle
+    summary.Editor__toolbar__tagListToggle {
       .Editor__toolbar__tagListToggle__button {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
@@ -6195,6 +6195,8 @@ const TagsList = ({
       className: "Editor__toolbar__tagListToggle__button",
       tabIndex: "-1",
       disabled: contextDisabled || disabled,
+      fit: "icon",
+      tag: "span",
       children: [componentByTagType(currentBlockType), /* @__PURE__ */ jsx(ArrowIcon, {
         width: "6",
         direction: open ? "top" : "bottom"
@@ -6204,8 +6206,6 @@ const TagsList = ({
       className: "Editor__toolbar__tagListToggle"
     },
     disabled: contextDisabled || disabled,
-    fit: "icon",
-    tag: "span",
     children: /* @__PURE__ */ jsx(List, {
       children: tags.map((tag) => {
         const component = componentByTagType(tag);
