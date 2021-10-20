@@ -10,6 +10,7 @@ import {
   Editor,
   EditorState,
 } from "draft-js";
+import memoize from "lodash/fp/memoize";
 import { EditorStyle, styleBlock } from "./style";
 import { readDecorator as videoReadDecorator } from "./controls/video";
 import { readDecorator as imageReadDecorator } from "./controls/image";
@@ -20,7 +21,7 @@ import HtmlEditor from "./html-editor";
 import { customBlockRenderMap } from "./block-render-map";
 import { EditorProvider } from "./context";
 
-const getinitialValue = (value) => {
+const getinitialValue = memoize((value) => {
   if (!domElementHelper.canUseDom()) return null;
   if (!value) {
     return EditorState.createEmpty();
@@ -41,7 +42,7 @@ const getinitialValue = (value) => {
     const contentState = ContentState.createFromBlockArray(blocksFromHTML);
     return EditorState.createWithContent(contentState);
   }
-};
+});
 
 const isJSONContent = (content) => {
   try {
