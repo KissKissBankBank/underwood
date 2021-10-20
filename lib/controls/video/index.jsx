@@ -10,11 +10,12 @@ import {
   parseHtml,
   ModalNext as Modal,
 } from "@kisskissbankbank/kitten";
-import ButtonEditor from "../components/button";
-import { Label, InputWithButton, SubmitLoader } from "../components/form";
-import { oembed } from "../api/embedly";
-import { EditorContext, updateEditor } from "../context";
-import { createMediaBlock, hasEntityFocus, moveSelectionTo } from "../utils";
+import ButtonEditor from "../../components/button";
+import { Label, InputWithButton, SubmitLoader } from "../../components/form";
+import { oembed } from "../../api/embedly";
+import { EditorContext, updateEditor } from "../../context";
+import { createMediaBlock, hasEntityFocus, moveSelectionTo } from "../../utils";
+import { getDataForProvider } from "./providers";
 
 const VideoEditor = ({ contentState, entityKey, blockKey }) => {
   const { embedlyHtml, embedRatio, html } = contentState
@@ -27,29 +28,18 @@ const VideoEditor = ({ contentState, entityKey, blockKey }) => {
     dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
   };
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
-  if (html) {
-    return (
-      <ResponsiveIframeContainer className="kiss-Draft__media">
-        <div
-          className={classNames("kiss-Draft__media-focus", {
-            "kiss-Draft__media-focus__focused": hasFocus,
-          })}
-          onClick={onClick}
-        >
-          {parseHtml(html, { sanitize: false })}
-        </div>
-      </ResponsiveIframeContainer>
-    );
-  }
   return (
-    <ResponsiveIframeContainer ratio={embedRatio} className="kiss-Draft__media">
+    <ResponsiveIframeContainer
+      ratio={embedRatio || 67.5}
+      className="kiss-Draft__media"
+    >
       <div
         className={classNames("kiss-Draft__media-focus", {
           "kiss-Draft__media-focus__focused": hasFocus,
         })}
         onClick={onClick}
       >
-        {parseHtml(embedlyHtml, { sanitize: false })}
+        {parseHtml(embedlyHtml || html, { sanitize: false })}
       </div>
     </ResponsiveIframeContainer>
   );
@@ -59,19 +49,12 @@ const VideoDisplayer = (props) => {
   const { embedlyHtml, embedRatio, html } = props.contentState
     .getEntity(props.entityKey)
     .getData();
-  if (html) {
-    return (
-      <ResponsiveIframeContainer className="kiss-Draft__media-read">
-        {parseHtml(html, { sanitize: false })}
-      </ResponsiveIframeContainer>
-    );
-  }
   return (
     <ResponsiveIframeContainer
-      ratio={embedRatio}
+      ratio={embedRatio || 67.5}
       className="kiss-Draft__media-read"
     >
-      {parseHtml(embedlyHtml, { sanitize: false })}
+      {parseHtml(embedlyHtml || html, { sanitize: false })}
     </ResponsiveIframeContainer>
   );
 };
@@ -95,9 +78,6 @@ export const readDecorator = {
   strategy: videoStrategy,
   component: VideoDisplayer,
 };
-
-const calculRatio = (response) =>
-  ((response.height / response.width) * 100).toPrecision(4);
 
 const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
   const [{ editorState, translations, disabled: contextDisabled }, dispatch] =
@@ -148,28 +128,20 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                       oembedError(true);
                       return;
                     }
-                    if (
-                      ["Flipsnack", "Ovizer"].includes(response.provider_name)
-                    ) {
-                      dispatch(
-                        updateEditor(
-                          createMediaBlock(editorState, {
-                            html: `<iframe src="${response.url}" width="100%" height="480" seamless="seamless" scrolling="no" frameBorder="0" allowFullScreen></iframe>`,
-                          })
-                        )
-                      );
-                    } else {
-                      dispatch(
-                        updateEditor(
-                          createMediaBlock(editorState, {
-                            embedlyHtml: response.html,
-                            embedRatio: calculRatio(response),
-                          })
-                        )
-                      );
-                    }
+                    const { html, ratio } = getDataForProvider(response);
+                    dispatch(
+                      updateEditor(
+                        createMediaBlock(editorState, {
+                          html,
+                          embedRatio: ratio,
+                        })
+                      )
+                    );
                     close();
-                    setTimeout(() => openModal(false), 500);
+                    setTimeout(() => {
+                      openModal(false);
+                      setEmbedlyHtml(undefined);
+                    }, 500);
                   });
                 }}
               >
@@ -199,19 +171,10 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                               oembedError(true);
                               return;
                             }
-                            if (
-                              ["Flipsnack", "Ovizer"].includes(
-                                response.provider_name
-                              )
-                            ) {
-                              setEmbedRatio(67.5);
-                              setEmbedlyHtml(
-                                `<iframe src="${response.url}" width="100%" height="480" seamless="seamless" scrolling="no" frameBorder="0" allowFullScreen></iframe>`
-                              );
-                            } else {
-                              setEmbedRatio(calculRatio(response));
-                              setEmbedlyHtml(response.html);
-                            }
+                            const { html, ratio } =
+                              getDataForProvider(response);
+                            setEmbedRatio(ratio);
+                            setEmbedlyHtml(html);
                           });
                         }}
                       />
