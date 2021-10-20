@@ -4300,7 +4300,11 @@ const FormikInputWithButton = (_c) => {
     "onClick",
     "isDisabled"
   ]);
-  const [field, meta] = useField(name);
+  const [_a, ..._b] = useField(name), _c2 = _a, {
+    value
+  } = _c2, field = __objRest(_c2, [
+    "value"
+  ]), [meta] = _b;
   return /* @__PURE__ */ jsx(Fragment, {
     children: /* @__PURE__ */ jsx(TextInputWithButton, __spreadValues(__spreadValues({
       id: name,
@@ -4475,12 +4479,8 @@ const VideoControls = ({
       children: ({
         close
       }) => {
-        return /* @__PURE__ */ jsxs(ModalNext.Block, {
-          children: [/* @__PURE__ */ jsx(Label, {
-            size: "micro",
-            className: "k-u-margin-bottom-single",
-            children: translations.image_upload.label
-          }), /* @__PURE__ */ jsx(Formik, {
+        return /* @__PURE__ */ jsx(ModalNext.Block, {
+          children: /* @__PURE__ */ jsx(Formik, {
             initialValues: {
               url: ""
             },
@@ -4501,7 +4501,7 @@ const VideoControls = ({
                   oembedError(true);
                   return;
                 }
-                if (response.provider_name === "Flipsnack") {
+                if (["Flipsnack", "Ovizer"].includes(response.provider_name)) {
                   dispatch(updateEditor(createMediaBlock(editorState, {
                     html: `<iframe src="${response.url}" width="100%" height="480" seamless="seamless" scrolling="no" frameBorder="0" allowFullScreen></iframe>`
                   })));
@@ -4521,11 +4521,16 @@ const VideoControls = ({
               values
             }) => {
               return /* @__PURE__ */ jsxs(Fragment, {
-                children: [/* @__PURE__ */ jsx(FormikInputWithButton, {
+                children: [/* @__PURE__ */ jsx(Label, {
+                  size: "micro",
+                  className: "k-u-margin-bottom-single",
+                  htmlFor: "url",
+                  children: translations.image_upload.label
+                }), /* @__PURE__ */ jsx(FormikInputWithButton, {
                   name: "url",
                   variant: "orion",
                   placeholder: "https://",
-                  value: translations.image_upload.preview,
+                  buttonValue: translations.image_upload.preview,
                   onClick: () => {
                     oembedError(false);
                     oembed({
@@ -4537,7 +4542,7 @@ const VideoControls = ({
                         oembedError(true);
                         return;
                       }
-                      if (response.provider_name === "Flipsnack") {
+                      if (["Flipsnack", "Ovizer"].includes(response.provider_name)) {
                         setEmbedRatio(67.5);
                         setEmbedlyHtml(`<iframe src="${response.url}" width="100%" height="480" seamless="seamless" scrolling="no" frameBorder="0" allowFullScreen></iframe>`);
                       } else {
@@ -4570,7 +4575,7 @@ const VideoControls = ({
                 })]
               });
             }
-          })]
+          })
         });
       }
     })]
@@ -6658,70 +6663,70 @@ Title.defaultProps = {
 };
 const defaultTranslations = {
   button_link: {
-    title: "",
-    text: "",
-    url: ""
+    title: "Add a button",
+    text: "Button text",
+    url: "button URL"
   },
   link: {
     text: {
-      label: ""
+      label: "Your text"
     },
-    title: "",
-    error: "",
+    title: "Add a link",
+    error: "This link seems incorrect",
     button: {
-      delete: ""
+      delete: "Delete"
     }
   },
   controls: {
-    format_bold: "",
-    activated_format_bold: "",
-    format_italic: "",
-    activated_format_italic: "",
-    format_list_bulleted: "",
-    activated_format_list_bulleted: "",
-    ["k-u-align-left"]: "",
-    ["activated_k-u-align-left"]: "",
-    ["k-u-align-center"]: "",
-    ["activated_k-u-align-center"]: "",
-    ["k-u-align-right"]: "",
-    ["activated_k-u-align-right"]: "",
-    image: "",
-    activated_image: "",
-    video: "",
-    activated_video: "",
-    link: "",
-    activated_link: "",
-    quote: "",
-    activated_quote: ""
+    format_bold: "Bold",
+    activated_format_bold: "Bold (activated)",
+    format_italic: "Italic",
+    activated_format_italic: "Italic (activated)",
+    format_list_bulleted: "Add a list",
+    activated_format_list_bulleted: "Add a list (activated)",
+    ["k-u-align-left"]: "Left Alignment",
+    ["activated_k-u-align-left"]: "Left Alignment (activated)",
+    ["k-u-align-center"]: "Alignment in the center",
+    ["activated_k-u-align-center"]: "Alignment in the center (activated)",
+    ["k-u-align-right"]: "Right Alignment",
+    ["activated_k-u-align-right"]: "Right Alignment (activated)",
+    image: "Add an image",
+    activated_image: "Add an image (activated)",
+    video: "Add a video",
+    activated_video: "Add a video (activated)",
+    link: "Add a link",
+    activated_link: "Add a link (activated)",
+    quote: "Add a quote",
+    activated_quote: "Add a quote (activated)"
   },
   image_upload: {
-    title: "",
-    label: "",
-    url: "",
-    preview: "",
-    upload: "",
+    title: "Insert a picture",
+    label: "URL:",
+    url: "URL:",
+    preview: "Preview",
+    upload: "Select a file on your computer",
     help_file: {
-      formats: "",
-      width: "",
-      size: ""
+      formats: "Available formats: jpg, jpeg, gif, png, bmp",
+      width: "Maximum weight: 5 MB",
+      size: "Maximum width and height: 1000x4000 pixels"
     }
   },
   image: {
-    invalid_url: "",
-    invalid_extension: "",
-    max_size: ""
+    invalid_url: "Your url doesn't seem correct",
+    invalid_extension: "The format of your image is not supported",
+    max_size: "The size of your image exceeds 5 MB"
   },
   media_upload: {
-    title: ""
+    title: "Insert a media"
   },
   video: {
-    problem: "",
-    invalid_url: ""
+    problem: "An error occurred while loading the content. Please try again",
+    invalid_url: "Your url doesn't seem correct"
   },
-  submit: "",
+  submit: "Validate",
   form: {
-    tooltip_action_label: "",
-    button_loading: ""
+    tooltip_action_label: "More informations",
+    button_loading: "Loading"
   }
 };
 const Editor = ({
