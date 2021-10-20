@@ -1,7 +1,7 @@
 {
   "name": "@kisskissbankbank/underwood",
   "description": "Text editor based on DraftJS",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "author": "KissKissBankBank & Co",
   "homepage": "https://underwood.vercel.app/",
@@ -41,20 +41,20 @@
     "translations": "docusaurus write-translations"
   },
   "dependencies": {
-    "@kisskissbankbank/kitten": "^5.0.2",
+    "@kisskissbankbank/kitten": "^5.3.0",
     "classnames": "^2.3.1",
     "draft-convert": "^2.1.12",
     "draft-js": "^0.11.7",
     "draft-js-export-html": "^1.4.1",
     "formik": "^2.2.9",
-    "immutable": "^4.0.0",
+    "immutable": "^3.x.x",
     "linkify-it": "^3.0.3",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "qs": "^6.10.1",
     "styled-components": "^4.4.1",
     "tlds": "^1.224.0",
-    "yup": "^0.32.10"
+    "yup": "^0.32.11"
   },
   "peerDependencies": {
     "react": "^17.0.2",
@@ -73,10 +73,11 @@
     ]
   },
   "devDependencies": {
-    "@docusaurus/core": "2.0.0-beta.6",
-    "@docusaurus/preset-classic": "2.0.0-beta.6",
-    "@vitejs/plugin-react": "1.0.4",
+    "@docusaurus/core": "2.0.0-beta.7",
+    "@docusaurus/preset-classic": "2.0.0-beta.7",
+    "@vitejs/plugin-react": "1.0.5",
     "prettier": "2.4.1",
-    "vite": "2.6.7"
+    "sass": "1.43.2",
+    "vite": "2.6.10"
   }
 }
