@@ -2763,7 +2763,7 @@ function isKey$3(value, object) {
 var _isKey = isKey$3;
 var MapCache = _MapCache;
 var FUNC_ERROR_TEXT$2 = "Expected a function";
-function memoize$1(func2, resolver) {
+function memoize$2(func2, resolver) {
   if (typeof func2 != "function" || resolver != null && typeof resolver != "function") {
     throw new TypeError(FUNC_ERROR_TEXT$2);
   }
@@ -2776,15 +2776,15 @@ function memoize$1(func2, resolver) {
     memoized.cache = cache.set(key, result) || cache;
     return result;
   };
-  memoized.cache = new (memoize$1.Cache || MapCache)();
+  memoized.cache = new (memoize$2.Cache || MapCache)();
   return memoized;
 }
-memoize$1.Cache = MapCache;
-var memoize_1 = memoize$1;
-var memoize = memoize_1;
+memoize$2.Cache = MapCache;
+var memoize_1 = memoize$2;
+var memoize$1 = memoize_1;
 var MAX_MEMOIZE_SIZE = 500;
 function memoizeCapped$1(func2) {
-  var result = memoize(func2, function(key) {
+  var result = memoize$1(func2, function(key) {
     if (cache.size === MAX_MEMOIZE_SIZE) {
       cache.clear();
     }
@@ -3036,10 +3036,10 @@ var _util = {
   "toPath": toPath_1
 };
 var baseConvert = _baseConvert, util = _util;
-function convert$9(name, func2, options) {
+function convert$a(name, func2, options) {
   return baseConvert(util, name, func2, options);
 }
-var convert_1 = convert$9;
+var convert_1 = convert$a;
 var LodashWrapper = _LodashWrapper, flatRest$1 = _flatRest, getData = _getData, getFuncName = _getFuncName, isArray$2 = isArray_1, isLaziable = _isLaziable;
 var FUNC_ERROR_TEXT$1 = "Expected a function";
 var WRAP_CURRY_FLAG = 8, WRAP_PARTIAL_FLAG = 32, WRAP_ARY_FLAG = 128, WRAP_REARG_FLAG = 256;
@@ -3085,9 +3085,9 @@ var _createFlow = createFlow$1;
 var createFlow = _createFlow;
 var flow$1 = createFlow();
 var flow_1 = flow$1;
-var convert$8 = convert_1, func$8 = convert$8("flow", flow_1);
-func$8.placeholder = placeholder;
-var flow = func$8;
+var convert$9 = convert_1, func$9 = convert$9("flow", flow_1);
+func$9.placeholder = placeholder;
+var flow = func$9;
 function arrayReduce$1(array, iteratee2, accumulator, initAccum) {
   var index = -1, length = array == null ? 0 : array.length;
   if (initAccum && length) {
@@ -3155,12 +3155,12 @@ function reduce$1(collection, iteratee2, accumulator) {
   return func2(collection, baseIteratee$2(iteratee2), accumulator, initAccum, baseEach);
 }
 var reduce_1 = reduce$1;
-var convert$7 = convert_1, func$7 = convert$7("reduce", reduce_1);
+var convert$8 = convert_1, func$8 = convert$8("reduce", reduce_1);
+func$8.placeholder = placeholder;
+var reduce = func$8;
+var convert$7 = convert_1, func$7 = convert$7("get", get_1);
 func$7.placeholder = placeholder;
-var reduce = func$7;
-var convert$6 = convert_1, func$6 = convert$6("get", get_1);
-func$6.placeholder = placeholder;
-var get = func$6;
+var get = func$7;
 function baseSlice$2(array, start, end) {
   var index = -1, length = array.length;
   if (start < 0) {
@@ -3239,9 +3239,9 @@ function trim$1(string, chars, guard) {
   return castSlice(strSymbols, start, end).join("");
 }
 var trim_1 = trim$1;
-var convert$5 = convert_1, func$5 = convert$5("trim", trim_1);
-func$5.placeholder = placeholder;
-var trim = func$5;
+var convert$6 = convert_1, func$6 = convert$6("trim", trim_1);
+func$6.placeholder = placeholder;
+var trim = func$6;
 var baseKeys = _baseKeys, getTag = _getTag, isArguments = isArguments_1, isArray = isArray_1, isArrayLike = isArrayLike_1, isBuffer = isBuffer$4.exports, isPrototype = _isPrototype, isTypedArray = isTypedArray_1;
 var mapTag = "[object Map]", setTag = "[object Set]";
 var objectProto = Object.prototype;
@@ -3275,9 +3275,9 @@ var _falseOptions = {
   "immutable": false,
   "rearg": false
 };
-var convert$4 = convert_1, func$4 = convert$4("isEmpty", isEmpty_1, _falseOptions);
-func$4.placeholder = placeholder;
-var isEmpty = func$4;
+var convert$5 = convert_1, func$5 = convert$5("isEmpty", isEmpty_1, _falseOptions);
+func$5.placeholder = placeholder;
+var isEmpty = func$5;
 function last$1(array) {
   var length = array == null ? 0 : array.length;
   return length ? array[length - 1] : void 0;
@@ -3324,9 +3324,9 @@ var omit$1 = flatRest(function(object, paths) {
   return result;
 });
 var omit_1 = omit$1;
-var convert$3 = convert_1, func$3 = convert$3("omit", omit_1);
-func$3.placeholder = placeholder;
-var omit = func$3;
+var convert$4 = convert_1, func$4 = convert$4("omit", omit_1);
+func$4.placeholder = placeholder;
+var omit = func$4;
 const Link$2 = (props) => {
   const {
     url
@@ -3413,9 +3413,9 @@ function uniq$1(array) {
   return array && array.length ? baseUniq(array) : [];
 }
 var uniq_1 = uniq$1;
-var convert$2 = convert_1, func$2 = convert$2("uniq", uniq_1, _falseOptions);
-func$2.placeholder = placeholder;
-var uniq = func$2;
+var convert$3 = convert_1, func$3 = convert$3("uniq", uniq_1, _falseOptions);
+func$3.placeholder = placeholder;
+var uniq = func$3;
 const isGif = (url) => /(.gif)$/gim.test(url);
 const isSvg = (url) => /(.svg)$/gim.test(url);
 const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "webp"];
@@ -3687,9 +3687,9 @@ function isEqual$1(value, other) {
   return baseIsEqual(value, other);
 }
 var isEqual_1 = isEqual$1;
-var convert$1 = convert_1, func$1 = convert$1("isEqual", isEqual_1);
-func$1.placeholder = placeholder;
-var isEqual = func$1;
+var convert$2 = convert_1, func$2 = convert$2("isEqual", isEqual_1);
+func$2.placeholder = placeholder;
+var isEqual = func$2;
 var FUNC_ERROR_TEXT = "Expected a function";
 function negate$1(predicate) {
   if (typeof predicate != "function") {
@@ -3767,9 +3767,9 @@ function omitBy$1(object, predicate) {
   return pickBy(object, negate(baseIteratee(predicate)));
 }
 var omitBy_1 = omitBy$1;
-var convert = convert_1, func = convert("omitBy", omitBy_1);
-func.placeholder = placeholder;
-var omitBy = func;
+var convert$1 = convert_1, func$1 = convert$1("omitBy", omitBy_1);
+func$1.placeholder = placeholder;
+var omitBy = func$1;
 const getImageNode$1 = get("children[0]");
 const isImageWrapper$1 = flow(get("children[0].nodeName"), isEqual("IMG"));
 const isLinkWrapped$1 = flow(get("parentElement.nodeName"), isEqual("A"));
@@ -4359,6 +4359,36 @@ const oembed = (customConfig) => {
     scheme: document.location.protocol.replace(":", "")
   }, customConfig))}`).then((response) => response.json());
 };
+const calculRatio = ({
+  height,
+  width
+}) => (height / width * 100).toPrecision(4);
+const getDataForProvider = (response) => {
+  if (response.type === "video") {
+    return {
+      ratio: calculRatio({
+        height: response.height,
+        width: response.width
+      }),
+      html: response.html
+    };
+  }
+  switch (response.provider_name) {
+    case "Ovizer":
+      return {
+        ratio: calculRatio({
+          height: response.thumbnail_height,
+          width: response.thumbnail_width
+        }),
+        html: `<iframe src="${response.url}" width="100%" height="auto" allowFullScreen></iframe>`
+      };
+    default:
+      return {
+        ratio: 67.5,
+        html: `<iframe src="${response.url}" width="100%" height="auto" allowFullScreen></iframe>`
+      };
+  }
+};
 const VideoEditor = ({
   contentState,
   entityKey,
@@ -4378,29 +4408,15 @@ const VideoEditor = ({
     dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
   };
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
-  if (html) {
-    return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
-      className: "kiss-Draft__media",
-      children: /* @__PURE__ */ jsx("div", {
-        className: classNames("kiss-Draft__media-focus", {
-          "kiss-Draft__media-focus__focused": hasFocus
-        }),
-        onClick,
-        children: parseHtml(html, {
-          sanitize: false
-        })
-      })
-    });
-  }
   return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
-    ratio: embedRatio,
+    ratio: embedRatio || 67.5,
     className: "kiss-Draft__media",
     children: /* @__PURE__ */ jsx("div", {
       className: classNames("kiss-Draft__media-focus", {
         "kiss-Draft__media-focus__focused": hasFocus
       }),
       onClick,
-      children: parseHtml(embedlyHtml, {
+      children: parseHtml(embedlyHtml || html, {
         sanitize: false
       })
     })
@@ -4412,18 +4428,10 @@ const VideoDisplayer = (props) => {
     embedRatio,
     html
   } = props.contentState.getEntity(props.entityKey).getData();
-  if (html) {
-    return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
-      className: "kiss-Draft__media-read",
-      children: parseHtml(html, {
-        sanitize: false
-      })
-    });
-  }
   return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
-    ratio: embedRatio,
+    ratio: embedRatio || 67.5,
     className: "kiss-Draft__media-read",
-    children: parseHtml(embedlyHtml, {
+    children: parseHtml(embedlyHtml || html, {
       sanitize: false
     })
   });
@@ -4442,7 +4450,6 @@ const readDecorator$3 = {
   strategy: videoStrategy,
   component: VideoDisplayer
 };
-const calculRatio = (response) => (response.height / response.width * 100).toPrecision(4);
 const VideoControls = ({
   disabled,
   onChange,
@@ -4501,18 +4508,19 @@ const VideoControls = ({
                   oembedError(true);
                   return;
                 }
-                if (["Flipsnack", "Ovizer"].includes(response.provider_name)) {
-                  dispatch(updateEditor(createMediaBlock(editorState, {
-                    html: `<iframe src="${response.url}" width="100%" height="480" seamless="seamless" scrolling="no" frameBorder="0" allowFullScreen></iframe>`
-                  })));
-                } else {
-                  dispatch(updateEditor(createMediaBlock(editorState, {
-                    embedlyHtml: response.html,
-                    embedRatio: calculRatio(response)
-                  })));
-                }
+                const {
+                  html,
+                  ratio
+                } = getDataForProvider(response);
+                dispatch(updateEditor(createMediaBlock(editorState, {
+                  html,
+                  embedRatio: ratio
+                })));
                 close();
-                setTimeout(() => openModal(false), 500);
+                setTimeout(() => {
+                  openModal(false);
+                  setEmbedlyHtml(void 0);
+                }, 500);
               });
             },
             children: ({
@@ -4542,13 +4550,12 @@ const VideoControls = ({
                         oembedError(true);
                         return;
                       }
-                      if (["Flipsnack", "Ovizer"].includes(response.provider_name)) {
-                        setEmbedRatio(67.5);
-                        setEmbedlyHtml(`<iframe src="${response.url}" width="100%" height="480" seamless="seamless" scrolling="no" frameBorder="0" allowFullScreen></iframe>`);
-                      } else {
-                        setEmbedRatio(calculRatio(response));
-                        setEmbedlyHtml(response.html);
-                      }
+                      const {
+                        html,
+                        ratio
+                      } = getDataForProvider(response);
+                      setEmbedRatio(ratio);
+                      setEmbedlyHtml(html);
                     });
                   }
                 }), embedlyHtml && /* @__PURE__ */ jsx("div", {
@@ -6501,7 +6508,10 @@ Controls.defaultProps = {
   whiteMode: false,
   centered: false
 };
-const getinitialValue = (value) => {
+var convert = convert_1, func = convert("memoize", memoize_1);
+func.placeholder = placeholder;
+var memoize = func;
+const getinitialValue = memoize((value) => {
   if (!domElementHelper.canUseDom())
     return null;
   if (!value) {
@@ -6514,7 +6524,7 @@ const getinitialValue = (value) => {
     const contentState = ContentState.createFromBlockArray(blocksFromHTML);
     return EditorState.createWithContent(contentState);
   }
-};
+});
 const isJSONContent = (content) => {
   try {
     JSON.parse(content);
