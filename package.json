@@ -1,7 +1,7 @@
 {
   "name": "@kisskissbankbank/underwood",
   "description": "Text editor based on DraftJS",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "author": "KissKissBankBank & Co",
   "homepage": "https://underwood.vercel.app/",
