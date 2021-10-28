@@ -4374,6 +4374,14 @@ const getDataForProvider = (response) => {
     };
   }
   switch (response.provider_name) {
+    case "SoundCloud":
+      return {
+        ratio: calculRatio({
+          height: 6,
+          width: 16
+        }),
+        html: response.html
+      };
     case "Ovizer":
       return {
         ratio: calculRatio({
