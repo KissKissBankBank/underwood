@@ -44,7 +44,9 @@ import linkifyIt from "linkify-it";
 import tlds from "tlds";
 import { stateToHTML } from "draft-js-export-html";
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
-var jsxRuntime = { exports: {} };
+var jsxRuntime = {
+  exports: {}
+};
 var reactJsxRuntime_production_min = {};
 /*
 object-assign
@@ -1681,7 +1683,9 @@ var isArguments$4 = baseIsArguments(function() {
   return isObjectLike$7(value) && hasOwnProperty$a.call(value, "callee") && !propertyIsEnumerable$1.call(value, "callee");
 };
 var isArguments_1 = isArguments$4;
-var isBuffer$4 = { exports: {} };
+var isBuffer$4 = {
+  exports: {}
+};
 function stubFalse() {
   return false;
 }
@@ -1717,7 +1721,9 @@ function baseUnary$3(func2) {
   };
 }
 var _baseUnary = baseUnary$3;
-var _nodeUtil = { exports: {} };
+var _nodeUtil = {
+  exports: {}
+};
 (function(module, exports) {
   var freeGlobal2 = _freeGlobal;
   var freeExports = exports && !exports.nodeType && exports;
@@ -2080,7 +2086,9 @@ function baseAssignIn$1(object, source) {
   return object && copyObject$3(source, keysIn$2(source), object);
 }
 var _baseAssignIn = baseAssignIn$1;
-var _cloneBuffer = { exports: {} };
+var _cloneBuffer = {
+  exports: {}
+};
 (function(module, exports) {
   var root2 = _root;
   var freeExports = exports && !exports.nodeType && exports;
@@ -4364,7 +4372,7 @@ const calculRatio = ({
   width
 }) => (height / width * 100).toPrecision(4);
 const getDataForProvider = (response) => {
-  if (response.type === "video") {
+  if (response.type === "video" || response.type === "rich" && response.provider_name !== "SoundCloud") {
     return {
       ratio: calculRatio({
         height: response.height,
