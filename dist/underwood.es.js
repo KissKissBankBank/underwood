@@ -4372,6 +4372,7 @@ const calculRatio = ({
   width
 }) => (height / width * 100).toPrecision(4);
 const getDataForProvider = (response) => {
+  console.log(response);
   if (response.type === "video" || response.type === "rich" && response.provider_name !== "SoundCloud") {
     return {
       ratio: calculRatio({
@@ -4393,8 +4394,8 @@ const getDataForProvider = (response) => {
     case "Ovizer":
       return {
         ratio: calculRatio({
-          height: response.thumbnail_height,
-          width: response.thumbnail_width
+          height: response.thumbnail_height || 1,
+          width: response.thumbnail_width || 1
         }),
         html: `<iframe src="${response.url}" width="100%" height="auto" allowFullScreen></iframe>`
       };
