@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import { convertToRaw } from "draft-js";
 import { EditorProvider } from "./context";
 
 const defaultTranslations = {
@@ -112,3 +113,5 @@ export { default as Controls } from "./controls";
 export { default as Displayer } from "./draft-displayer";
 export { default as Title } from "./title";
 export { isEditorEmpty, getJSONContent } from "./utils";
+export { convertToHTML } from "draft-convert";
+export { convertToRaw };
