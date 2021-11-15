@@ -32,10 +32,12 @@ var __objRest = (source, exclude) => {
 import require$$0, { createContext, useReducer, useContext, useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { EditorState, CompositeDecorator, convertToRaw, Editor as Editor$1, DefaultDraftBlockRenderMap, AtomicBlockUtils, RichUtils, Modifier, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
+export { convertToRaw } from "draft-js";
 import { ScreenConfig, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, ResponsiveIframeContainer, parseHtml, domElementHelper, Button as Button$1, buttonModifierStyles, pxToRem, COLORS, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, VisuallyHidden, ModalNext, Title as Title$1, ArrowContainer, Text, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
 import styled, { createGlobalStyle, css } from "styled-components";
 import { Map as Map$4, OrderedMap } from "immutable";
 import { convertFromHTML } from "draft-convert";
+export { convertToHTML } from "draft-convert";
 import classNames from "classnames";
 import { useField, ErrorMessage, Formik, useFormikContext } from "formik";
 import * as Yup from "yup";
@@ -44,9 +46,7 @@ import linkifyIt from "linkify-it";
 import tlds from "tlds";
 import { stateToHTML } from "draft-js-export-html";
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
-var jsxRuntime = {
-  exports: {}
-};
+var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /*
 object-assign
@@ -131,12 +131,7 @@ if (typeof Symbol === "function" && Symbol.for) {
   g = h("react.element");
   reactJsxRuntime_production_min.Fragment = h("react.fragment");
 }
-var m = f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, n = Object.prototype.hasOwnProperty, p = {
-  key: true,
-  ref: true,
-  __self: true,
-  __source: true
-};
+var m = f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, n = Object.prototype.hasOwnProperty, p = { key: true, ref: true, __self: true, __source: true };
 function q(c, a, k) {
   var b, d = {}, e = null, l = null;
   k !== void 0 && (e = "" + k);
@@ -147,14 +142,7 @@ function q(c, a, k) {
   if (c && c.defaultProps)
     for (b in a = c.defaultProps, a)
       d[b] === void 0 && (d[b] = a[b]);
-  return {
-    $$typeof: g,
-    type: c,
-    key: e,
-    ref: l,
-    props: d,
-    _owner: m.current
-  };
+  return { $$typeof: g, type: c, key: e, ref: l, props: d, _owner: m.current };
 }
 reactJsxRuntime_production_min.jsx = q;
 reactJsxRuntime_production_min.jsxs = q;
@@ -274,10 +262,239 @@ var _mapping = {};
     "zipObj": "zipObject"
   };
   exports.aryMethod = {
-    "1": ["assignAll", "assignInAll", "attempt", "castArray", "ceil", "create", "curry", "curryRight", "defaultsAll", "defaultsDeepAll", "floor", "flow", "flowRight", "fromPairs", "invert", "iteratee", "memoize", "method", "mergeAll", "methodOf", "mixin", "nthArg", "over", "overEvery", "overSome", "rest", "reverse", "round", "runInContext", "spread", "template", "trim", "trimEnd", "trimStart", "uniqueId", "words", "zipAll"],
-    "2": ["add", "after", "ary", "assign", "assignAllWith", "assignIn", "assignInAllWith", "at", "before", "bind", "bindAll", "bindKey", "chunk", "cloneDeepWith", "cloneWith", "concat", "conformsTo", "countBy", "curryN", "curryRightN", "debounce", "defaults", "defaultsDeep", "defaultTo", "delay", "difference", "divide", "drop", "dropRight", "dropRightWhile", "dropWhile", "endsWith", "eq", "every", "filter", "find", "findIndex", "findKey", "findLast", "findLastIndex", "findLastKey", "flatMap", "flatMapDeep", "flattenDepth", "forEach", "forEachRight", "forIn", "forInRight", "forOwn", "forOwnRight", "get", "groupBy", "gt", "gte", "has", "hasIn", "includes", "indexOf", "intersection", "invertBy", "invoke", "invokeMap", "isEqual", "isMatch", "join", "keyBy", "lastIndexOf", "lt", "lte", "map", "mapKeys", "mapValues", "matchesProperty", "maxBy", "meanBy", "merge", "mergeAllWith", "minBy", "multiply", "nth", "omit", "omitBy", "overArgs", "pad", "padEnd", "padStart", "parseInt", "partial", "partialRight", "partition", "pick", "pickBy", "propertyOf", "pull", "pullAll", "pullAt", "random", "range", "rangeRight", "rearg", "reject", "remove", "repeat", "restFrom", "result", "sampleSize", "some", "sortBy", "sortedIndex", "sortedIndexOf", "sortedLastIndex", "sortedLastIndexOf", "sortedUniqBy", "split", "spreadFrom", "startsWith", "subtract", "sumBy", "take", "takeRight", "takeRightWhile", "takeWhile", "tap", "throttle", "thru", "times", "trimChars", "trimCharsEnd", "trimCharsStart", "truncate", "union", "uniqBy", "uniqWith", "unset", "unzipWith", "without", "wrap", "xor", "zip", "zipObject", "zipObjectDeep"],
-    "3": ["assignInWith", "assignWith", "clamp", "differenceBy", "differenceWith", "findFrom", "findIndexFrom", "findLastFrom", "findLastIndexFrom", "getOr", "includesFrom", "indexOfFrom", "inRange", "intersectionBy", "intersectionWith", "invokeArgs", "invokeArgsMap", "isEqualWith", "isMatchWith", "flatMapDepth", "lastIndexOfFrom", "mergeWith", "orderBy", "padChars", "padCharsEnd", "padCharsStart", "pullAllBy", "pullAllWith", "rangeStep", "rangeStepRight", "reduce", "reduceRight", "replace", "set", "slice", "sortedIndexBy", "sortedLastIndexBy", "transform", "unionBy", "unionWith", "update", "xorBy", "xorWith", "zipWith"],
-    "4": ["fill", "setWith", "updateWith"]
+    "1": [
+      "assignAll",
+      "assignInAll",
+      "attempt",
+      "castArray",
+      "ceil",
+      "create",
+      "curry",
+      "curryRight",
+      "defaultsAll",
+      "defaultsDeepAll",
+      "floor",
+      "flow",
+      "flowRight",
+      "fromPairs",
+      "invert",
+      "iteratee",
+      "memoize",
+      "method",
+      "mergeAll",
+      "methodOf",
+      "mixin",
+      "nthArg",
+      "over",
+      "overEvery",
+      "overSome",
+      "rest",
+      "reverse",
+      "round",
+      "runInContext",
+      "spread",
+      "template",
+      "trim",
+      "trimEnd",
+      "trimStart",
+      "uniqueId",
+      "words",
+      "zipAll"
+    ],
+    "2": [
+      "add",
+      "after",
+      "ary",
+      "assign",
+      "assignAllWith",
+      "assignIn",
+      "assignInAllWith",
+      "at",
+      "before",
+      "bind",
+      "bindAll",
+      "bindKey",
+      "chunk",
+      "cloneDeepWith",
+      "cloneWith",
+      "concat",
+      "conformsTo",
+      "countBy",
+      "curryN",
+      "curryRightN",
+      "debounce",
+      "defaults",
+      "defaultsDeep",
+      "defaultTo",
+      "delay",
+      "difference",
+      "divide",
+      "drop",
+      "dropRight",
+      "dropRightWhile",
+      "dropWhile",
+      "endsWith",
+      "eq",
+      "every",
+      "filter",
+      "find",
+      "findIndex",
+      "findKey",
+      "findLast",
+      "findLastIndex",
+      "findLastKey",
+      "flatMap",
+      "flatMapDeep",
+      "flattenDepth",
+      "forEach",
+      "forEachRight",
+      "forIn",
+      "forInRight",
+      "forOwn",
+      "forOwnRight",
+      "get",
+      "groupBy",
+      "gt",
+      "gte",
+      "has",
+      "hasIn",
+      "includes",
+      "indexOf",
+      "intersection",
+      "invertBy",
+      "invoke",
+      "invokeMap",
+      "isEqual",
+      "isMatch",
+      "join",
+      "keyBy",
+      "lastIndexOf",
+      "lt",
+      "lte",
+      "map",
+      "mapKeys",
+      "mapValues",
+      "matchesProperty",
+      "maxBy",
+      "meanBy",
+      "merge",
+      "mergeAllWith",
+      "minBy",
+      "multiply",
+      "nth",
+      "omit",
+      "omitBy",
+      "overArgs",
+      "pad",
+      "padEnd",
+      "padStart",
+      "parseInt",
+      "partial",
+      "partialRight",
+      "partition",
+      "pick",
+      "pickBy",
+      "propertyOf",
+      "pull",
+      "pullAll",
+      "pullAt",
+      "random",
+      "range",
+      "rangeRight",
+      "rearg",
+      "reject",
+      "remove",
+      "repeat",
+      "restFrom",
+      "result",
+      "sampleSize",
+      "some",
+      "sortBy",
+      "sortedIndex",
+      "sortedIndexOf",
+      "sortedLastIndex",
+      "sortedLastIndexOf",
+      "sortedUniqBy",
+      "split",
+      "spreadFrom",
+      "startsWith",
+      "subtract",
+      "sumBy",
+      "take",
+      "takeRight",
+      "takeRightWhile",
+      "takeWhile",
+      "tap",
+      "throttle",
+      "thru",
+      "times",
+      "trimChars",
+      "trimCharsEnd",
+      "trimCharsStart",
+      "truncate",
+      "union",
+      "uniqBy",
+      "uniqWith",
+      "unset",
+      "unzipWith",
+      "without",
+      "wrap",
+      "xor",
+      "zip",
+      "zipObject",
+      "zipObjectDeep"
+    ],
+    "3": [
+      "assignInWith",
+      "assignWith",
+      "clamp",
+      "differenceBy",
+      "differenceWith",
+      "findFrom",
+      "findIndexFrom",
+      "findLastFrom",
+      "findLastIndexFrom",
+      "getOr",
+      "includesFrom",
+      "indexOfFrom",
+      "inRange",
+      "intersectionBy",
+      "intersectionWith",
+      "invokeArgs",
+      "invokeArgsMap",
+      "isEqualWith",
+      "isMatchWith",
+      "flatMapDepth",
+      "lastIndexOfFrom",
+      "mergeWith",
+      "orderBy",
+      "padChars",
+      "padCharsEnd",
+      "padCharsStart",
+      "pullAllBy",
+      "pullAllWith",
+      "rangeStep",
+      "rangeStepRight",
+      "reduce",
+      "reduceRight",
+      "replace",
+      "set",
+      "slice",
+      "sortedIndexBy",
+      "sortedLastIndexBy",
+      "transform",
+      "unionBy",
+      "unionWith",
+      "update",
+      "xorBy",
+      "xorWith",
+      "zipWith"
+    ],
+    "4": [
+      "fill",
+      "setWith",
+      "updateWith"
+    ]
   };
   exports.aryRearg = {
     "2": [1, 0],
@@ -358,48 +575,20 @@ var _mapping = {};
     "zipWith": [1, 2, 0]
   };
   exports.methodSpread = {
-    "assignAll": {
-      "start": 0
-    },
-    "assignAllWith": {
-      "start": 0
-    },
-    "assignInAll": {
-      "start": 0
-    },
-    "assignInAllWith": {
-      "start": 0
-    },
-    "defaultsAll": {
-      "start": 0
-    },
-    "defaultsDeepAll": {
-      "start": 0
-    },
-    "invokeArgs": {
-      "start": 2
-    },
-    "invokeArgsMap": {
-      "start": 2
-    },
-    "mergeAll": {
-      "start": 0
-    },
-    "mergeAllWith": {
-      "start": 0
-    },
-    "partial": {
-      "start": 1
-    },
-    "partialRight": {
-      "start": 1
-    },
-    "without": {
-      "start": 1
-    },
-    "zipAll": {
-      "start": 0
-    }
+    "assignAll": { "start": 0 },
+    "assignAllWith": { "start": 0 },
+    "assignInAll": { "start": 0 },
+    "assignInAllWith": { "start": 0 },
+    "defaultsAll": { "start": 0 },
+    "defaultsDeepAll": { "start": 0 },
+    "invokeArgs": { "start": 2 },
+    "invokeArgsMap": { "start": 2 },
+    "mergeAll": { "start": 0 },
+    "mergeAllWith": { "start": 0 },
+    "partial": { "start": 1 },
+    "partialRight": { "start": 1 },
+    "without": { "start": 1 },
+    "zipAll": { "start": 0 }
   };
   exports.mutate = {
     "array": {
@@ -1300,7 +1489,17 @@ function arrayIncludes$2(array, value) {
 var _arrayIncludes = arrayIncludes$2;
 var arrayEach$1 = _arrayEach, arrayIncludes$1 = _arrayIncludes;
 var WRAP_BIND_FLAG$5 = 1, WRAP_BIND_KEY_FLAG$4 = 2, WRAP_CURRY_FLAG$6 = 8, WRAP_CURRY_RIGHT_FLAG$2 = 16, WRAP_PARTIAL_FLAG$3 = 32, WRAP_PARTIAL_RIGHT_FLAG$2 = 64, WRAP_ARY_FLAG$4 = 128, WRAP_REARG_FLAG$3 = 256, WRAP_FLIP_FLAG$1 = 512;
-var wrapFlags = [["ary", WRAP_ARY_FLAG$4], ["bind", WRAP_BIND_FLAG$5], ["bindKey", WRAP_BIND_KEY_FLAG$4], ["curry", WRAP_CURRY_FLAG$6], ["curryRight", WRAP_CURRY_RIGHT_FLAG$2], ["flip", WRAP_FLIP_FLAG$1], ["partial", WRAP_PARTIAL_FLAG$3], ["partialRight", WRAP_PARTIAL_RIGHT_FLAG$2], ["rearg", WRAP_REARG_FLAG$3]];
+var wrapFlags = [
+  ["ary", WRAP_ARY_FLAG$4],
+  ["bind", WRAP_BIND_FLAG$5],
+  ["bindKey", WRAP_BIND_KEY_FLAG$4],
+  ["curry", WRAP_CURRY_FLAG$6],
+  ["curryRight", WRAP_CURRY_RIGHT_FLAG$2],
+  ["flip", WRAP_FLIP_FLAG$1],
+  ["partial", WRAP_PARTIAL_FLAG$3],
+  ["partialRight", WRAP_PARTIAL_RIGHT_FLAG$2],
+  ["rearg", WRAP_REARG_FLAG$3]
+];
 function updateWrapDetails$1(details, bitmask) {
   arrayEach$1(wrapFlags, function(pair) {
     var value = "_." + pair[0];
@@ -1326,7 +1525,18 @@ function createRecurry$2(func2, bitmask, wrapFunc, placeholder2, thisArg, partia
   if (!(bitmask & WRAP_CURRY_BOUND_FLAG$1)) {
     bitmask &= ~(WRAP_BIND_FLAG$4 | WRAP_BIND_KEY_FLAG$3);
   }
-  var newData = [func2, bitmask, thisArg, newPartials, newHolders, newPartialsRight, newHoldersRight, argPos, ary2, arity];
+  var newData = [
+    func2,
+    bitmask,
+    thisArg,
+    newPartials,
+    newHolders,
+    newPartialsRight,
+    newHoldersRight,
+    argPos,
+    ary2,
+    arity
+  ];
   var result = wrapFunc.apply(void 0, newData);
   if (isLaziable$1(func2)) {
     setData$1(result, newData);
@@ -1345,7 +1555,7 @@ var reIsUint = /^(?:0|[1-9]\d*)$/;
 function isIndex$4(value, length) {
   var type = typeof value;
   length = length == null ? MAX_SAFE_INTEGER$1 : length;
-  return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && value > -1 && value % 1 == 0 && value < length;
+  return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
 }
 var _isIndex = isIndex$4;
 var copyArray$2 = _copyArray, isIndex$3 = _isIndex;
@@ -1577,7 +1787,18 @@ function createWrap$3(func2, bitmask, thisArg, partials, holders, argPos, ary2, 
     partials = holders = void 0;
   }
   var data = isBindKey ? void 0 : getData$1(func2);
-  var newData = [func2, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary2, arity];
+  var newData = [
+    func2,
+    bitmask,
+    thisArg,
+    partials,
+    holders,
+    partialsRight,
+    holdersRight,
+    argPos,
+    ary2,
+    arity
+  ];
   if (data) {
     mergeData(newData, data);
   }
@@ -1683,9 +1904,7 @@ var isArguments$4 = baseIsArguments(function() {
   return isObjectLike$7(value) && hasOwnProperty$a.call(value, "callee") && !propertyIsEnumerable$1.call(value, "callee");
 };
 var isArguments_1 = isArguments$4;
-var isBuffer$4 = {
-  exports: {}
-};
+var isBuffer$4 = { exports: {} };
 function stubFalse() {
   return false;
 }
@@ -1721,9 +1940,7 @@ function baseUnary$3(func2) {
   };
 }
 var _baseUnary = baseUnary$3;
-var _nodeUtil = {
-  exports: {}
-};
+var _nodeUtil = { exports: {} };
 (function(module, exports) {
   var freeGlobal2 = _freeGlobal;
   var freeExports = exports && !exports.nodeType && exports;
@@ -2086,9 +2303,7 @@ function baseAssignIn$1(object, source) {
   return object && copyObject$3(source, keysIn$2(source), object);
 }
 var _baseAssignIn = baseAssignIn$1;
-var _cloneBuffer = {
-  exports: {}
-};
+var _cloneBuffer = { exports: {} };
 (function(module, exports) {
   var root2 = _root;
   var freeExports = exports && !exports.nodeType && exports;
@@ -2631,7 +2846,7 @@ function equalObjects$1(object, other, bitmask, customizer, equalFunc, stack) {
   }
   if (result && !skipCtor) {
     var objCtor = object.constructor, othCtor = other.constructor;
-    if (objCtor != othCtor && "constructor" in object && "constructor" in other && !(typeof objCtor == "function" && objCtor instanceof objCtor && typeof othCtor == "function" && othCtor instanceof othCtor)) {
+    if (objCtor != othCtor && ("constructor" in object && "constructor" in other) && !(typeof objCtor == "function" && objCtor instanceof objCtor && typeof othCtor == "function" && othCtor instanceof othCtor)) {
       result = false;
     }
   }
@@ -3434,12 +3649,7 @@ const isServerAllowed = (path, config) => {
 const assetUrl = (assetPath) => {
   return encodeURIComponent(encodeURIComponent(assetPath));
 };
-const urlBuilder = (path, {
-  width = 0,
-  height = 0,
-  filters = [],
-  upscale = true
-}, config) => {
+const urlBuilder = (path, { width = 0, height = 0, filters = [], upscale = true }, config) => {
   if (isSvg(path) || isGif(path) || !ENABLE_RESPONSIVE_IMAGES) {
     return path;
   }
@@ -3473,11 +3683,7 @@ const responsiveImageAttributes = (imagePath, {
   if (!imagePath)
     return;
   if (isSvg(imagePath) || isGif(imagePath) || !ENABLE_RESPONSIVE_IMAGES || !isServerAllowed(imagePath, config)) {
-    return {
-      src: imagePath,
-      srcSet: "",
-      sizes: ""
-    };
+    return { src: imagePath, srcSet: "", sizes: "" };
   }
   if (breakpoints.length !== imageSizesInViewport.length)
     return;
@@ -3502,11 +3708,7 @@ const responsiveImageAttributes = (imagePath, {
   const sizes = breakpoints.reduce((acc, cur, idx) => {
     return acc.concat(`(min-width: ${cur}px) calc(${imageSizesInViewport[idx]})`);
   }, [`calc(${imageSizesInViewport[0]})`]).reverse().join(", ");
-  return {
-    src,
-    srcSet,
-    sizes
-  };
+  return { src, srcSet, sizes };
 };
 const ONE_IN_XXS_CONTAINER = `100vw - ${CONTAINER_PADDING_THIN * 2}px`;
 const ONE_IN_7_COLS = `(100vw - ${CONTAINER_PADDING * 2}px) * (7/12)`;
@@ -4367,10 +4569,7 @@ const oembed = (customConfig) => {
     scheme: document.location.protocol.replace(":", "")
   }, customConfig))}`).then((response) => response.json());
 };
-const calculRatio = ({
-  height,
-  width
-}) => (height / width * 100).toPrecision(4);
+const calculRatio = ({ height, width }) => (height / width * 100).toPrecision(4);
 const getDataForProvider = (response) => {
   console.log(response);
   if (response.type === "video" || response.type === "rich" && response.provider_name !== "SoundCloud") {
@@ -4385,10 +4584,7 @@ const getDataForProvider = (response) => {
   switch (response.provider_name) {
     case "SoundCloud":
       return {
-        ratio: calculRatio({
-          height: 6,
-          width: 16
-        }),
+        ratio: calculRatio({ height: 6, width: 16 }),
         html: response.html
       };
     case "Ovizer":
@@ -5541,7 +5737,13 @@ const getEditorValue = (value) => {
 };
 const resetEditor = (editorState) => {
   return EditorState.set(editorState, {
-    decorator: new CompositeDecorator([decorator$2, decorator$3, decorator$1, decorator, linkify$1])
+    decorator: new CompositeDecorator([
+      decorator$2,
+      decorator$3,
+      decorator$1,
+      decorator,
+      linkify$1
+    ])
   });
 };
 const resetTypeOnSelectionAfter = (editorState) => {
@@ -5605,6 +5807,23 @@ const isPreviousBlockAnImage = (editorState) => {
   const beforeBlock = currentContent.getBlockBefore(anchorKey);
   const blockType = beforeBlock == null ? void 0 : beforeBlock.get("type");
   return blockType === "atomic";
+};
+const removeEntities = (editorState) => {
+  const currentContent = editorState.getCurrentContent();
+  const selectionState = editorState.getSelection();
+  const currentBlock = currentContent.getBlockForKey(selectionState.getAnchorKey());
+  const entity = currentBlock.getEntityAt(selectionState.getStartOffset());
+  let entitySelection = null;
+  currentBlock.findEntityRanges((character) => {
+    return character.getEntity() === entity;
+  }, (start, end) => {
+    entitySelection = selectionState.merge({
+      anchorOffset: start,
+      focusOffset: end
+    });
+  });
+  const newContentState = Modifier.applyEntity(currentContent, entitySelection, null);
+  return EditorState.push(editorState, newContentState, "apply-entity");
 };
 const isEmptyBlock = (editorState) => {
   const currentContent = editorState.getCurrentContent();
@@ -5844,11 +6063,7 @@ const EditorStyle = createGlobalStyle`
     margin: ${pxToRem(10)} auto;
   }
 `;
-const styleBlock = ({
-  isDisabled,
-  useRichTextStyle,
-  compact
-}) => (contentBlock) => {
+const styleBlock = ({ isDisabled, useRichTextStyle, compact }) => (contentBlock) => {
   const alignmentStyle = contentBlock.getData().get("alignmentStyle");
   return classNames({
     "DraftEditor-editorContainer__disabled": isDisabled,
@@ -5862,6 +6077,10 @@ var keyCommandHandler = (onChange) => (command, editorState) => {
   const currentEntity = getEntity(editorState);
   if (command === "backspace" && isImageBlock(currentEntity) || isVideoBlock(currentEntity)) {
     onChange(forceSelection(editorState));
+    return "handled";
+  }
+  if (command === "backspace" && (currentEntity == null ? void 0 : currentEntity.getType()) === "IMAGE") {
+    onChange(removeEntities(editorState));
     return "handled";
   }
   if (command === "backspace" && isCurrentBlockAllSelected(editorState) && isPreviousBlockAnImage(editorState)) {
