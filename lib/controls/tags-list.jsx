@@ -25,7 +25,7 @@ const List = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
-  border-bottom: ${pxToRem(2)} solid ${COLORS.line1};
+  border-bottom: var(--border);
 
   .Editor__toolbar__tagsList__Item {
     width: 100%;
@@ -33,8 +33,8 @@ const List = styled.ul`
     padding: ${pxToRem(15)} ${pxToRem(20)};
     background-color: ${COLORS.background1};
     border: none;
-    border-left: ${pxToRem(2)} solid ${COLORS.line1};
-    border-right: ${pxToRem(2)} solid ${COLORS.line1};
+    border-left: var(--border);
+    border-right: var(--border);
     text-align: left;
     cursor: pointer;
 
@@ -48,8 +48,6 @@ const List = styled.ul`
 
     &:focus {
       z-index: 3;
-      outline: ${COLORS.primary4} solid ${pxToRem(2)};
-      outline-offset: ${pxToRem(2)};
     }
 
     &[aria-selected="true"] {
@@ -72,8 +70,6 @@ const StyledDetails = styled(Details)`
 
     &:focus {
       z-index: 3;
-      outline: ${COLORS.primary4} solid ${pxToRem(2)};
-      outline-offset: ${pxToRem(2)};
 
       .Editor__toolbar__tagListToggle__button {
         border-color: ${COLORS.primary4};

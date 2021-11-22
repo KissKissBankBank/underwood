@@ -64,7 +64,7 @@ const DeleteLink = styled(Text)`
 
 const VerticalSeparator = styled.span`
   margin: ${pxToRem(5)} ${pxToRem(10)};
-  border-left: ${pxToRem(2)} solid ${COLORS.font2};
+  border-left: var(--border-width) solid ${COLORS.font2};
 `
 
 const ShareLink = styled(Text)`
