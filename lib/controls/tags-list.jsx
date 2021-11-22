@@ -25,7 +25,7 @@ const List = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
-  border-bottom: var(--border);
+  border-bottom: var(--border, 1px solid ${COLORS.line1});
 
   .Editor__toolbar__tagsList__Item {
     width: 100%;
@@ -33,8 +33,8 @@ const List = styled.ul`
     padding: ${pxToRem(15)} ${pxToRem(20)};
     background-color: ${COLORS.background1};
     border: none;
-    border-left: var(--border);
-    border-right: var(--border);
+    border-left: var(--border, 1px solid ${COLORS.line1});
+    border-right: var(--border, 1px solid ${COLORS.line1});
     text-align: left;
     cursor: pointer;
 

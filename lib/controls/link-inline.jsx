@@ -24,7 +24,7 @@ const DeleteLink = styled(Text)`
 
 const VerticalSeparator = styled.span`
   flex: 0;
-  border-left: var(--border-width) solid ${COLORS.font2};
+  border-left: var(--border-width, 1px) solid ${COLORS.font2};
   margin: ${pxToRem(5)} ${pxToRem(10)};
 `
 

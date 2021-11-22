@@ -5,7 +5,7 @@ const Actions = styled.div`
   display: flex;
 
   > * {
-    margin-left: calc(-1 * var(--border));
+    margin-left: calc(-1 * var(--border-width, 1px));
   }
 
   :first-child > :first-child {
@@ -16,7 +16,7 @@ const Actions = styled.div`
     margin-right: ${pxToRem(20)};
 
     > :not(:first-child) {
-      margin-left: calc(-1 * var(--border));
+      margin-left: calc(-1 * var(--border-width, 1px));
     }
   }
 
