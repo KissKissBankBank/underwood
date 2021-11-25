@@ -4595,6 +4595,13 @@ const getDataForProvider = (response) => {
         }),
         html: `<iframe src="${response.url}" width="100%" height="auto" allowFullScreen></iframe>`
       };
+    case "Apple Podcasts":
+      const embededUrl = response.url.replace("podcasts.apple.com", "embed.podcasts.apple.com");
+      return {
+        height: 183,
+        ratio: 0.1,
+        html: `<iframe allow="autoplay *; encrypted-media *; fullscreen *" height="175" style=";overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="${embededUrl}&theme=auto"></iframe>`
+      };
     default:
       return {
         ratio: 67.5,
@@ -4610,7 +4617,8 @@ const VideoEditor = ({
   const {
     embedlyHtml,
     embedRatio,
-    html
+    html,
+    height
   } = contentState.getEntity(entityKey).getData();
   const [{
     editorState
@@ -4624,6 +4632,9 @@ const VideoEditor = ({
   return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
     ratio: embedRatio || 67.5,
     className: "kiss-Draft__media",
+    style: __spreadValues({}, height && {
+      height
+    }),
     children: /* @__PURE__ */ jsx("div", {
       className: classNames("kiss-Draft__media-focus", {
         "kiss-Draft__media-focus__focused": hasFocus
@@ -4639,11 +4650,15 @@ const VideoDisplayer = (props) => {
   const {
     embedlyHtml,
     embedRatio,
+    height,
     html
   } = props.contentState.getEntity(props.entityKey).getData();
   return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
     ratio: embedRatio || 67.5,
     className: "kiss-Draft__media-read",
+    style: __spreadValues({}, height && {
+      height
+    }),
     children: parseHtml(embedlyHtml || html, {
       sanitize: false
     })
@@ -4676,6 +4691,7 @@ const VideoControls = ({
   const [modalOpened, openModal] = useState(false);
   const [embedlyHtml, setEmbedlyHtml] = useState(void 0);
   const [embedRatio, setEmbedRatio] = useState(void 0);
+  const [height, setHeight] = useState(void 0);
   const [hasOembedError, oembedError] = useState(false);
   return /* @__PURE__ */ jsxs(Fragment, {
     children: [/* @__PURE__ */ jsx(Button, {
@@ -4723,12 +4739,15 @@ const VideoControls = ({
                 }
                 const {
                   html,
-                  ratio
+                  ratio,
+                  height: height2
                 } = getDataForProvider(response);
-                dispatch(updateEditor(createMediaBlock(editorState, {
+                dispatch(updateEditor(createMediaBlock(editorState, __spreadValues({
                   html,
                   embedRatio: ratio
-                })));
+                }, height2 && {
+                  height: height2
+                }))));
                 close();
                 setTimeout(() => {
                   openModal(false);
@@ -4765,16 +4784,21 @@ const VideoControls = ({
                       }
                       const {
                         html,
-                        ratio
+                        ratio,
+                        height: height2 = void 0
                       } = getDataForProvider(response);
                       setEmbedRatio(ratio);
                       setEmbedlyHtml(html);
+                      setHeight(height2);
                     });
                   }
                 }), embedlyHtml && /* @__PURE__ */ jsx("div", {
                   className: "k-u-margin-vertical-single",
                   children: /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
                     ratio: embedRatio,
+                    style: __spreadValues({}, height && {
+                      height
+                    }),
                     children: parseHtml(embedlyHtml, {
                       sanitize: false
                     })
@@ -4829,7 +4853,7 @@ const DeleteLink$1 = styled(Text)`
 `;
 const VerticalSeparator$1 = styled.span`
   flex: 0;
-  border-left: ${pxToRem(2)} solid ${COLORS.font2};
+  border-left: var(--border-width, 1px) solid ${COLORS.font2};
   margin: ${pxToRem(5)} ${pxToRem(10)};
 `;
 const ShareLink$1 = styled(Text)`
@@ -5465,7 +5489,7 @@ const DeleteLink = styled(Text)`
 `;
 const VerticalSeparator = styled.span`
   margin: ${pxToRem(5)} ${pxToRem(10)};
-  border-left: ${pxToRem(2)} solid ${COLORS.font2};
+  border-left: var(--border-width, 1px) solid ${COLORS.font2};
 `;
 const ShareLink = styled(Text)`
   overflow: hidden;
@@ -6326,7 +6350,7 @@ const List = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
-  border-bottom: ${pxToRem(2)} solid ${COLORS.line1};
+  border-bottom: var(--border, 1px solid ${COLORS.line1});
 
   .Editor__toolbar__tagsList__Item {
     width: 100%;
@@ -6334,8 +6358,8 @@ const List = styled.ul`
     padding: ${pxToRem(15)} ${pxToRem(20)};
     background-color: ${COLORS.background1};
     border: none;
-    border-left: ${pxToRem(2)} solid ${COLORS.line1};
-    border-right: ${pxToRem(2)} solid ${COLORS.line1};
+    border-left: var(--border, 1px solid ${COLORS.line1});
+    border-right: var(--border, 1px solid ${COLORS.line1});
     text-align: left;
     cursor: pointer;
 
@@ -6349,8 +6373,6 @@ const List = styled.ul`
 
     &:focus {
       z-index: 3;
-      outline: ${COLORS.primary4} solid ${pxToRem(2)};
-      outline-offset: ${pxToRem(2)};
     }
 
     &[aria-selected="true"] {
@@ -6372,8 +6394,6 @@ const StyledDetails = styled(Details)`
 
     &:focus {
       z-index: 3;
-      outline: ${COLORS.primary4} solid ${pxToRem(2)};
-      outline-offset: ${pxToRem(2)};
 
       .Editor__toolbar__tagListToggle__button {
         border-color: ${COLORS.primary4};
@@ -6486,7 +6506,7 @@ const Actions = styled.div`
   display: flex;
 
   > * {
-    margin-left: -${pxToRem(2)};
+    margin-left: calc(-1 * var(--border-width, 1px));
   }
 
   :first-child > :first-child {
@@ -6497,7 +6517,7 @@ const Actions = styled.div`
     margin-right: ${pxToRem(20)};
 
     > :not(:first-child) {
-      margin-left: -${pxToRem(2)};
+      margin-left: calc(-1 * var(--border-width, 1px));
     }
   }
 
