@@ -18,7 +18,7 @@ import { createMediaBlock, hasEntityFocus, moveSelectionTo } from "../../utils";
 import { getDataForProvider } from "./providers";
 
 const VideoEditor = ({ contentState, entityKey, blockKey }) => {
-  const { embedlyHtml, embedRatio, html } = contentState
+  const { embedlyHtml, embedRatio, html, height } = contentState
     .getEntity(entityKey)
     .getData();
   const [{ editorState }, dispatch] = useContext(EditorContext);
@@ -32,6 +32,7 @@ const VideoEditor = ({ contentState, entityKey, blockKey }) => {
     <ResponsiveIframeContainer
       ratio={embedRatio || 67.5}
       className="kiss-Draft__media"
+      style={{ ...(height && { height }) }}
     >
       <div
         className={classNames("kiss-Draft__media-focus", {
@@ -46,13 +47,14 @@ const VideoEditor = ({ contentState, entityKey, blockKey }) => {
 };
 
 const VideoDisplayer = (props) => {
-  const { embedlyHtml, embedRatio, html } = props.contentState
+  const { embedlyHtml, embedRatio, height, html } = props.contentState
     .getEntity(props.entityKey)
     .getData();
   return (
     <ResponsiveIframeContainer
       ratio={embedRatio || 67.5}
       className="kiss-Draft__media-read"
+      style={{ ...(height && { height }) }}
     >
       {parseHtml(embedlyHtml || html, { sanitize: false })}
     </ResponsiveIframeContainer>
@@ -85,6 +87,7 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
   const [modalOpened, openModal] = useState(false);
   const [embedlyHtml, setEmbedlyHtml] = useState(undefined);
   const [embedRatio, setEmbedRatio] = useState(undefined);
+  const [height, setHeight] = useState(undefined);
   const [hasOembedError, oembedError] = useState(false);
 
   return (
@@ -128,12 +131,14 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                       oembedError(true);
                       return;
                     }
-                    const { html, ratio } = getDataForProvider(response);
+                    const { html, ratio, height } =
+                      getDataForProvider(response);
                     dispatch(
                       updateEditor(
                         createMediaBlock(editorState, {
                           html,
                           embedRatio: ratio,
+                          ...(height && { height }),
                         })
                       )
                     );
@@ -171,16 +176,23 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                               oembedError(true);
                               return;
                             }
-                            const { html, ratio } =
-                              getDataForProvider(response);
+                            const {
+                              html,
+                              ratio,
+                              height = undefined,
+                            } = getDataForProvider(response);
                             setEmbedRatio(ratio);
                             setEmbedlyHtml(html);
+                            setHeight(height);
                           });
                         }}
                       />
                       {embedlyHtml && (
                         <div className="k-u-margin-vertical-single">
-                          <ResponsiveIframeContainer ratio={embedRatio}>
+                          <ResponsiveIframeContainer
+                            ratio={embedRatio}
+                            style={{ ...(height && { height }) }}
+                          >
                             {parseHtml(embedlyHtml, { sanitize: false })}
                           </ResponsiveIframeContainer>
                         </div>
