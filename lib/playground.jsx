@@ -31,6 +31,8 @@ const Wrapper = styled.div`
     !props.hasError &&
     css`
       border: var(--border-active);
+      outline: var(--outline-input);
+      outline-offset: var(--outline-offset-input);
     `};
 
   ${({ withoutBorder }) =>
@@ -43,7 +45,7 @@ const Wrapper = styled.div`
   ${({ variant }) =>
     variant === "orion" &&
     css`
-      border-radius: var(--border-radius-xs);
+      border-radius: var(--border-radius-s);
     `}
 `;
 
