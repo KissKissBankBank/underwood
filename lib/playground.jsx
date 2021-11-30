@@ -17,29 +17,33 @@ import returnHandler from "./handlers/return";
 import { customBlockRenderMap } from "./block-render-map";
 
 const Wrapper = styled.div`
-  border: 0.125rem solid ${COLORS.line1};
+  border: var(--border);
   padding: ${pxToRem(15)};
+
   ${(props) =>
     props.hasError &&
     css`
-      border-color: ${COLORS.error3};
+      border: var(--border-danger);
     `};
+
   ${(props) =>
     props.focused &&
     !props.hasError &&
     css`
-      border-color: ${COLORS.line2};
+      border: var(--border-active);
     `};
+
   ${({ withoutBorder }) =>
     withoutBorder &&
     css`
       border: none;
       padding: 0;
     `}
+
   ${({ variant }) =>
     variant === "orion" &&
     css`
-      border-radius: 0.25rem;
+      border-radius: var(--border-radius-xs);
     `}
 `;
 
