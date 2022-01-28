@@ -122,12 +122,3 @@ import { Playground } from '@kisskissbankbank/underwood';
 
 <Playground compact />;
 ```
-
-## variant
-A string that allows to manage the style. If it's "orion" the border aroud the editor will have border-radius style (default: `''`)
-
-```javascript
-import { Playground } from '@kisskissbankbank/underwood';
-
-<Playground variant="orion" />;
-```
