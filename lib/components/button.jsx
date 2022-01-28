@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import classNames from "classnames";
 import { EditorContext } from "../context";
 import {
   BoldIcon,
@@ -18,14 +17,11 @@ import {
 } from "../controls/icons";
 import {
   Button as KittenButton,
-  buttonModifierStyles as modifierStyles,
   COLORS,
   pxToRem,
 } from "@kisskissbankbank/kitten";
 
 export const StyledButton = styled(KittenButton)`
-  ${modifierStyles("hydrogen")};
-
   &.Editor__toolbar__button--large {
     width: ${pxToRem(80)};
   }
@@ -39,30 +35,9 @@ export const StyledButton = styled(KittenButton)`
     border-bottom-left-radius: 0;
   }
 
-  // Lithium modifier.
-  &.Editor__toolbar__button--isSelected,
-  :hover,
-  :focus {
-    border-color: ${COLORS.primary4};
-    background-color: ${COLORS.background1};
-    color: ${COLORS.primary1};
-
-    svg,
-    path {
-      fill: ${COLORS.primary1};
-    }
-  }
-
-  :disabled {
-    border-color: ${COLORS.line2};
-    background-color: ${COLORS.line2};
-    color: ${COLORS.background1};
-
-    svg,
-    path {
-      fill: ${COLORS.background1};
-      pointer-events: none;
-    }
+  &[aria-checked="true"] {
+    z-index: 2;
+    position: relative;
   }
 `;
 
@@ -87,7 +62,6 @@ const Button = ({
   active,
   icon,
   disabled,
-  className
 }) => {
   const [{ focus, translations }] = useContext(EditorContext);
   const Icon = iconComponents[icon];
@@ -102,9 +76,8 @@ const Button = ({
   return (
     <StyledButton
       disabled={disabled}
-      className={classNames(className, {
-        "Editor__toolbar__button--isSelected": active && focus,
-      })}
+      active={active && focus}
+      aria-checked={active && focus}
       onMouseDown={handleMouseDown}
       title={title}
       aria-label={title}
