@@ -185,7 +185,6 @@ const LinkControls = ({ disabled, onChange }) => {
           forceFocus()
         }}
         isOpen={modalOpened}
-        variant="orion"
         headerTitle={
           <Title modifier="quaternary">{translations.link.title}</Title>
         }
@@ -282,7 +281,6 @@ const LinkControls = ({ disabled, onChange }) => {
                         </Label>
                         <InputText
                           name="url"
-                          variant="orion"
                           validate={(value) => {
                             if (!linkify.test(value)) {
                               return translations.link.error
@@ -294,7 +292,6 @@ const LinkControls = ({ disabled, onChange }) => {
                         <Modal.Button
                           size="big"
                           type="button"
-                          variant="orion"
                           modifier="helium"
                           onClick={handleSubmit}
                         >

@@ -106,7 +106,6 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
       <Modal
         onClose={() => openModal(false)}
         isOpen={modalOpened}
-        variant="orion"
         headerTitle={
           <Title modifier="quaternary">{translations.media_upload.title}</Title>
         }
@@ -162,7 +161,6 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                       </Label>
                       <InputWithButton
                         name="url"
-                        variant="orion"
                         placeholder="https://"
                         buttonValue={translations.image_upload.preview}
                         onClick={() => {
@@ -208,7 +206,6 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                         ) : (
                           <Modal.Button
                             size="big"
-                            variant="orion"
                             type="button"
                             modifier="helium"
                             onClick={handleSubmit}
