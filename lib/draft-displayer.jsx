@@ -79,8 +79,8 @@ const DraftDisplayer = ({
     <EditorProvider configResponsiveImageHandler={configResponsiveImageHandler}>
       <EditorStyle />
       <section
-        className={classNames("k-Editor__root", {
-          "k-Editor__compact": compact,
+        className={classNames("u-Editor__root", {
+          "u-Editor__compact": compact,
         })}
       >
         <Editor
