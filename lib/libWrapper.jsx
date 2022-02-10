@@ -27,6 +27,7 @@ const EditorDev = () => {
           </Controls.Group>
         </Controls>
         <Playground
+          className="k-u-margin-top-double"
           onChange={(text) => {
             setBody(JSON.stringify(text));
           }}

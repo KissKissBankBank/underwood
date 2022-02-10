@@ -84,7 +84,6 @@ const StyledButtonLink = ({ href, children }) => {
       rel="nofollow noopener"
       modifier="helium"
       size="big"
-      variant="orion"
     >
       {children}
     </ButtonLinkWithFluidStyle>
@@ -213,7 +212,6 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
 
   return (
     <Modal
-      variant="orion"
       headerTitle={
         <Title noMargin modifier="quaternary">
           {translations.button_link.title}
@@ -305,7 +303,6 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
                     size="big"
                     type="button"
                     modifier="helium"
-                    variant="orion"
                     onClick={handleSubmit}
                   >
                     {translations.submit}

@@ -16,50 +16,7 @@ import {
 import { EditorContext, updateEditor } from "../context";
 import { StyledButton } from "../components/button";
 
-const List = styled.ul`
-  position: absolute;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  width: ${pxToRem(75)};
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-bottom: var(--border, 1px solid ${COLORS.line1});
-
-  .Editor__toolbar__tagsList__Item {
-    width: 100%;
-    position: relative;
-    padding: ${pxToRem(15)} ${pxToRem(20)};
-    background-color: ${COLORS.background1};
-    border: none;
-    border-left: var(--border, 1px solid ${COLORS.line1});
-    border-right: var(--border, 1px solid ${COLORS.line1});
-    text-align: left;
-    cursor: pointer;
-
-    appareance: none;
-    box-sizing: border-box;
-
-    &:hover,
-    &:focus {
-      background-color: ${COLORS.background3};
-    }
-
-    &:focus {
-      z-index: 3;
-    }
-
-    &[aria-selected="true"] {
-      svg,
-      path {
-        fill: ${COLORS.primary1};
-      }
-    }
-  }
-`;
-
-const StyledDetails = styled(Details)`
+const Wrapper = styled(Details)`
   summary.Editor__toolbar__tagListToggle {
     border-radius: ${pxToRem(8)};
 
@@ -70,17 +27,6 @@ const StyledDetails = styled(Details)`
 
     &:focus {
       z-index: 3;
-
-      .Editor__toolbar__tagListToggle__button {
-        border-color: ${COLORS.primary4};
-        background-color: ${COLORS.background1};
-        color: ${COLORS.primary1};
-
-        svg,
-        path {
-          fill: ${COLORS.primary1};
-        }
-      }
     }
   }
 
@@ -98,6 +44,56 @@ const StyledDetails = styled(Details)`
       pointer-events: none;
       cursor: not-allowed;
     `}
+
+  .Editor__toolbar__tagsList {
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    width: ${pxToRem(75)};
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    & li:last-child .Editor__toolbar__tagsList__Item {
+      border-bottom: var(--border, ${pxToRem(1)} solid ${COLORS.line1});
+    }
+
+    .Editor__toolbar__tagsList__Item {
+      width: 100%;
+      position: relative;
+      padding: ${pxToRem(15)} ${pxToRem(20)};
+      background-color: var(--color-grey-000);
+      border: ${pxToRem(1)} solid transparent;
+      border-left: var(--border, ${pxToRem(1)} solid ${COLORS.line1});
+      border-right: var(--border, ${pxToRem(1)} solid ${COLORS.line1});
+      text-align: left;
+      cursor: pointer;
+      transition: border var(--transition), background-color var(--transition);
+
+      appareance: none;
+      box-sizing: border-box;
+
+      &:hover,
+      &:focus {
+        background-color: var(--color-primary-100);
+        border-color: var(--color-primary-700) !important;
+      }
+
+      &:focus {
+        z-index: 3;
+      }
+
+      &[aria-selected="true"] {
+        svg,
+        path {
+          fill: ${COLORS.primary1};
+        }
+      }
+
+    }
+
+  }
 `;
 
 const componentByTagType = (tagType) => {
@@ -134,7 +130,7 @@ const TagsList = ({ disabled, onChange, tags }) => {
   };
 
   return (
-    <StyledDetails
+    <Wrapper
       key={currentContent}
       summaryRender={({ open }) => (
         <StyledButton
@@ -143,6 +139,7 @@ const TagsList = ({ disabled, onChange, tags }) => {
           disabled={contextDisabled || disabled}
           fit="icon"
           tag="span"
+          active={open}
         >
           {componentByTagType(currentBlockType)}
           <ArrowIcon width="6" direction={open ? "top" : "bottom"} />
@@ -151,7 +148,7 @@ const TagsList = ({ disabled, onChange, tags }) => {
       summaryProps={{ className: "Editor__toolbar__tagListToggle" }}
       disabled={contextDisabled || disabled}
     >
-      <List>
+      <ul className="Editor__toolbar__tagsList">
         {tags.map((tag) => {
           const component = componentByTagType(tag);
 
@@ -170,8 +167,8 @@ const TagsList = ({ disabled, onChange, tags }) => {
             </li>
           );
         })}
-      </List>
-    </StyledDetails>
+      </ul>
+    </Wrapper>
   );
 };
 

@@ -187,12 +187,11 @@ const Form = ({ imageUrl, setImageUrl }) => {
         </Modal.Paragraph>
         <Modal.Actions>
           {isSubmitting ? (
-            <SubmitLoader fluid variant="orion" />
+            <SubmitLoader fluid />
           ) : (
             <Modal.Button
               type="button"
               size="big"
-              variant="orion"
               modifier="helium"
               onClick={handleSubmit}
             >
@@ -231,7 +230,6 @@ const ImageControls = ({ disabled, onUpload }) => {
       <Modal
         onClose={() => openModal(false)}
         isOpen={modalOpened}
-        variant="orion"
         headerTitle={
           <Title modifier="quaternary">{translations.image_upload.title}</Title>
         }

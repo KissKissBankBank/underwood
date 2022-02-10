@@ -122,12 +122,3 @@ import { Playground } from '@kisskissbankbank/underwood';
 
 <Playground compact />;
 ```
-
-## variant
-Une chaîne de caractère qui permet de gérer le style. Si c'est "orion", la bordure autour de l'éditeur aura un border-radius. (default: `''`)
-
-```javascript
-import { Playground } from '@kisskissbankbank/underwood';
-
-<Playground variant="orion" />;
-```
