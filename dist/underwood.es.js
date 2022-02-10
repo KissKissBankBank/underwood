@@ -33,12 +33,12 @@ import require$$0, { createContext, useReducer, useContext, useRef, useEffect, u
 import PropTypes from "prop-types";
 import { EditorState, CompositeDecorator, convertToRaw, Editor as Editor$1, DefaultDraftBlockRenderMap, AtomicBlockUtils, RichUtils, Modifier, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
 export { convertToRaw } from "draft-js";
-import { ScreenConfig, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, ResponsiveIframeContainer, parseHtml, domElementHelper, Button as Button$1, buttonModifierStyles, pxToRem, COLORS, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, VisuallyHidden, ModalNext, Title as Title$1, ArrowContainer, Text, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
+import { ScreenConfig, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, ResponsiveIframeContainer, parseHtml, domElementHelper, Button as Button$1, pxToRem, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, COLORS, VisuallyHidden, ModalNext, Title as Title$1, ArrowContainer, Text, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
+import classNames from "classnames";
 import styled, { createGlobalStyle, css } from "styled-components";
 import { Map as Map$4, OrderedMap } from "immutable";
 import { convertFromHTML } from "draft-convert";
 export { convertToHTML } from "draft-convert";
-import classNames from "classnames";
 import { useField, ErrorMessage, Formik, useFormikContext } from "formik";
 import * as Yup from "yup";
 import qs from "qs";
@@ -2406,12 +2406,12 @@ var _Promise = Promise$2;
 var getNative = _getNative, root$1 = _root;
 var Set$2 = getNative(root$1, "Set");
 var _Set = Set$2;
-var DataView = _DataView, Map = _Map, Promise$1 = _Promise, Set$1 = _Set, WeakMap = _WeakMap, baseGetTag$2 = _baseGetTag, toSource = _toSource;
+var DataView = _DataView, Map = _Map, Promise$1 = _Promise, Set$1 = _Set, WeakMap2 = _WeakMap, baseGetTag$2 = _baseGetTag, toSource = _toSource;
 var mapTag$5 = "[object Map]", objectTag$3 = "[object Object]", promiseTag = "[object Promise]", setTag$5 = "[object Set]", weakMapTag$2 = "[object WeakMap]";
 var dataViewTag$3 = "[object DataView]";
-var dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map), promiseCtorString = toSource(Promise$1), setCtorString = toSource(Set$1), weakMapCtorString = toSource(WeakMap);
+var dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map), promiseCtorString = toSource(Promise$1), setCtorString = toSource(Set$1), weakMapCtorString = toSource(WeakMap2);
 var getTag$6 = baseGetTag$2;
-if (DataView && getTag$6(new DataView(new ArrayBuffer(1))) != dataViewTag$3 || Map && getTag$6(new Map()) != mapTag$5 || Promise$1 && getTag$6(Promise$1.resolve()) != promiseTag || Set$1 && getTag$6(new Set$1()) != setTag$5 || WeakMap && getTag$6(new WeakMap()) != weakMapTag$2) {
+if (DataView && getTag$6(new DataView(new ArrayBuffer(1))) != dataViewTag$3 || Map && getTag$6(new Map()) != mapTag$5 || Promise$1 && getTag$6(Promise$1.resolve()) != promiseTag || Set$1 && getTag$6(new Set$1()) != setTag$5 || WeakMap2 && getTag$6(new WeakMap2()) != weakMapTag$2) {
   getTag$6 = function(value) {
     var result = baseGetTag$2(value), Ctor = result == objectTag$3 ? value.constructor : void 0, ctorString = Ctor ? toSource(Ctor) : "";
     if (ctorString) {
@@ -4247,8 +4247,6 @@ HtmlEditor.defaultProps = {
   useRichTextStyle: true
 };
 const StyledButton = styled(Button$1)`
-  ${buttonModifierStyles("hydrogen")};
-
   &.Editor__toolbar__button--large {
     width: ${pxToRem(80)};
   }
@@ -4262,30 +4260,9 @@ const StyledButton = styled(Button$1)`
     border-bottom-left-radius: 0;
   }
 
-  // Lithium modifier.
-  &.Editor__toolbar__button--isSelected,
-  :hover,
-  :focus {
-    border-color: ${COLORS.primary4};
-    background-color: ${COLORS.background1};
-    color: ${COLORS.primary1};
-
-    svg,
-    path {
-      fill: ${COLORS.primary1};
-    }
-  }
-
-  :disabled {
-    border-color: ${COLORS.line2};
-    background-color: ${COLORS.line2};
-    color: ${COLORS.background1};
-
-    svg,
-    path {
-      fill: ${COLORS.background1};
-      pointer-events: none;
-    }
+  &[aria-checked="true"] {
+    z-index: 2;
+    position: relative;
   }
 `;
 const iconComponents = {
@@ -4307,8 +4284,7 @@ const Button = ({
   style,
   active,
   icon,
-  disabled,
-  className
+  disabled
 }) => {
   const [{
     focus,
@@ -4324,9 +4300,8 @@ const Button = ({
   };
   return /* @__PURE__ */ jsx(StyledButton, {
     disabled,
-    className: classNames(className, {
-      "Editor__toolbar__button--isSelected": active && focus
-    }),
+    active: active && focus,
+    "aria-checked": active && focus,
     onMouseDown: handleMouseDown,
     title,
     "aria-label": title,
@@ -4707,7 +4682,6 @@ const VideoControls = ({
     }), /* @__PURE__ */ jsx(ModalNext, {
       onClose: () => openModal(false),
       isOpen: modalOpened,
-      variant: "orion",
       headerTitle: /* @__PURE__ */ jsx(Title$1, {
         modifier: "quaternary",
         children: translations.media_upload.title
@@ -4768,7 +4742,6 @@ const VideoControls = ({
                   children: translations.image_upload.label
                 }), /* @__PURE__ */ jsx(FormikInputWithButton, {
                   name: "url",
-                  variant: "orion",
                   placeholder: "https://",
                   buttonValue: translations.image_upload.preview,
                   onClick: () => {
@@ -4810,7 +4783,6 @@ const VideoControls = ({
                     fluid: true
                   }) : /* @__PURE__ */ jsx(ModalNext.Button, {
                     size: "big",
-                    variant: "orion",
                     type: "button",
                     modifier: "helium",
                     onClick: handleSubmit,
@@ -5100,12 +5072,10 @@ const Form = ({
         children: [translations.image_upload.help_file.formats, /* @__PURE__ */ jsx("br", {}), translations.image_upload.help_file.width, /* @__PURE__ */ jsx("br", {}), translations.image_upload.help_file.size]
       }), /* @__PURE__ */ jsx(ModalNext.Actions, {
         children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
-          fluid: true,
-          variant: "orion"
+          fluid: true
         }) : /* @__PURE__ */ jsx(ModalNext.Button, {
           type: "button",
           size: "big",
-          variant: "orion",
           modifier: "helium",
           onClick: handleSubmit,
           children: translations.submit
@@ -5144,7 +5114,6 @@ const ImageControls = ({
     }), /* @__PURE__ */ jsx(ModalNext, {
       onClose: () => openModal(false),
       isOpen: modalOpened,
-      variant: "orion",
       headerTitle: /* @__PURE__ */ jsx(Title$1, {
         modifier: "quaternary",
         children: translations.image_upload.title
@@ -5209,7 +5178,7 @@ ImageControls.defaultProps = {
 };
 const linkify$3 = linkifyIt();
 linkify$3.tlds(tlds);
-const Wrapper$2 = styled.div`
+const Wrapper$3 = styled.div`
   display: inline-block;
   position: relative;
 `;
@@ -5248,7 +5217,7 @@ const Link$1 = ({
   useEffect(() => {
     setTimeout(() => setVisible(hasFocus && focus), 0);
   }, [focus, editorState]);
-  return /* @__PURE__ */ jsxs(Wrapper$2, {
+  return /* @__PURE__ */ jsxs(Wrapper$3, {
     "aria-live": "assertive",
     children: [/* @__PURE__ */ jsx("a", {
       href: url,
@@ -5293,7 +5262,7 @@ const readDecorator$1 = {
     const {
       url
     } = props.contentState.getEntity(props.entityKey).getData();
-    return /* @__PURE__ */ jsx(Wrapper$2, {
+    return /* @__PURE__ */ jsx(Wrapper$3, {
       children: /* @__PURE__ */ jsx("a", {
         href: url,
         target: "_blank",
@@ -5350,7 +5319,6 @@ const LinkControls = ({
         forceFocus();
       },
       isOpen: modalOpened,
-      variant: "orion",
       headerTitle: /* @__PURE__ */ jsx(Title$1, {
         modifier: "quaternary",
         children: translations.link.title
@@ -5423,7 +5391,6 @@ const LinkControls = ({
                     children: translations.image_upload.url
                   }), /* @__PURE__ */ jsx(InputText, {
                     name: "url",
-                    variant: "orion",
                     validate: (value) => {
                       if (!linkify$3.test(value)) {
                         return translations.link.error;
@@ -5434,7 +5401,6 @@ const LinkControls = ({
                   children: /* @__PURE__ */ jsx(ModalNext.Button, {
                     size: "big",
                     type: "button",
-                    variant: "orion",
                     modifier: "helium",
                     onClick: handleSubmit,
                     children: translations.submit
@@ -5458,7 +5424,7 @@ LinkControls.defaultProps = {
 };
 const linkify$2 = linkifyIt();
 linkify$2.tlds(tlds);
-const Wrapper$1 = styled.div`
+const Wrapper$2 = styled.div`
   position: relative;
   margin: ${pxToRem(30)} 0;
 
@@ -5509,7 +5475,6 @@ const StyledButtonLink = ({
     rel: "nofollow noopener",
     modifier: "helium",
     size: "big",
-    variant: "orion",
     children
   });
 };
@@ -5531,7 +5496,7 @@ const ButtonLink = ({
   useEffect(() => {
     setTimeout(() => setVisible(hasFocus && focus), 0);
   }, [focus, editorState]);
-  return /* @__PURE__ */ jsxs(Wrapper$1, {
+  return /* @__PURE__ */ jsxs(Wrapper$2, {
     "aria-live": "assertive",
     children: [/* @__PURE__ */ jsx(StyledButtonLink, {
       href: url,
@@ -5592,7 +5557,7 @@ const readDecorator = {
     const {
       url
     } = props.contentState.getEntity(props.entityKey).getData();
-    return /* @__PURE__ */ jsx(Wrapper$1, {
+    return /* @__PURE__ */ jsx(Wrapper$2, {
       children: /* @__PURE__ */ jsx(StyledButtonLink, {
         href: url,
         children: props.children
@@ -5618,7 +5583,6 @@ const ButtonLinkControls = ({
     return getEntityText(editorState, entityKey);
   };
   return /* @__PURE__ */ jsx(ModalNext, {
-    variant: "orion",
     headerTitle: /* @__PURE__ */ jsx(Title$1, {
       noMargin: true,
       modifier: "quaternary",
@@ -5693,7 +5657,6 @@ const ButtonLinkControls = ({
               size: "big",
               type: "button",
               modifier: "helium",
-              variant: "orion",
               onClick: handleSubmit,
               children: translations.submit
             })]
@@ -6078,8 +6041,8 @@ const EditorStyle = createGlobalStyle`
     }
   }
 
-  .k-Editor__compact,
-  .k-Editor__root {
+  .u-Editor__compact,
+  .u-Editor__root {
     .public-DraftStyleDefault-ul {
       margin: 0;
     }
@@ -6181,32 +6144,24 @@ const customBlockRenderMap = DefaultDraftBlockRenderMap.merge(Map$4({
     })
   }
 }));
-const Wrapper = styled.div`
-  border: var(--border);
-  padding: ${pxToRem(15)};
+const Wrapper$1 = styled.div`
+  border-radius: var(--border-radius-s);
+  cursor: text;
 
-  ${(props) => props.hasError && css`
-      border: var(--border-danger);
-    `};
+  &.u-Editor--hasBorder {
+    border: var(--border);
+    padding: ${pxToRem(15)};
 
-  ${(props) => props.focused && !props.hasError && css`
+    &.u-Editor--focused, &:focus-within {
       border: var(--border-active);
       outline: var(--outline-input);
       outline-offset: var(--outline-offset-input);
-    `};
+    }
 
-  ${({
-  withoutBorder
-}) => withoutBorder && css`
-      border: none;
-      padding: 0;
-    `}
-
-  ${({
-  variant
-}) => variant === "orion" && css`
-      border-radius: var(--border-radius-s);
-    `}
+    &.u-Editor--hasError {
+      border: var(--border-danger);
+    }
+  }
 `;
 const Playground = (_g) => {
   var _h = _g, {
@@ -6220,8 +6175,7 @@ const Playground = (_g) => {
     withoutBorder,
     useRichTextStyle,
     isDisabled,
-    compact,
-    variant
+    compact
   } = _h, props = __objRest(_h, [
     "className",
     "hasError",
@@ -6233,8 +6187,7 @@ const Playground = (_g) => {
     "withoutBorder",
     "useRichTextStyle",
     "isDisabled",
-    "compact",
-    "variant"
+    "compact"
   ]);
   const playgroundRef = useRef(null);
   const [{
@@ -6251,19 +6204,25 @@ const Playground = (_g) => {
   useEffect(() => {
     onChange(resetEditor(getEditorValue(initialValue)));
   }, [initialValue]);
-  return /* @__PURE__ */ jsxs(Wrapper, {
-    variant,
-    hasError,
-    focused: focus,
-    withoutBorder,
+  const handleWrapperClick = (event) => {
+    if (!(playgroundRef == null ? void 0 : playgroundRef.current))
+      return;
+    playgroundRef.current.focus();
+  };
+  return /* @__PURE__ */ jsxs(Wrapper$1, {
+    className: classNames("u-Editor", className, {
+      "u-Editor--hasError": hasError,
+      "u-Editor--focused": focus,
+      "u-Editor--hasBorder": !withoutBorder
+    }),
+    onClick: handleWrapperClick,
     children: [/* @__PURE__ */ jsx(EditorStyle, {}), /* @__PURE__ */ jsx(Paragraph, {
       "data-test-id": props["data-test-id"],
       tag: "section",
       modifier: "tertiary",
       noMargin: true,
-      withoutBorder,
-      className: classNames("k-Editor__root", {
-        "k-Editor__compact": compact
+      className: classNames("u-Editor__root", {
+        "u-Editor__compact": compact
       }),
       children: /* @__PURE__ */ jsx(Editor$1, {
         ref: playgroundRef,
@@ -6303,8 +6262,7 @@ Playground.propTypes = {
   withoutBorder: PropTypes.bool,
   useRichTextStyle: PropTypes.bool,
   isDisabled: PropTypes.bool,
-  compact: PropTypes.bool,
-  variant: PropTypes.string
+  compact: PropTypes.bool
 };
 Playground.defaultProps = {
   onChange: () => null,
@@ -6317,8 +6275,7 @@ Playground.defaultProps = {
   withoutBorder: false,
   useRichTextStyle: false,
   isDisabled: false,
-  compact: false,
-  variant: ""
+  compact: false
 };
 const Toolbar = styled.div`
   display: flex;
@@ -6349,49 +6306,7 @@ const Toolbar = styled.div`
       background-color: ${COLORS.background1};
     `}
 `;
-const List = styled.ul`
-  position: absolute;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  width: ${pxToRem(75)};
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-bottom: var(--border, 1px solid ${COLORS.line1});
-
-  .Editor__toolbar__tagsList__Item {
-    width: 100%;
-    position: relative;
-    padding: ${pxToRem(15)} ${pxToRem(20)};
-    background-color: ${COLORS.background1};
-    border: none;
-    border-left: var(--border, 1px solid ${COLORS.line1});
-    border-right: var(--border, 1px solid ${COLORS.line1});
-    text-align: left;
-    cursor: pointer;
-
-    appareance: none;
-    box-sizing: border-box;
-
-    &:hover,
-    &:focus {
-      background-color: ${COLORS.background3};
-    }
-
-    &:focus {
-      z-index: 3;
-    }
-
-    &[aria-selected="true"] {
-      svg,
-      path {
-        fill: ${COLORS.primary1};
-      }
-    }
-  }
-`;
-const StyledDetails = styled(Details)`
+const Wrapper = styled(Details)`
   summary.Editor__toolbar__tagListToggle {
     border-radius: ${pxToRem(8)};
 
@@ -6402,17 +6317,6 @@ const StyledDetails = styled(Details)`
 
     &:focus {
       z-index: 3;
-
-      .Editor__toolbar__tagListToggle__button {
-        border-color: ${COLORS.primary4};
-        background-color: ${COLORS.background1};
-        color: ${COLORS.primary1};
-
-        svg,
-        path {
-          fill: ${COLORS.primary1};
-        }
-      }
     }
   }
 
@@ -6430,6 +6334,56 @@ const StyledDetails = styled(Details)`
       pointer-events: none;
       cursor: not-allowed;
     `}
+
+  .Editor__toolbar__tagsList {
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    width: ${pxToRem(75)};
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    & li:last-child .Editor__toolbar__tagsList__Item {
+      border-bottom: var(--border, ${pxToRem(1)} solid ${COLORS.line1});
+    }
+
+    .Editor__toolbar__tagsList__Item {
+      width: 100%;
+      position: relative;
+      padding: ${pxToRem(15)} ${pxToRem(20)};
+      background-color: var(--color-grey-000);
+      border: ${pxToRem(1)} solid transparent;
+      border-left: var(--border, ${pxToRem(1)} solid ${COLORS.line1});
+      border-right: var(--border, ${pxToRem(1)} solid ${COLORS.line1});
+      text-align: left;
+      cursor: pointer;
+      transition: border var(--transition), background-color var(--transition);
+
+      appareance: none;
+      box-sizing: border-box;
+
+      &:hover,
+      &:focus {
+        background-color: var(--color-primary-100);
+        border-color: var(--color-primary-700) !important;
+      }
+
+      &:focus {
+        z-index: 3;
+      }
+
+      &[aria-selected="true"] {
+        svg,
+        path {
+          fill: ${COLORS.primary1};
+        }
+      }
+
+    }
+
+  }
 `;
 const componentByTagType = (tagType) => {
   switch (tagType) {
@@ -6464,7 +6418,7 @@ const TagsList = ({
   const handleClick = (type) => () => {
     dispatch(updateEditor(RichUtils.toggleBlockType(editorState, type)));
   };
-  return /* @__PURE__ */ jsx(StyledDetails, {
+  return /* @__PURE__ */ jsx(Wrapper, {
     summaryRender: ({
       open
     }) => /* @__PURE__ */ jsxs(StyledButton, {
@@ -6473,6 +6427,7 @@ const TagsList = ({
       disabled: contextDisabled || disabled,
       fit: "icon",
       tag: "span",
+      active: open,
       children: [componentByTagType(currentBlockType), /* @__PURE__ */ jsx(ArrowIcon, {
         width: "6",
         direction: open ? "top" : "bottom"
@@ -6482,7 +6437,8 @@ const TagsList = ({
       className: "Editor__toolbar__tagListToggle"
     },
     disabled: contextDisabled || disabled,
-    children: /* @__PURE__ */ jsx(List, {
+    children: /* @__PURE__ */ jsx("ul", {
+      className: "Editor__toolbar__tagsList",
       children: tags.map((tag) => {
         const component = componentByTagType(tag);
         if (!component)
@@ -6823,8 +6779,8 @@ const DraftDisplayer = ({
   return isJSONContent(text) ? /* @__PURE__ */ jsxs(EditorProvider, {
     configResponsiveImageHandler,
     children: [/* @__PURE__ */ jsx(EditorStyle, {}), /* @__PURE__ */ jsx("section", {
-      className: classNames("k-Editor__root", {
-        "k-Editor__compact": compact
+      className: classNames("u-Editor__root", {
+        "u-Editor__compact": compact
       }),
       children: /* @__PURE__ */ jsx(Editor$1, {
         onChange: () => null,
