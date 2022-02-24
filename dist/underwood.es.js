@@ -29,21 +29,21 @@ var __objRest = (source, exclude) => {
     }
   return target;
 };
-import require$$0, { createContext, useReducer, useContext, useRef, useEffect, useState } from "react";
+import require$$0, { createContext, useReducer, useContext, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { EditorState, CompositeDecorator, convertToRaw, Editor as Editor$1, DefaultDraftBlockRenderMap, AtomicBlockUtils, RichUtils, Modifier, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
+import { EditorState, RichUtils, Modifier, AtomicBlockUtils, CompositeDecorator, convertToRaw, Editor as Editor$1, DefaultDraftBlockRenderMap, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
 export { convertToRaw } from "draft-js";
-import { ScreenConfig, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, ResponsiveIframeContainer, parseHtml, domElementHelper, Button as Button$1, pxToRem, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, COLORS, VisuallyHidden, ModalNext, Title as Title$1, ArrowContainer, Text, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
+import { Button as Button$1, pxToRem, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, COLORS, VisuallyHidden, ScreenConfig, ArrowContainer, Text, ModalNext, Title as Title$1, ResponsiveIframeContainer, parseHtml, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, domElementHelper, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import styled, { createGlobalStyle, css } from "styled-components";
 import { Map as Map$4, OrderedMap } from "immutable";
-import { convertFromHTML } from "draft-convert";
-export { convertToHTML } from "draft-convert";
 import { useField, ErrorMessage, Formik, useFormikContext } from "formik";
-import * as Yup from "yup";
-import qs from "qs";
 import linkifyIt from "linkify-it";
 import tlds from "tlds";
+import * as Yup from "yup";
+import qs from "qs";
+import { convertFromHTML } from "draft-convert";
+export { convertToHTML } from "draft-convert";
 import { stateToHTML } from "draft-js-export-html";
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var jsxRuntime = { exports: {} };
@@ -3311,6 +3311,112 @@ var flow_1 = flow$1;
 var convert$9 = convert_1, func$9 = convert$9("flow", flow_1);
 func$9.placeholder = placeholder;
 var flow = func$9;
+var convert$8 = convert_1, func$8 = convert$8("get", get_1);
+func$8.placeholder = placeholder;
+var get = func$8;
+var baseKeys = _baseKeys, getTag = _getTag, isArguments = isArguments_1, isArray$1 = isArray_1, isArrayLike$1 = isArrayLike_1, isBuffer = isBuffer$4.exports, isPrototype = _isPrototype, isTypedArray = isTypedArray_1;
+var mapTag = "[object Map]", setTag = "[object Set]";
+var objectProto = Object.prototype;
+var hasOwnProperty = objectProto.hasOwnProperty;
+function isEmpty$1(value) {
+  if (value == null) {
+    return true;
+  }
+  if (isArrayLike$1(value) && (isArray$1(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer(value) || isTypedArray(value) || isArguments(value))) {
+    return !value.length;
+  }
+  var tag = getTag(value);
+  if (tag == mapTag || tag == setTag) {
+    return !value.size;
+  }
+  if (isPrototype(value)) {
+    return !baseKeys(value).length;
+  }
+  for (var key in value) {
+    if (hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return true;
+}
+var isEmpty_1 = isEmpty$1;
+var _falseOptions = {
+  "cap": false,
+  "curry": false,
+  "fixed": false,
+  "immutable": false,
+  "rearg": false
+};
+var convert$7 = convert_1, func$7 = convert$7("isEmpty", isEmpty_1, _falseOptions);
+func$7.placeholder = placeholder;
+var isEmpty = func$7;
+function last$1(array) {
+  var length = array == null ? 0 : array.length;
+  return length ? array[length - 1] : void 0;
+}
+var last_1 = last$1;
+function baseSlice$2(array, start, end) {
+  var index = -1, length = array.length;
+  if (start < 0) {
+    start = -start > length ? 0 : length + start;
+  }
+  end = end > length ? length : end;
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : end - start >>> 0;
+  start >>>= 0;
+  var result = Array(length);
+  while (++index < length) {
+    result[index] = array[index + start];
+  }
+  return result;
+}
+var _baseSlice = baseSlice$2;
+var baseGet$1 = _baseGet, baseSlice$1 = _baseSlice;
+function parent$1(object, path) {
+  return path.length < 2 ? object : baseGet$1(object, baseSlice$1(path, 0, -1));
+}
+var _parent = parent$1;
+var castPath$3 = _castPath, last = last_1, parent = _parent, toKey$1 = _toKey;
+function baseUnset$1(object, path) {
+  path = castPath$3(path, object);
+  object = parent(object, path);
+  return object == null || delete object[toKey$1(last(path))];
+}
+var _baseUnset = baseUnset$1;
+var isPlainObject = isPlainObject_1;
+function customOmitClone$1(value) {
+  return isPlainObject(value) ? void 0 : value;
+}
+var _customOmitClone = customOmitClone$1;
+var arrayMap$1 = _arrayMap, baseClone = _baseClone, baseUnset = _baseUnset, castPath$2 = _castPath, copyObject = _copyObject, customOmitClone = _customOmitClone, flatRest = _flatRest, getAllKeysIn$1 = _getAllKeysIn;
+var CLONE_DEEP_FLAG = 1, CLONE_FLAT_FLAG = 2, CLONE_SYMBOLS_FLAG = 4;
+var omit$1 = flatRest(function(object, paths) {
+  var result = {};
+  if (object == null) {
+    return result;
+  }
+  var isDeep = false;
+  paths = arrayMap$1(paths, function(path) {
+    path = castPath$2(path, object);
+    isDeep || (isDeep = path.length > 1);
+    return path;
+  });
+  copyObject(object, getAllKeysIn$1(object), result);
+  if (isDeep) {
+    result = baseClone(result, CLONE_DEEP_FLAG | CLONE_FLAT_FLAG | CLONE_SYMBOLS_FLAG, customOmitClone);
+  }
+  var length = paths.length;
+  while (length--) {
+    baseUnset(result, paths[length]);
+  }
+  return result;
+});
+var omit_1 = omit$1;
+var convert$6 = convert_1, func$6 = convert$6("omit", omit_1);
+func$6.placeholder = placeholder;
+var omit = func$6;
 function arrayReduce$1(array, iteratee2, accumulator, initAccum) {
   var index = -1, length = array == null ? 0 : array.length;
   if (initAccum && length) {
@@ -3343,13 +3449,13 @@ function baseForOwn$1(object, iteratee2) {
   return object && baseFor(object, iteratee2, keys);
 }
 var _baseForOwn = baseForOwn$1;
-var isArrayLike$1 = isArrayLike_1;
+var isArrayLike = isArrayLike_1;
 function createBaseEach$1(eachFunc, fromRight) {
   return function(collection, iteratee2) {
     if (collection == null) {
       return collection;
     }
-    if (!isArrayLike$1(collection)) {
+    if (!isArrayLike(collection)) {
       return eachFunc(collection, iteratee2);
     }
     var length = collection.length, index = fromRight ? length : -1, iterable = Object(collection);
@@ -3372,41 +3478,20 @@ function baseReduce$1(collection, iteratee2, accumulator, initAccum, eachFunc) {
   return accumulator;
 }
 var _baseReduce = baseReduce$1;
-var arrayReduce = _arrayReduce, baseEach = _baseEach, baseIteratee$2 = _baseIteratee, baseReduce = _baseReduce, isArray$1 = isArray_1;
+var arrayReduce = _arrayReduce, baseEach = _baseEach, baseIteratee$2 = _baseIteratee, baseReduce = _baseReduce, isArray = isArray_1;
 function reduce$1(collection, iteratee2, accumulator) {
-  var func2 = isArray$1(collection) ? arrayReduce : baseReduce, initAccum = arguments.length < 3;
+  var func2 = isArray(collection) ? arrayReduce : baseReduce, initAccum = arguments.length < 3;
   return func2(collection, baseIteratee$2(iteratee2), accumulator, initAccum, baseEach);
 }
 var reduce_1 = reduce$1;
-var convert$8 = convert_1, func$8 = convert$8("reduce", reduce_1);
-func$8.placeholder = placeholder;
-var reduce = func$8;
-var convert$7 = convert_1, func$7 = convert$7("get", get_1);
-func$7.placeholder = placeholder;
-var get = func$7;
-function baseSlice$2(array, start, end) {
-  var index = -1, length = array.length;
-  if (start < 0) {
-    start = -start > length ? 0 : length + start;
-  }
-  end = end > length ? length : end;
-  if (end < 0) {
-    end += length;
-  }
-  length = start > end ? 0 : end - start >>> 0;
-  start >>>= 0;
-  var result = Array(length);
-  while (++index < length) {
-    result[index] = array[index + start];
-  }
-  return result;
-}
-var _baseSlice = baseSlice$2;
-var baseSlice$1 = _baseSlice;
+var convert$5 = convert_1, func$5 = convert$5("reduce", reduce_1);
+func$5.placeholder = placeholder;
+var reduce = func$5;
+var baseSlice = _baseSlice;
 function castSlice$1(array, start, end) {
   var length = array.length;
   end = end === void 0 ? length : end;
-  return !start && end >= length ? array : baseSlice$1(array, start, end);
+  return !start && end >= length ? array : baseSlice(array, start, end);
 }
 var _castSlice = castSlice$1;
 var baseIndexOf$1 = _baseIndexOf;
@@ -3462,95 +3547,1480 @@ function trim$1(string, chars, guard) {
   return castSlice(strSymbols, start, end).join("");
 }
 var trim_1 = trim$1;
-var convert$6 = convert_1, func$6 = convert$6("trim", trim_1);
-func$6.placeholder = placeholder;
-var trim = func$6;
-var baseKeys = _baseKeys, getTag = _getTag, isArguments = isArguments_1, isArray = isArray_1, isArrayLike = isArrayLike_1, isBuffer = isBuffer$4.exports, isPrototype = _isPrototype, isTypedArray = isTypedArray_1;
-var mapTag = "[object Map]", setTag = "[object Set]";
-var objectProto = Object.prototype;
-var hasOwnProperty = objectProto.hasOwnProperty;
-function isEmpty$1(value) {
-  if (value == null) {
-    return true;
+var convert$4 = convert_1, func$4 = convert$4("trim", trim_1);
+func$4.placeholder = placeholder;
+var trim = func$4;
+const StyledButton = styled(Button$1)`
+  &.Editor__toolbar__button--large {
+    width: ${pxToRem(80)};
   }
-  if (isArrayLike(value) && (isArray(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer(value) || isTypedArray(value) || isArguments(value))) {
-    return !value.length;
+
+  &:not(:last-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
-  var tag = getTag(value);
-  if (tag == mapTag || tag == setTag) {
-    return !value.size;
+  &:not(:first-of-type) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
-  if (isPrototype(value)) {
-    return !baseKeys(value).length;
+
+  &[aria-checked="true"] {
+    z-index: 2;
+    position: relative;
   }
-  for (var key in value) {
-    if (hasOwnProperty.call(value, key)) {
-      return false;
+`;
+const iconComponents = {
+  format_bold: BoldIcon,
+  format_italic: ItalicIcon,
+  format_list_bulleted: ListIcon,
+  ["k-u-align-left"]: AlignLeftIcon,
+  ["k-u-align-center"]: AlignCenterIcon,
+  ["k-u-align-right"]: AlignRightIcon,
+  image: ImageIcon,
+  video: VideoIcon,
+  link: LinkIcon,
+  button_link: EditorButtonIcon,
+  quote: BlockquoteIcon
+};
+const Button = ({
+  tag,
+  onToggle,
+  style,
+  active,
+  icon,
+  disabled
+}) => {
+  const [{
+    focus,
+    translations
+  }] = useContext(EditorContext);
+  const Icon = iconComponents[icon];
+  const title = translations == null ? void 0 : translations.controls[active ? `activated_${icon}` : icon];
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    if (disabled)
+      return;
+    onToggle(style);
+  };
+  return /* @__PURE__ */ jsx(StyledButton, {
+    disabled,
+    active: active && focus,
+    "aria-checked": active && focus,
+    onMouseDown: handleMouseDown,
+    title,
+    "aria-label": title,
+    fit: "icon",
+    tag,
+    type: tag === "button" ? tag : null,
+    children: /* @__PURE__ */ jsx(Icon, {})
+  });
+};
+Button.propTypes = {
+  disabled: PropTypes.bool,
+  active: PropTypes.bool,
+  onToggle: PropTypes.func,
+  tag: PropTypes.string
+};
+Button.defaultProps = {
+  disabled: false,
+  active: false,
+  onToggle: () => null,
+  tag: "button"
+};
+const Label = ({
+  htmlFor,
+  size,
+  label,
+  children,
+  tooltip
+}) => {
+  var _a;
+  const [{
+    translations
+  }] = useContext(EditorContext);
+  return /* @__PURE__ */ jsx(Field.Label, {
+    labelProps: {
+      htmlFor,
+      size
+    },
+    tooltipId: `tooltip-${htmlFor}`,
+    tooltip,
+    tooltipProps: {
+      actionLabel: (_a = translations == null ? void 0 : translations.form) == null ? void 0 : _a.tooltip_action_label
+    },
+    children: label || children
+  });
+};
+Label.propTypes = {
+  htmlFor: PropTypes.string.isRequired,
+  size: PropTypes.string,
+  label: PropTypes.string,
+  tooltip: PropTypes.string
+};
+Label.defaultProps = {
+  size: "micro"
+};
+const InputText = (_a) => {
+  var _b = _a, {
+    name,
+    form,
+    placeholder: placeholder2,
+    limit,
+    unit,
+    type,
+    digits,
+    disabled,
+    rows,
+    defaultValue,
+    style,
+    className,
+    onFocus,
+    onChange,
+    onBlur,
+    normalize,
+    validate
+  } = _b, others = __objRest(_b, [
+    "name",
+    "form",
+    "placeholder",
+    "limit",
+    "unit",
+    "type",
+    "digits",
+    "disabled",
+    "rows",
+    "defaultValue",
+    "style",
+    "className",
+    "onFocus",
+    "onChange",
+    "onBlur",
+    "normalize",
+    "validate"
+  ]);
+  const [field, meta, {
+    setValue
+  }] = useField({
+    name,
+    validate
+  });
+  useEffect(() => {
+    if (!defaultValue)
+      return;
+    if (field.value)
+      return;
+    setValue(defaultValue);
+  }, []);
+  return /* @__PURE__ */ jsxs(Fragment, {
+    children: [/* @__PURE__ */ jsx("div", {
+      style,
+      className,
+      children: /* @__PURE__ */ jsx(Field.Input, __spreadValues(__spreadProps(__spreadValues({}, field), {
+        id: name,
+        error: meta.error && meta.touched,
+        onFocus,
+        onChange: (e) => {
+          field.onChange(e);
+          if (normalize) {
+            setValue(normalize(e.target.value));
+          }
+          onChange(e);
+        },
+        onBlur: (e) => {
+          field.onBlur(e);
+          if (normalize) {
+            setValue(normalize(e.target.value));
+          }
+          onBlur(e);
+        },
+        "data-test-id": name,
+        placeholder: placeholder2,
+        limit,
+        unit,
+        type,
+        tag: type,
+        rows,
+        digits,
+        disabled
+      }), others))
+    }), /* @__PURE__ */ jsx(ErrorMessage, {
+      name,
+      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
+        children: msg
+      })
+    })]
+  });
+};
+InputText.defaultProps = {
+  type: "text",
+  disabled: false,
+  validate: () => {
+  },
+  onFocus: () => {
+  },
+  onBlur: () => {
+  },
+  onChange: () => {
+  }
+};
+InputText.propTypes = {
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  defaultValue: PropTypes.string,
+  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  limit: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  unit: PropTypes.string,
+  type: PropTypes.string,
+  digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  disabled: PropTypes.bool,
+  validate: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  normalize: PropTypes.func
+};
+const FormikInputWithButton = (_c) => {
+  var _d = _c, {
+    name,
+    onClick,
+    isDisabled
+  } = _d, props = __objRest(_d, [
+    "name",
+    "onClick",
+    "isDisabled"
+  ]);
+  const [_a, ..._b] = useField(name), _c2 = _a, {
+    value
+  } = _c2, field = __objRest(_c2, [
+    "value"
+  ]), [meta] = _b;
+  return /* @__PURE__ */ jsx(Fragment, {
+    children: /* @__PURE__ */ jsx(TextInputWithButton, __spreadValues(__spreadValues({
+      id: name,
+      buttonProps: {
+        onClick,
+        disabled: isDisabled || meta.error && meta.touched
+      },
+      error: meta.error && meta.touched
+    }, field), props))
+  });
+};
+FormikInputWithButton.defaultProps = {
+  onClick: () => {
+  },
+  isDisabled: false
+};
+FormikInputWithButton.propTypes = {
+  name: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  isDisabled: PropTypes.bool
+};
+var SubmitLoader = (_e) => {
+  var _f = _e, {
+    className
+  } = _f, props = __objRest(_f, [
+    "className"
+  ]);
+  const [{
+    translations
+  }] = useContext(EditorContext);
+  return /* @__PURE__ */ jsxs(Button$1, __spreadProps(__spreadValues({
+    modifier: "helium",
+    size: "big",
+    "aria-live": "polite",
+    as: "div",
+    className: classNames("kiss-SubmitLoader", "k-u-cursor-not-allowed", className)
+  }, props), {
+    children: [/* @__PURE__ */ jsx(KissKissLoadingAnimation, {
+      color: COLORS.background1
+    }), /* @__PURE__ */ jsx(VisuallyHidden, {
+      children: translations.button_loading
+    })]
+  }));
+};
+const linkify$3 = linkifyIt();
+linkify$3.tlds(tlds);
+const Wrapper$3 = styled.div`
+  position: relative;
+  margin: ${pxToRem(30)} 0;
+
+  @media (min-width: ${pxToRem(ScreenConfig.S.min)}) {
+    display: inline-block;
+  }
+`;
+const ButtonLinkWithFluidStyle = styled(Button$1)`
+  @media (max-width: ${pxToRem(ScreenConfig.XS.max)}) {
+    min-width: initial;
+    width: 100%;
+  }
+`;
+const StyledArrowContainer$1 = styled(ArrowContainer)`
+  display: flex;
+  position: absolute;
+  min-width: max-content;
+  padding: 0 ${pxToRem(20)};
+  background-color: ${COLORS.background1};
+  margin-top: ${pxToRem(5)};
+  transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
+`;
+const DeleteLink$1 = styled(Text)`
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+`;
+const VerticalSeparator$1 = styled.span`
+  margin: ${pxToRem(5)} ${pxToRem(10)};
+  border-left: var(--border-width, 1px) solid ${COLORS.font2};
+`;
+const ShareLink$1 = styled(Text)`
+  overflow: hidden;
+  display: inline-block;
+  max-width: ${pxToRem(150)};
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+const StyledButtonLink = ({
+  href,
+  children
+}) => {
+  return /* @__PURE__ */ jsx(ButtonLinkWithFluidStyle, {
+    tag: "a",
+    href,
+    target: "_blank",
+    rel: "nofollow noopener",
+    modifier: "helium",
+    size: "big",
+    children
+  });
+};
+const ButtonLink = ({
+  contentState,
+  entityKey,
+  children
+}) => {
+  const [isVisible, setVisible] = useState(false);
+  const {
+    url
+  } = contentState.getEntity(entityKey).getData();
+  const [{
+    editorState,
+    focus,
+    translations
+  }, dispatch] = useContext(EditorContext);
+  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
+  useEffect(() => {
+    setTimeout(() => setVisible(hasFocus && focus), 0);
+  }, [focus, editorState]);
+  return /* @__PURE__ */ jsxs(Wrapper$3, {
+    "aria-live": "assertive",
+    children: [/* @__PURE__ */ jsx(StyledButtonLink, {
+      href: url,
+      children
+    }), isVisible && /* @__PURE__ */ jsxs(StyledArrowContainer$1, {
+      position: "top",
+      shadow: true,
+      borderWidth: 1,
+      borderColor: COLORS.line1,
+      contentEditable: false,
+      children: [/* @__PURE__ */ jsx(DeleteLink$1, {
+        href: "#",
+        tag: "a",
+        size: "micro",
+        weight: "regular",
+        color: "error",
+        onClick: (e) => {
+          e.preventDefault();
+          const currentContent = contentState.getBlockForKey(editorState.getSelection().getFocusKey());
+          currentContent.findEntityRanges((character) => {
+            return character.getEntity() === entityKey;
+          }, (start, end) => {
+            const newsSelection = editorState.getSelection().merge({
+              focusOffset: end,
+              anchorOffset: start
+            });
+            const newsEditorState = Modifier.applyEntity(contentState, newsSelection, null);
+            dispatch(updateEditor(EditorState.push(editorState, newsEditorState, "apply-entity")));
+          });
+        },
+        children: translations.link.button.delete
+      }), /* @__PURE__ */ jsx(VerticalSeparator$1, {}), /* @__PURE__ */ jsx(ShareLink$1, {
+        href: url,
+        target: "_blank",
+        rel: "noopener",
+        tag: "a",
+        size: "micro",
+        weight: "regular",
+        color: "font1",
+        children: url
+      })]
+    })]
+  });
+};
+const buttonLinkStrategy = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges((character) => {
+    const entityKey = character.getEntity();
+    return entityKey !== null && contentState.getEntity(entityKey).getType() === "BUTTON_LINK";
+  }, callback);
+};
+const decorator$3 = {
+  strategy: buttonLinkStrategy,
+  component: ButtonLink
+};
+const readDecorator$3 = {
+  strategy: buttonLinkStrategy,
+  component: (props) => {
+    const {
+      url
+    } = props.contentState.getEntity(props.entityKey).getData();
+    return /* @__PURE__ */ jsx(Wrapper$3, {
+      children: /* @__PURE__ */ jsx(StyledButtonLink, {
+        href: url,
+        children: props.children
+      })
+    });
+  }
+};
+const ButtonLinkControls = ({
+  disabled,
+  onChange
+}) => {
+  const [{
+    editorState,
+    editorRef,
+    translations
+  }, dispatch] = useContext(EditorContext);
+  const entity = getEntity(editorState);
+  const entityKey = getEntityKey(editorState);
+  const textToShow = () => {
+    if (!entity) {
+      return getCurrentSelection(editorState);
+    }
+    return getEntityText(editorState, entityKey);
+  };
+  return /* @__PURE__ */ jsx(ModalNext, {
+    headerTitle: /* @__PURE__ */ jsx(Title$1, {
+      noMargin: true,
+      modifier: "quaternary",
+      children: translations.button_link.title
+    }),
+    trigger: /* @__PURE__ */ jsx(Button, {
+      icon: "button_link",
+      className: "Editor__toolbar__button--large",
+      disabled
+    }),
+    children: ({
+      close
+    }) => {
+      return /* @__PURE__ */ jsx(Formik, {
+        enableReinitialize: true,
+        initialValues: {
+          url: entity ? entity.getData().url : "",
+          text: textToShow()
+        },
+        onSubmit: ({
+          url
+        }) => {
+          onChange(url);
+          const link = linkify$3.match(url);
+          const contentState = editorState.getCurrentContent();
+          if (entity) {
+            const newContentState = contentState.replaceEntityData(entityKey, {
+              url: link[0].url
+            });
+            dispatch(updateEditor(EditorState.push(editorState, newContentState, "change-block-data")));
+          } else {
+            const contentStateWithEntity = contentState.createEntity("BUTTON_LINK", "MUTABLE", {
+              url: link[0].url
+            });
+            const entityKey2 = contentStateWithEntity.getLastCreatedEntityKey();
+            const newEditorState = EditorState.set(editorState, {
+              currentContent: contentStateWithEntity
+            });
+            dispatch(updateEditor(RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey2)));
+          }
+          close();
+          setTimeout(() => editorRef.current.blur(), 0);
+        },
+        children: ({
+          handleSubmit
+        }) => {
+          return /* @__PURE__ */ jsxs(Fragment, {
+            children: [/* @__PURE__ */ jsxs(ModalNext.Block, {
+              className: "k-u-margin-bottom-quadruple",
+              children: [/* @__PURE__ */ jsxs("div", {
+                className: "k-u-margin-bottom-double",
+                children: [/* @__PURE__ */ jsx(Label, {
+                  htmlFor: "",
+                  children: translations.button_link.text
+                }), /* @__PURE__ */ jsx(InputText, {
+                  name: "text",
+                  disabled: true
+                })]
+              }), /* @__PURE__ */ jsx(Label, {
+                htmlFor: "url",
+                children: translations.button_link.url
+              }), /* @__PURE__ */ jsx(InputText, {
+                name: "url",
+                validate: (value) => {
+                  if (!linkify$3.test(value)) {
+                    return translations.link.error;
+                  }
+                }
+              })]
+            }), /* @__PURE__ */ jsx(ModalNext.Button, {
+              fluid: true,
+              size: "big",
+              type: "button",
+              modifier: "helium",
+              onClick: handleSubmit,
+              children: translations.submit
+            })]
+          });
+        }
+      });
+    }
+  });
+};
+ButtonLinkControls.propTypes = {
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+ButtonLinkControls.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
+const StyledArrowContainer = styled(ArrowContainer)`
+  display: flex;
+  position: absolute;
+  min-width: max-content;
+  padding: 0 ${pxToRem(20)};
+  background-color: ${COLORS.background1};
+  margin-top: ${pxToRem(0)};
+  transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
+  z-index: 99999;
+`;
+const DeleteLink = styled(Text)`
+  flex: 1;
+  width: 100%;
+  text-align: center;
+  display: block;
+  padding: 0;
+`;
+const VerticalSeparator = styled.span`
+  flex: 0;
+  border-left: var(--border-width, 1px) solid ${COLORS.font2};
+  margin: ${pxToRem(5)} ${pxToRem(10)};
+`;
+const ShareLink = styled(Text)`
+  flex: 2;
+  max-width: ${pxToRem(240)};
+  text-overflow: ellipsis;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+`;
+const LinkInline = ({
+  onDelete,
+  url
+}) => {
+  const [{
+    translations
+  }] = useContext(EditorContext);
+  return /* @__PURE__ */ jsxs(StyledArrowContainer, {
+    position: "top",
+    shadow: true,
+    borderWidth: 1,
+    borderColor: COLORS.line1,
+    contentEditable: false,
+    children: [/* @__PURE__ */ jsx(DeleteLink, {
+      href: "#",
+      tag: "a",
+      size: "micro",
+      color: "error",
+      onClick: (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onDelete(e);
+      },
+      children: translations.link.button.delete
+    }), /* @__PURE__ */ jsx(VerticalSeparator, {}), /* @__PURE__ */ jsx(ShareLink, {
+      href: url,
+      target: "_blank",
+      rel: "noopener",
+      tag: "a",
+      size: "micro",
+      color: "font1",
+      onClick: (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.open(url, "_blank").focus();
+      },
+      children: url
+    })]
+  });
+};
+const StyledImage = styled.div`
+  width: 100%;
+  img {
+    display: inline-block;
+    height: auto;
+    max-width: 100%;
+  }
+`;
+const LinkManager = ({
+  url,
+  entityKey
+}) => {
+  const [{
+    editorState
+  }, dispatch] = useContext(EditorContext);
+  return /* @__PURE__ */ jsx(LinkInline, {
+    url,
+    onDelete: () => {
+      dispatch(updateEditor(removeDataFromEntity(editorState, entityKey, ["url"])));
+    }
+  });
+};
+const ImageEditor = ({
+  contentState,
+  entityKey,
+  blockKey
+}) => {
+  const [{
+    editorState
+  }, dispatch] = useContext(EditorContext);
+  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
+  const {
+    src,
+    url
+  } = contentState.getEntity(entityKey).getData();
+  const onClick = () => {
+    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+  };
+  return /* @__PURE__ */ jsx(StyledImage, {
+    className: "kiss-Draft__image",
+    onClick,
+    children: /* @__PURE__ */ jsxs("div", {
+      className: classNames("kiss-Draft__image-focus", {
+        "kiss-Draft__image-focus__focused": hasFocus
+      }),
+      children: [/* @__PURE__ */ jsx("div", {
+        className: "k-u-align-center",
+        children: /* @__PURE__ */ jsx("img", {
+          src: getImageUrl(src),
+          alt: ""
+        })
+      }), hasFocus && !!url && /* @__PURE__ */ jsx(LinkManager, {
+        url,
+        entityKey
+      })]
+    })
+  });
+};
+const ImageDisplayer = ({
+  contentState,
+  entityKey
+}) => {
+  const {
+    src,
+    url
+  } = contentState.getEntity(entityKey).getData();
+  return /* @__PURE__ */ jsx(StyledImage, {
+    className: "kiss-Draft__image-read",
+    children: url ? /* @__PURE__ */ jsx("a", {
+      href: url,
+      target: "_blank",
+      rel: "nofollow noopener",
+      children: /* @__PURE__ */ jsx("div", {
+        className: "k-u-align-center",
+        children: /* @__PURE__ */ jsx("img", {
+          src: getImageUrl(src),
+          alt: ""
+        })
+      })
+    }) : /* @__PURE__ */ jsx("div", {
+      className: "k-u-align-center",
+      children: /* @__PURE__ */ jsx("img", {
+        src: getImageUrl(src),
+        alt: ""
+      })
+    })
+  });
+};
+const HiddenInput = styled.input`
+  display: none;
+`;
+const imageStrategy$2 = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges((character) => {
+    const entityKey = character.getEntity();
+    return entityKey !== null && contentState.getEntity(entityKey).getType() === "IMAGE";
+  }, callback);
+};
+const decorator$2 = {
+  strategy: imageStrategy$2,
+  component: ImageEditor
+};
+const readDecorator$2 = {
+  strategy: imageStrategy$2,
+  component: ImageDisplayer
+};
+const Form = ({
+  imageUrl,
+  setImageUrl,
+  errorMessage
+}) => {
+  const [{
+    translations
+  }] = useContext(EditorContext);
+  const {
+    handleSubmit,
+    values,
+    isSubmitting
+  } = useFormikContext();
+  const [, , fileSizeHelpers] = useField("fileSize");
+  const [, , urlHelpers] = useField("url");
+  const [, , fileHelpers] = useField("file");
+  const fileInputRef = useRef(null);
+  return /* @__PURE__ */ jsxs(Fragment, {
+    children: [/* @__PURE__ */ jsx(HiddenInput, {
+      ref: fileInputRef,
+      name: "file",
+      type: "file",
+      id: "imageFile",
+      onChange: (event) => {
+        const file = event.target.files[0];
+        if (!file.type.match("image.*")) {
+          return;
+        }
+        fileHelpers.setValue(file);
+        fileSizeHelpers.setValue(file.size);
+        urlHelpers.setValue("");
+        const reader = new FileReader();
+        reader.addEventListener("load", (file2) => {
+          setImageUrl(file2.target.result);
+        });
+        reader.readAsDataURL(file);
+      },
+      accept: "image/gif, image/jpeg, image/jpg, image/png"
+    }), /* @__PURE__ */ jsx("div", {
+      className: "k-u-margin-top-single",
+      children: /* @__PURE__ */ jsx(Label, {
+        htmlFor: "url",
+        children: translations.image_upload.label
+      })
+    }), /* @__PURE__ */ jsx(FormikInputWithButton, {
+      name: "url",
+      placeholder: "https://",
+      buttonValue: translations.image_upload.preview,
+      onClick: () => {
+        setImageUrl(values.url);
+        fileSizeHelpers.setValue(0);
+      }
+    }), /* @__PURE__ */ jsx("div", {
+      className: "k-u-margin-vertical-single",
+      children: imageUrl && /* @__PURE__ */ jsx("img", {
+        src: imageUrl,
+        width: "100%",
+        alt: ""
+      })
+    }), /* @__PURE__ */ jsx(ErrorMessage, {
+      name: "url",
+      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
+        children: msg
+      })
+    }), /* @__PURE__ */ jsx(ErrorMessage, {
+      name: "fileSize",
+      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
+        children: msg
+      })
+    }), /* @__PURE__ */ jsxs("div", {
+      className: "k-u-margin-top-single",
+      children: [/* @__PURE__ */ jsx("div", {
+        className: "k-u-margin-bottom-single",
+        children: /* @__PURE__ */ jsx("a", {
+          href: "#",
+          className: "k-u-link k-u-link-primary1",
+          onClick: (e) => {
+            e.preventDefault();
+            fileInputRef.current.click();
+          },
+          children: /* @__PURE__ */ jsx(Text, {
+            tag: "span",
+            decoration: "underline",
+            children: translations.image_upload.upload
+          })
+        })
+      }), /* @__PURE__ */ jsxs(ModalNext.Paragraph, {
+        align: "left",
+        noMargin: true,
+        children: [translations.image_upload.help_file.formats, /* @__PURE__ */ jsx("br", {}), translations.image_upload.help_file.width, /* @__PURE__ */ jsx("br", {}), translations.image_upload.help_file.size, errorMessage && /* @__PURE__ */ jsx(Field.ErrorMessage, {
+          children: errorMessage
+        })]
+      }), /* @__PURE__ */ jsx(ModalNext.Actions, {
+        children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
+          fluid: true
+        }) : /* @__PURE__ */ jsx(ModalNext.Button, {
+          type: "button",
+          size: "big",
+          modifier: "helium",
+          onClick: handleSubmit,
+          children: translations.submit
+        })
+      })]
+    })]
+  });
+};
+const ImageControls = ({
+  disabled,
+  onUpload,
+  errorMessage
+}) => {
+  const [modalOpened, openModal] = useState(false);
+  const [{
+    editorState,
+    translations,
+    disabled: contextDisabled
+  }, dispatch] = useContext(EditorContext);
+  const [imageUrl, setImageUrl] = useState("");
+  useEffect(() => {
+    if (!modalOpened) {
+      setImageUrl("");
+    }
+  }, [modalOpened]);
+  return /* @__PURE__ */ jsxs(Fragment, {
+    children: [/* @__PURE__ */ jsx(Button, {
+      icon: "image",
+      disabled: contextDisabled || disabled,
+      onToggle: () => {
+        if (modalOpened) {
+          openModal(false);
+        } else {
+          openModal(true);
+        }
+      }
+    }), /* @__PURE__ */ jsx(ModalNext, {
+      onClose: () => openModal(false),
+      isOpen: modalOpened,
+      headerTitle: /* @__PURE__ */ jsx(Title$1, {
+        modifier: "quaternary",
+        children: translations.image_upload.title
+      }),
+      children: ({
+        close
+      }) => {
+        return /* @__PURE__ */ jsx(ModalNext.Block, {
+          children: /* @__PURE__ */ jsx(Formik, {
+            initialValues: {
+              url: "",
+              fileSize: 0
+            },
+            validationSchema: Yup.object().shape({
+              url: Yup.string().url(translations.image.invalid_url).matches(/(?:jpg|jpeg|gif|png)$/, translations.image.invalid_extension),
+              fileSize: Yup.number().max(5e6, translations.image.max_size)
+            }),
+            onSubmit: ({
+              url,
+              fileSize,
+              file
+            }) => {
+              return new Promise((resolve, reject) => {
+                if (isEmpty(url) && fileSize === 0) {
+                  reject("WRONG");
+                }
+                if (!isEmpty(url) && fileSize === 0) {
+                  resolve(url);
+                }
+                onUpload(file).then((url2) => resolve(url2));
+              }).then((url2) => {
+                const contentState = editorState.getCurrentContent();
+                const contentStateWithEntity = contentState.createEntity("IMAGE", "IMMUTABLE", {
+                  src: url2
+                });
+                const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+                const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
+                const newState = EditorState.forceSelection(newEditorState, newEditorState.getCurrentContent().getSelectionAfter());
+                if (isPreviousEmptyBlock(newState)) {
+                  const newStateWithoutPreviousEmptyBlock = removePreviousEmptyBlock(newState);
+                  dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
+                } else {
+                  dispatch(updateEditor(newState));
+                }
+                close();
+                openModal(false);
+                setTimeout(() => openModal(false), 500);
+              });
+            },
+            children: () => /* @__PURE__ */ jsx(Form, {
+              imageUrl,
+              setImageUrl,
+              errorMessage
+            })
+          })
+        });
+      }
+    })]
+  });
+};
+ImageControls.propTypes = {
+  disabled: PropTypes.bool,
+  onUpload: PropTypes.func,
+  errorMessage: PropTypes.string
+};
+ImageControls.defaultProps = {
+  disabled: false,
+  onUpload: () => null
+};
+const linkify$2 = linkifyIt();
+linkify$2.tlds(tlds);
+const Wrapper$2 = styled.div`
+  display: inline-block;
+  position: relative;
+`;
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  img {
+    max-height: ${pxToRem(200)};
+    max-width: 100%;
+  }
+`;
+const ImageLinked = ({
+  src
+}) => {
+  return /* @__PURE__ */ jsx(ImageWrapper, {
+    children: /* @__PURE__ */ jsx("img", {
+      src: getImageUrl(src),
+      alt: ""
+    })
+  });
+};
+const Link$2 = ({
+  contentState,
+  entityKey,
+  children
+}) => {
+  const [isVisible, setVisible] = useState(false);
+  const {
+    url
+  } = contentState.getEntity(entityKey).getData();
+  const [{
+    editorState,
+    focus
+  }, dispatch] = useContext(EditorContext);
+  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
+  useEffect(() => {
+    setTimeout(() => setVisible(hasFocus && focus), 0);
+  }, [focus, editorState]);
+  return /* @__PURE__ */ jsxs(Wrapper$2, {
+    "aria-live": "assertive",
+    children: [/* @__PURE__ */ jsx("a", {
+      href: url,
+      target: "_blank",
+      className: "k-u-link k-u-link-primary1",
+      rel: "nofollow noopener",
+      children
+    }), isVisible && /* @__PURE__ */ jsx(LinkInline, {
+      url,
+      onDelete: () => {
+        var _a;
+        const currentContent = contentState == null ? void 0 : contentState.getBlockForKey((_a = editorState == null ? void 0 : editorState.getSelection()) == null ? void 0 : _a.getFocusKey());
+        if (!currentContent)
+          return;
+        currentContent.findEntityRanges((character) => {
+          return character.getEntity() === entityKey;
+        }, (start, end) => {
+          const newsSelection = editorState.getSelection().merge({
+            focusOffset: end,
+            anchorOffset: start
+          });
+          const newsEditorState = Modifier.applyEntity(contentState, newsSelection, null);
+          dispatch(updateEditor(EditorState.push(editorState, newsEditorState, "apply-entity")));
+        });
+      }
+    })]
+  });
+};
+const linkStrategy$2 = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges((character) => {
+    const entityKey = character.getEntity();
+    return entityKey !== null && contentState.getEntity(entityKey).getType() === "LINK";
+  }, callback);
+};
+const decorator$1 = {
+  strategy: linkStrategy$2,
+  component: Link$2
+};
+const readDecorator$1 = {
+  strategy: linkStrategy$2,
+  component: (props) => {
+    const {
+      url
+    } = props.contentState.getEntity(props.entityKey).getData();
+    return /* @__PURE__ */ jsx(Wrapper$2, {
+      children: /* @__PURE__ */ jsx("a", {
+        href: url,
+        target: "_blank",
+        rel: "nofollow noopener",
+        className: "k-u-link k-u-link-primary1",
+        children: props.children
+      })
+    });
+  }
+};
+const LinkControls = ({
+  disabled,
+  onChange
+}) => {
+  const [modalOpened, openModal] = useState(false);
+  const [{
+    editorState,
+    editorRef,
+    translations,
+    disabled: contextDisabled
+  }, dispatch] = useContext(EditorContext);
+  const entity = getEntity(editorState);
+  const entityKey = getEntityKey(editorState);
+  const textToShow = () => {
+    if (!entity) {
+      return getCurrentSelection(editorState);
+    }
+    return getEntityText(editorState, entityKey);
+  };
+  const forceFocus = () => {
+    const currentSelection = editorState.getSelection();
+    setTimeout(() => editorRef.current.focus(), 0);
+    const newSelectionAtTheEnd = currentSelection.merge({
+      anchorOffset: currentSelection.getFocusOffset(),
+      hasFocus: true
+    });
+    dispatch(updateEditor(EditorState.forceSelection(editorState, newSelectionAtTheEnd)));
+  };
+  const active = !contextDisabled && !disabled && (entity || !isEmpty(textToShow()));
+  return /* @__PURE__ */ jsxs(Fragment, {
+    children: [/* @__PURE__ */ jsx(Button, {
+      icon: "link",
+      disabled: !active,
+      onToggle: () => {
+        if (modalOpened) {
+          openModal(false);
+        } else {
+          openModal(true);
+        }
+      }
+    }), /* @__PURE__ */ jsx(ModalNext, {
+      onClose: () => {
+        openModal(false);
+        forceFocus();
+      },
+      isOpen: modalOpened,
+      headerTitle: /* @__PURE__ */ jsx(Title$1, {
+        modifier: "quaternary",
+        children: translations.link.title
+      }),
+      children: ({
+        close
+      }) => {
+        return /* @__PURE__ */ jsx(ModalNext.Block, {
+          children: /* @__PURE__ */ jsx(Formik, {
+            enableReinitialize: true,
+            initialValues: {
+              url: entity ? entity.getData().url : "",
+              text: textToShow()
+            },
+            onSubmit: ({
+              url
+            }) => {
+              const link = linkify$2.match(url);
+              const contentState = editorState.getCurrentContent();
+              onChange();
+              if (entity) {
+                if ((entity == null ? void 0 : entity.get("type")) === "IMAGE") {
+                  const newImageContentState = contentState.mergeEntityData(entityKey, {
+                    url: link[0].url
+                  });
+                  dispatch(updateEditor(EditorState.push(editorState, newImageContentState, "change-block-data")));
+                } else {
+                  const newContentState = contentState.replaceEntityData(entityKey, {
+                    url: link[0].url
+                  });
+                  dispatch(updateEditor(EditorState.push(editorState, newContentState, "change-block-data")));
+                }
+              } else {
+                const contentStateWithEntity = contentState.createEntity("LINK", "MUTABLE", {
+                  url: link[0].url
+                });
+                const entityKey2 = contentStateWithEntity.getLastCreatedEntityKey();
+                const newEditorState = EditorState.set(editorState, {
+                  currentContent: contentStateWithEntity
+                });
+                dispatch(updateEditor(RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey2)));
+              }
+              close();
+              openModal(false);
+              setTimeout(() => editorRef.current.focus(), 0);
+            },
+            children: ({
+              handleSubmit
+            }) => {
+              var _a;
+              return /* @__PURE__ */ jsxs(Fragment, {
+                children: [/* @__PURE__ */ jsx("div", {
+                  className: "k-u-margin-bottom-double",
+                  children: (entity == null ? void 0 : entity.get("type")) === "IMAGE" ? /* @__PURE__ */ jsx(ImageLinked, {
+                    src: (_a = entity == null ? void 0 : entity.getData()) == null ? void 0 : _a.src
+                  }) : /* @__PURE__ */ jsxs(Fragment, {
+                    children: [/* @__PURE__ */ jsx(Label, {
+                      htmlFor: "",
+                      children: translations.link.text.label
+                    }), /* @__PURE__ */ jsx(InputText, {
+                      name: "text",
+                      disabled: true
+                    })]
+                  })
+                }), /* @__PURE__ */ jsxs("div", {
+                  className: "k-u-margin-vertical-double",
+                  children: [/* @__PURE__ */ jsx(Label, {
+                    size: "micro",
+                    htmlFor: "url",
+                    children: translations.image_upload.url
+                  }), /* @__PURE__ */ jsx(InputText, {
+                    name: "url",
+                    validate: (value) => {
+                      if (!linkify$2.test(value)) {
+                        return translations.link.error;
+                      }
+                    }
+                  })]
+                }), /* @__PURE__ */ jsx(ModalNext.Actions, {
+                  children: /* @__PURE__ */ jsx(ModalNext.Button, {
+                    size: "big",
+                    type: "button",
+                    modifier: "helium",
+                    onClick: handleSubmit,
+                    children: translations.submit
+                  })
+                })]
+              });
+            }
+          })
+        });
+      }
+    })]
+  });
+};
+LinkControls.propTypes = {
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+LinkControls.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
+const EMBEDLY_API_URL = "https://api.embed.ly/1/";
+const oembed = (customConfig) => {
+  if (!customConfig.key) {
+    throw new Error("You need an API key to call Embedly");
+  }
+  return fetch(`${EMBEDLY_API_URL}oembed?${qs.stringify(__spreadValues({
+    secure: document.location.protocol === "https:",
+    scheme: document.location.protocol.replace(":", "")
+  }, customConfig))}`).then((response) => response.json());
+};
+const calculRatio = ({ height, width }) => (height / width * 100).toPrecision(4);
+const getDataForProvider = (response) => {
+  console.log(response);
+  if (response.type === "video" || response.type === "rich" && response.provider_name !== "SoundCloud") {
+    return {
+      ratio: calculRatio({
+        height: response.height,
+        width: response.width
+      }),
+      html: response.html
+    };
+  }
+  switch (response.provider_name) {
+    case "SoundCloud":
+      return {
+        ratio: calculRatio({ height: 6, width: 16 }),
+        html: response.html
+      };
+    case "Ovizer":
+      return {
+        ratio: calculRatio({
+          height: response.thumbnail_height || 1,
+          width: response.thumbnail_width || 1
+        }),
+        html: `<iframe src="${response.url}" width="100%" height="auto" allowFullScreen></iframe>`
+      };
+    case "Apple Podcasts":
+      const embededUrl = response.url.replace("podcasts.apple.com", "embed.podcasts.apple.com");
+      return {
+        height: 183,
+        ratio: 0.1,
+        html: `<iframe allow="autoplay *; encrypted-media *; fullscreen *" height="175" style=";overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="${embededUrl}&theme=auto"></iframe>`
+      };
+    default:
+      return {
+        ratio: 67.5,
+        html: `<iframe src="${response.url}" width="100%" height="auto" allowFullScreen></iframe>`
+      };
+  }
+};
+const VideoEditor = ({
+  contentState,
+  entityKey,
+  blockKey
+}) => {
+  const {
+    embedlyHtml,
+    embedRatio,
+    html,
+    height
+  } = contentState.getEntity(entityKey).getData();
+  const [{
+    editorState
+  }, dispatch] = useContext(EditorContext);
+  const onClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+  };
+  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
+  return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
+    ratio: embedRatio || 67.5,
+    className: "kiss-Draft__media",
+    style: __spreadValues({}, height && {
+      height
+    }),
+    children: /* @__PURE__ */ jsx("div", {
+      className: classNames("kiss-Draft__media-focus", {
+        "kiss-Draft__media-focus__focused": hasFocus
+      }),
+      onClick,
+      children: parseHtml(embedlyHtml || html, {
+        sanitize: false
+      })
+    })
+  });
+};
+const VideoDisplayer = (props) => {
+  const {
+    embedlyHtml,
+    embedRatio,
+    height,
+    html
+  } = props.contentState.getEntity(props.entityKey).getData();
+  return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
+    ratio: embedRatio || 67.5,
+    className: "kiss-Draft__media-read",
+    style: __spreadValues({}, height && {
+      height
+    }),
+    children: parseHtml(embedlyHtml || html, {
+      sanitize: false
+    })
+  });
+};
+const videoStrategy = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges((character) => {
+    const entityKey = character.getEntity();
+    return entityKey !== null && ["VIDEO", "MEDIA"].includes(contentState.getEntity(entityKey).getType());
+  }, callback);
+};
+const decorator = {
+  strategy: videoStrategy,
+  component: VideoEditor
+};
+const readDecorator = {
+  strategy: videoStrategy,
+  component: VideoDisplayer
+};
+const VideoControls = ({
+  disabled,
+  onChange,
+  embedlyApiKey
+}) => {
+  const [{
+    editorState,
+    translations,
+    disabled: contextDisabled
+  }, dispatch] = useContext(EditorContext);
+  const [modalOpened, openModal] = useState(false);
+  const [embedlyHtml, setEmbedlyHtml] = useState(void 0);
+  const [embedRatio, setEmbedRatio] = useState(void 0);
+  const [height, setHeight] = useState(void 0);
+  const [hasOembedError, oembedError] = useState(false);
+  return /* @__PURE__ */ jsxs(Fragment, {
+    children: [/* @__PURE__ */ jsx(Button, {
+      icon: "video",
+      disabled: contextDisabled || disabled,
+      onToggle: () => {
+        if (modalOpened) {
+          openModal(false);
+        } else {
+          openModal(true);
+        }
+      }
+    }), /* @__PURE__ */ jsx(ModalNext, {
+      onClose: () => openModal(false),
+      isOpen: modalOpened,
+      headerTitle: /* @__PURE__ */ jsx(Title$1, {
+        modifier: "quaternary",
+        children: translations.media_upload.title
+      }),
+      children: ({
+        close
+      }) => {
+        return /* @__PURE__ */ jsx(ModalNext.Block, {
+          children: /* @__PURE__ */ jsx(Formik, {
+            initialValues: {
+              url: ""
+            },
+            validationSchema: Yup.object().shape({
+              url: Yup.string().url(translations.video.invalid_url)
+            }),
+            onSubmit: ({
+              url
+            }) => {
+              onChange(url);
+              oembedError(false);
+              return oembed({
+                key: embedlyApiKey,
+                maxwidth: 640,
+                url
+              }).then((response) => {
+                if (response.type === "error") {
+                  oembedError(true);
+                  return;
+                }
+                const {
+                  html,
+                  ratio,
+                  height: height2
+                } = getDataForProvider(response);
+                const newState = createMediaBlock(editorState, __spreadValues({
+                  html,
+                  embedRatio: ratio
+                }, height2 && {
+                  height: height2
+                }));
+                if (isPreviousEmptyBlock(newState)) {
+                  const newStateWithoutPreviousEmptyBlock = removePreviousEmptyBlock(newState);
+                  dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
+                } else {
+                  dispatch(updateEditor(newState));
+                }
+                close();
+                setTimeout(() => {
+                  openModal(false);
+                  setEmbedlyHtml(void 0);
+                }, 500);
+              });
+            },
+            children: ({
+              handleSubmit,
+              isSubmitting,
+              values
+            }) => {
+              return /* @__PURE__ */ jsxs(Fragment, {
+                children: [/* @__PURE__ */ jsx(Label, {
+                  size: "micro",
+                  className: "k-u-margin-bottom-single",
+                  htmlFor: "url",
+                  children: translations.image_upload.label
+                }), /* @__PURE__ */ jsx(FormikInputWithButton, {
+                  name: "url",
+                  placeholder: "https://",
+                  buttonValue: translations.image_upload.preview,
+                  onClick: () => {
+                    oembedError(false);
+                    oembed({
+                      key: embedlyApiKey,
+                      maxwidth: 640,
+                      url: values.url
+                    }).then((response) => {
+                      if (response.type === "error") {
+                        oembedError(true);
+                        return;
+                      }
+                      const {
+                        html,
+                        ratio,
+                        height: height2 = void 0
+                      } = getDataForProvider(response);
+                      setEmbedRatio(ratio);
+                      setEmbedlyHtml(html);
+                      setHeight(height2);
+                    });
+                  }
+                }), embedlyHtml && /* @__PURE__ */ jsx("div", {
+                  className: "k-u-margin-vertical-single",
+                  children: /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
+                    ratio: embedRatio,
+                    style: __spreadValues({}, height && {
+                      height
+                    }),
+                    children: parseHtml(embedlyHtml, {
+                      sanitize: false
+                    })
+                  })
+                }), hasOembedError && /* @__PURE__ */ jsx(Field.ErrorMessage, {
+                  children: translations.video.problem
+                }), /* @__PURE__ */ jsx(ModalNext.Actions, {
+                  children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
+                    fluid: true
+                  }) : /* @__PURE__ */ jsx(ModalNext.Button, {
+                    size: "big",
+                    type: "button",
+                    modifier: "helium",
+                    onClick: handleSubmit,
+                    children: translations.submit
+                  })
+                })]
+              });
+            }
+          })
+        });
+      }
+    })]
+  });
+};
+VideoControls.propTypes = {
+  embedlyApiKey: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+VideoControls.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
+const linkify = linkifyIt({
+  fuzzyLink: false
+});
+linkify.tlds(tlds);
+const linkStrategy$1 = (contentBlock, callback) => {
+  const links = linkify.match(contentBlock.get("text"));
+  if (typeof links !== "undefined" && links !== null) {
+    for (let i = 0; i < links.length; i += 1) {
+      callback(links[i].index, links[i].lastIndex);
     }
   }
-  return true;
-}
-var isEmpty_1 = isEmpty$1;
-var _falseOptions = {
-  "cap": false,
-  "curry": false,
-  "fixed": false,
-  "immutable": false,
-  "rearg": false
 };
-var convert$5 = convert_1, func$5 = convert$5("isEmpty", isEmpty_1, _falseOptions);
-func$5.placeholder = placeholder;
-var isEmpty = func$5;
-function last$1(array) {
-  var length = array == null ? 0 : array.length;
-  return length ? array[length - 1] : void 0;
-}
-var last_1 = last$1;
-var baseGet$1 = _baseGet, baseSlice = _baseSlice;
-function parent$1(object, path) {
-  return path.length < 2 ? object : baseGet$1(object, baseSlice(path, 0, -1));
-}
-var _parent = parent$1;
-var castPath$3 = _castPath, last = last_1, parent = _parent, toKey$1 = _toKey;
-function baseUnset$1(object, path) {
-  path = castPath$3(path, object);
-  object = parent(object, path);
-  return object == null || delete object[toKey$1(last(path))];
-}
-var _baseUnset = baseUnset$1;
-var isPlainObject = isPlainObject_1;
-function customOmitClone$1(value) {
-  return isPlainObject(value) ? void 0 : value;
-}
-var _customOmitClone = customOmitClone$1;
-var arrayMap$1 = _arrayMap, baseClone = _baseClone, baseUnset = _baseUnset, castPath$2 = _castPath, copyObject = _copyObject, customOmitClone = _customOmitClone, flatRest = _flatRest, getAllKeysIn$1 = _getAllKeysIn;
-var CLONE_DEEP_FLAG = 1, CLONE_FLAT_FLAG = 2, CLONE_SYMBOLS_FLAG = 4;
-var omit$1 = flatRest(function(object, paths) {
-  var result = {};
-  if (object == null) {
-    return result;
-  }
-  var isDeep = false;
-  paths = arrayMap$1(paths, function(path) {
-    path = castPath$2(path, object);
-    isDeep || (isDeep = path.length > 1);
-    return path;
+const Link$1 = (props) => {
+  return /* @__PURE__ */ jsx("a", {
+    target: "_blank",
+    rel: "nofollow noopener",
+    className: "k-u-link k-u-link-primary1",
+    href: props.decoratedText,
+    children: props.children
   });
-  copyObject(object, getAllKeysIn$1(object), result);
-  if (isDeep) {
-    result = baseClone(result, CLONE_DEEP_FLAG | CLONE_FLAT_FLAG | CLONE_SYMBOLS_FLAG, customOmitClone);
-  }
-  var length = paths.length;
-  while (length--) {
-    baseUnset(result, paths[length]);
-  }
-  return result;
-});
-var omit_1 = omit$1;
-var convert$4 = convert_1, func$4 = convert$4("omit", omit_1);
-func$4.placeholder = placeholder;
-var omit = func$4;
-const Link$2 = (props) => {
+};
+var linkify$1 = {
+  strategy: linkStrategy$1,
+  component: Link$1
+};
+const Link = (props) => {
   const {
     url
   } = props.contentState.getEntity(props.entityKey).getData();
@@ -3562,15 +5032,15 @@ const Link$2 = (props) => {
     children: props.children
   });
 };
-const linkStrategy$2 = (contentBlock, callback, contentState) => {
+const linkStrategy = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
     return entityKey !== null && contentState.getEntity(entityKey).getType() === "LINK";
   }, callback);
 };
 var linkDecorator = {
-  strategy: linkStrategy$2,
-  component: Link$2
+  strategy: linkStrategy,
+  component: Link
 };
 function arrayIncludesWith$1(array, value, comparator) {
   var index = -1, length = array == null ? 0 : array.length;
@@ -3784,14 +5254,14 @@ const Image$1 = (props) => {
     children: image
   });
 };
-const imageStrategy$2 = (contentBlock, callback, contentState) => {
+const imageStrategy$1 = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
     return entityKey !== null && contentState.getEntity(entityKey).getType() === "IMAGE";
   }, callback);
 };
 var responsiveImageDecorator = {
-  strategy: imageStrategy$2,
+  strategy: imageStrategy$1,
   component: Image$1
 };
 const Media = (props) => {
@@ -3854,14 +5324,14 @@ const Image = (props) => {
     children: image
   });
 };
-const imageStrategy$1 = (contentBlock, callback, contentState) => {
+const imageStrategy = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
     return entityKey !== null && contentState.getEntity(entityKey).getType() === "IMAGE";
   }, callback);
 };
 var lazyImageDecorator = {
-  strategy: imageStrategy$1,
+  strategy: imageStrategy,
   component: Image
 };
 const Separator = () => {
@@ -4246,1459 +5716,6 @@ HtmlEditor.propTypes = {
 HtmlEditor.defaultProps = {
   useRichTextStyle: true
 };
-const StyledButton = styled(Button$1)`
-  &.Editor__toolbar__button--large {
-    width: ${pxToRem(80)};
-  }
-
-  &:not(:last-of-type) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  &:not(:first-of-type) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  &[aria-checked="true"] {
-    z-index: 2;
-    position: relative;
-  }
-`;
-const iconComponents = {
-  format_bold: BoldIcon,
-  format_italic: ItalicIcon,
-  format_list_bulleted: ListIcon,
-  ["k-u-align-left"]: AlignLeftIcon,
-  ["k-u-align-center"]: AlignCenterIcon,
-  ["k-u-align-right"]: AlignRightIcon,
-  image: ImageIcon,
-  video: VideoIcon,
-  link: LinkIcon,
-  button_link: EditorButtonIcon,
-  quote: BlockquoteIcon
-};
-const Button = ({
-  tag,
-  onToggle,
-  style,
-  active,
-  icon,
-  disabled
-}) => {
-  const [{
-    focus,
-    translations
-  }] = useContext(EditorContext);
-  const Icon = iconComponents[icon];
-  const title = translations == null ? void 0 : translations.controls[active ? `activated_${icon}` : icon];
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    if (disabled)
-      return;
-    onToggle(style);
-  };
-  return /* @__PURE__ */ jsx(StyledButton, {
-    disabled,
-    active: active && focus,
-    "aria-checked": active && focus,
-    onMouseDown: handleMouseDown,
-    title,
-    "aria-label": title,
-    fit: "icon",
-    tag,
-    type: tag === "button" ? tag : null,
-    children: /* @__PURE__ */ jsx(Icon, {})
-  });
-};
-Button.propTypes = {
-  disabled: PropTypes.bool,
-  active: PropTypes.bool,
-  onToggle: PropTypes.func,
-  tag: PropTypes.string
-};
-Button.defaultProps = {
-  disabled: false,
-  active: false,
-  onToggle: () => null,
-  tag: "button"
-};
-const Label = ({
-  htmlFor,
-  size,
-  label,
-  children,
-  tooltip
-}) => {
-  var _a;
-  const [{
-    translations
-  }] = useContext(EditorContext);
-  return /* @__PURE__ */ jsx(Field.Label, {
-    labelProps: {
-      htmlFor,
-      size
-    },
-    tooltipId: `tooltip-${htmlFor}`,
-    tooltip,
-    tooltipProps: {
-      actionLabel: (_a = translations == null ? void 0 : translations.form) == null ? void 0 : _a.tooltip_action_label
-    },
-    children: label || children
-  });
-};
-Label.propTypes = {
-  htmlFor: PropTypes.string.isRequired,
-  size: PropTypes.string,
-  label: PropTypes.string,
-  tooltip: PropTypes.string
-};
-Label.defaultProps = {
-  size: "micro"
-};
-const InputText = (_a) => {
-  var _b = _a, {
-    name,
-    form,
-    placeholder: placeholder2,
-    limit,
-    unit,
-    type,
-    digits,
-    disabled,
-    rows,
-    defaultValue,
-    style,
-    className,
-    onFocus,
-    onChange,
-    onBlur,
-    normalize,
-    validate
-  } = _b, others = __objRest(_b, [
-    "name",
-    "form",
-    "placeholder",
-    "limit",
-    "unit",
-    "type",
-    "digits",
-    "disabled",
-    "rows",
-    "defaultValue",
-    "style",
-    "className",
-    "onFocus",
-    "onChange",
-    "onBlur",
-    "normalize",
-    "validate"
-  ]);
-  const [field, meta, {
-    setValue
-  }] = useField({
-    name,
-    validate
-  });
-  useEffect(() => {
-    if (!defaultValue)
-      return;
-    if (field.value)
-      return;
-    setValue(defaultValue);
-  }, []);
-  return /* @__PURE__ */ jsxs(Fragment, {
-    children: [/* @__PURE__ */ jsx("div", {
-      style,
-      className,
-      children: /* @__PURE__ */ jsx(Field.Input, __spreadValues(__spreadProps(__spreadValues({}, field), {
-        id: name,
-        error: meta.error && meta.touched,
-        onFocus,
-        onChange: (e) => {
-          field.onChange(e);
-          if (normalize) {
-            setValue(normalize(e.target.value));
-          }
-          onChange(e);
-        },
-        onBlur: (e) => {
-          field.onBlur(e);
-          if (normalize) {
-            setValue(normalize(e.target.value));
-          }
-          onBlur(e);
-        },
-        "data-test-id": name,
-        placeholder: placeholder2,
-        limit,
-        unit,
-        type,
-        tag: type,
-        rows,
-        digits,
-        disabled
-      }), others))
-    }), /* @__PURE__ */ jsx(ErrorMessage, {
-      name,
-      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
-        children: msg
-      })
-    })]
-  });
-};
-InputText.defaultProps = {
-  type: "text",
-  disabled: false,
-  validate: () => {
-  },
-  onFocus: () => {
-  },
-  onBlur: () => {
-  },
-  onChange: () => {
-  }
-};
-InputText.propTypes = {
-  name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  defaultValue: PropTypes.string,
-  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  limit: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  unit: PropTypes.string,
-  type: PropTypes.string,
-  digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  disabled: PropTypes.bool,
-  validate: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  normalize: PropTypes.func
-};
-const FormikInputWithButton = (_c) => {
-  var _d = _c, {
-    name,
-    onClick,
-    isDisabled
-  } = _d, props = __objRest(_d, [
-    "name",
-    "onClick",
-    "isDisabled"
-  ]);
-  const [_a, ..._b] = useField(name), _c2 = _a, {
-    value
-  } = _c2, field = __objRest(_c2, [
-    "value"
-  ]), [meta] = _b;
-  return /* @__PURE__ */ jsx(Fragment, {
-    children: /* @__PURE__ */ jsx(TextInputWithButton, __spreadValues(__spreadValues({
-      id: name,
-      buttonProps: {
-        onClick,
-        disabled: isDisabled || meta.error && meta.touched
-      },
-      error: meta.error && meta.touched
-    }, field), props))
-  });
-};
-FormikInputWithButton.defaultProps = {
-  onClick: () => {
-  },
-  isDisabled: false
-};
-FormikInputWithButton.propTypes = {
-  name: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
-  isDisabled: PropTypes.bool
-};
-var SubmitLoader = (_e) => {
-  var _f = _e, {
-    className
-  } = _f, props = __objRest(_f, [
-    "className"
-  ]);
-  const [{
-    translations
-  }] = useContext(EditorContext);
-  return /* @__PURE__ */ jsxs(Button$1, __spreadProps(__spreadValues({
-    modifier: "helium",
-    size: "big",
-    "aria-live": "polite",
-    as: "div",
-    className: classNames("kiss-SubmitLoader", "k-u-cursor-not-allowed", className)
-  }, props), {
-    children: [/* @__PURE__ */ jsx(KissKissLoadingAnimation, {
-      color: COLORS.background1
-    }), /* @__PURE__ */ jsx(VisuallyHidden, {
-      children: translations.button_loading
-    })]
-  }));
-};
-const EMBEDLY_API_URL = "https://api.embed.ly/1/";
-const oembed = (customConfig) => {
-  if (!customConfig.key) {
-    throw new Error("You need an API key to call Embedly");
-  }
-  return fetch(`${EMBEDLY_API_URL}oembed?${qs.stringify(__spreadValues({
-    secure: document.location.protocol === "https:",
-    scheme: document.location.protocol.replace(":", "")
-  }, customConfig))}`).then((response) => response.json());
-};
-const calculRatio = ({ height, width }) => (height / width * 100).toPrecision(4);
-const getDataForProvider = (response) => {
-  console.log(response);
-  if (response.type === "video" || response.type === "rich" && response.provider_name !== "SoundCloud") {
-    return {
-      ratio: calculRatio({
-        height: response.height,
-        width: response.width
-      }),
-      html: response.html
-    };
-  }
-  switch (response.provider_name) {
-    case "SoundCloud":
-      return {
-        ratio: calculRatio({ height: 6, width: 16 }),
-        html: response.html
-      };
-    case "Ovizer":
-      return {
-        ratio: calculRatio({
-          height: response.thumbnail_height || 1,
-          width: response.thumbnail_width || 1
-        }),
-        html: `<iframe src="${response.url}" width="100%" height="auto" allowFullScreen></iframe>`
-      };
-    case "Apple Podcasts":
-      const embededUrl = response.url.replace("podcasts.apple.com", "embed.podcasts.apple.com");
-      return {
-        height: 183,
-        ratio: 0.1,
-        html: `<iframe allow="autoplay *; encrypted-media *; fullscreen *" height="175" style=";overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="${embededUrl}&theme=auto"></iframe>`
-      };
-    default:
-      return {
-        ratio: 67.5,
-        html: `<iframe src="${response.url}" width="100%" height="auto" allowFullScreen></iframe>`
-      };
-  }
-};
-const VideoEditor = ({
-  contentState,
-  entityKey,
-  blockKey
-}) => {
-  const {
-    embedlyHtml,
-    embedRatio,
-    html,
-    height
-  } = contentState.getEntity(entityKey).getData();
-  const [{
-    editorState
-  }, dispatch] = useContext(EditorContext);
-  const onClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
-  };
-  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
-  return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
-    ratio: embedRatio || 67.5,
-    className: "kiss-Draft__media",
-    style: __spreadValues({}, height && {
-      height
-    }),
-    children: /* @__PURE__ */ jsx("div", {
-      className: classNames("kiss-Draft__media-focus", {
-        "kiss-Draft__media-focus__focused": hasFocus
-      }),
-      onClick,
-      children: parseHtml(embedlyHtml || html, {
-        sanitize: false
-      })
-    })
-  });
-};
-const VideoDisplayer = (props) => {
-  const {
-    embedlyHtml,
-    embedRatio,
-    height,
-    html
-  } = props.contentState.getEntity(props.entityKey).getData();
-  return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
-    ratio: embedRatio || 67.5,
-    className: "kiss-Draft__media-read",
-    style: __spreadValues({}, height && {
-      height
-    }),
-    children: parseHtml(embedlyHtml || html, {
-      sanitize: false
-    })
-  });
-};
-const videoStrategy = (contentBlock, callback, contentState) => {
-  contentBlock.findEntityRanges((character) => {
-    const entityKey = character.getEntity();
-    return entityKey !== null && ["VIDEO", "MEDIA"].includes(contentState.getEntity(entityKey).getType());
-  }, callback);
-};
-const decorator$3 = {
-  strategy: videoStrategy,
-  component: VideoEditor
-};
-const readDecorator$3 = {
-  strategy: videoStrategy,
-  component: VideoDisplayer
-};
-const VideoControls = ({
-  disabled,
-  onChange,
-  embedlyApiKey
-}) => {
-  const [{
-    editorState,
-    translations,
-    disabled: contextDisabled
-  }, dispatch] = useContext(EditorContext);
-  const [modalOpened, openModal] = useState(false);
-  const [embedlyHtml, setEmbedlyHtml] = useState(void 0);
-  const [embedRatio, setEmbedRatio] = useState(void 0);
-  const [height, setHeight] = useState(void 0);
-  const [hasOembedError, oembedError] = useState(false);
-  return /* @__PURE__ */ jsxs(Fragment, {
-    children: [/* @__PURE__ */ jsx(Button, {
-      icon: "video",
-      disabled: contextDisabled || disabled,
-      onToggle: () => {
-        if (modalOpened) {
-          openModal(false);
-        } else {
-          openModal(true);
-        }
-      }
-    }), /* @__PURE__ */ jsx(ModalNext, {
-      onClose: () => openModal(false),
-      isOpen: modalOpened,
-      headerTitle: /* @__PURE__ */ jsx(Title$1, {
-        modifier: "quaternary",
-        children: translations.media_upload.title
-      }),
-      children: ({
-        close
-      }) => {
-        return /* @__PURE__ */ jsx(ModalNext.Block, {
-          children: /* @__PURE__ */ jsx(Formik, {
-            initialValues: {
-              url: ""
-            },
-            validationSchema: Yup.object().shape({
-              url: Yup.string().url(translations.video.invalid_url)
-            }),
-            onSubmit: ({
-              url
-            }) => {
-              onChange(url);
-              oembedError(false);
-              return oembed({
-                key: embedlyApiKey,
-                maxwidth: 640,
-                url
-              }).then((response) => {
-                if (response.type === "error") {
-                  oembedError(true);
-                  return;
-                }
-                const {
-                  html,
-                  ratio,
-                  height: height2
-                } = getDataForProvider(response);
-                dispatch(updateEditor(createMediaBlock(editorState, __spreadValues({
-                  html,
-                  embedRatio: ratio
-                }, height2 && {
-                  height: height2
-                }))));
-                close();
-                setTimeout(() => {
-                  openModal(false);
-                  setEmbedlyHtml(void 0);
-                }, 500);
-              });
-            },
-            children: ({
-              handleSubmit,
-              isSubmitting,
-              values
-            }) => {
-              return /* @__PURE__ */ jsxs(Fragment, {
-                children: [/* @__PURE__ */ jsx(Label, {
-                  size: "micro",
-                  className: "k-u-margin-bottom-single",
-                  htmlFor: "url",
-                  children: translations.image_upload.label
-                }), /* @__PURE__ */ jsx(FormikInputWithButton, {
-                  name: "url",
-                  placeholder: "https://",
-                  buttonValue: translations.image_upload.preview,
-                  onClick: () => {
-                    oembedError(false);
-                    oembed({
-                      key: embedlyApiKey,
-                      maxwidth: 640,
-                      url: values.url
-                    }).then((response) => {
-                      if (response.type === "error") {
-                        oembedError(true);
-                        return;
-                      }
-                      const {
-                        html,
-                        ratio,
-                        height: height2 = void 0
-                      } = getDataForProvider(response);
-                      setEmbedRatio(ratio);
-                      setEmbedlyHtml(html);
-                      setHeight(height2);
-                    });
-                  }
-                }), embedlyHtml && /* @__PURE__ */ jsx("div", {
-                  className: "k-u-margin-vertical-single",
-                  children: /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
-                    ratio: embedRatio,
-                    style: __spreadValues({}, height && {
-                      height
-                    }),
-                    children: parseHtml(embedlyHtml, {
-                      sanitize: false
-                    })
-                  })
-                }), hasOembedError && /* @__PURE__ */ jsx(Field.ErrorMessage, {
-                  children: translations.video.problem
-                }), /* @__PURE__ */ jsx(ModalNext.Actions, {
-                  children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
-                    fluid: true
-                  }) : /* @__PURE__ */ jsx(ModalNext.Button, {
-                    size: "big",
-                    type: "button",
-                    modifier: "helium",
-                    onClick: handleSubmit,
-                    children: translations.submit
-                  })
-                })]
-              });
-            }
-          })
-        });
-      }
-    })]
-  });
-};
-VideoControls.propTypes = {
-  embedlyApiKey: PropTypes.string.isRequired,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-VideoControls.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
-const StyledArrowContainer$1 = styled(ArrowContainer)`
-  display: flex;
-  position: absolute;
-  min-width: max-content;
-  padding: 0 ${pxToRem(20)};
-  background-color: ${COLORS.background1};
-  margin-top: ${pxToRem(0)};
-  transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
-  z-index: 99999;
-`;
-const DeleteLink$1 = styled(Text)`
-  flex: 1;
-  width: 100%;
-  text-align: center;
-  display: block;
-  padding: 0;
-`;
-const VerticalSeparator$1 = styled.span`
-  flex: 0;
-  border-left: var(--border-width, 1px) solid ${COLORS.font2};
-  margin: ${pxToRem(5)} ${pxToRem(10)};
-`;
-const ShareLink$1 = styled(Text)`
-  flex: 2;
-  max-width: ${pxToRem(240)};
-  text-overflow: ellipsis;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-`;
-const LinkInline = ({
-  onDelete,
-  url
-}) => {
-  const [{
-    translations
-  }] = useContext(EditorContext);
-  return /* @__PURE__ */ jsxs(StyledArrowContainer$1, {
-    position: "top",
-    shadow: true,
-    borderWidth: 1,
-    borderColor: COLORS.line1,
-    contentEditable: false,
-    children: [/* @__PURE__ */ jsx(DeleteLink$1, {
-      href: "#",
-      tag: "a",
-      size: "micro",
-      color: "error",
-      onClick: (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onDelete(e);
-      },
-      children: translations.link.button.delete
-    }), /* @__PURE__ */ jsx(VerticalSeparator$1, {}), /* @__PURE__ */ jsx(ShareLink$1, {
-      href: url,
-      target: "_blank",
-      rel: "noopener",
-      tag: "a",
-      size: "micro",
-      color: "font1",
-      onClick: (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        window.open(url, "_blank").focus();
-      },
-      children: url
-    })]
-  });
-};
-const StyledImage = styled.div`
-  width: 100%;
-  img {
-    display: inline-block;
-    height: auto;
-    max-width: 100%;
-  }
-`;
-const LinkManager = ({
-  url,
-  entityKey
-}) => {
-  const [{
-    editorState
-  }, dispatch] = useContext(EditorContext);
-  return /* @__PURE__ */ jsx(LinkInline, {
-    url,
-    onDelete: () => {
-      dispatch(updateEditor(removeDataFromEntity(editorState, entityKey, ["url"])));
-    }
-  });
-};
-const ImageEditor = ({
-  contentState,
-  entityKey,
-  blockKey
-}) => {
-  const [{
-    editorState
-  }, dispatch] = useContext(EditorContext);
-  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
-  const {
-    src,
-    url
-  } = contentState.getEntity(entityKey).getData();
-  const onClick = () => {
-    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
-  };
-  return /* @__PURE__ */ jsx(StyledImage, {
-    className: "kiss-Draft__image",
-    onClick,
-    children: /* @__PURE__ */ jsxs("div", {
-      className: classNames("kiss-Draft__image-focus", {
-        "kiss-Draft__image-focus__focused": hasFocus
-      }),
-      children: [/* @__PURE__ */ jsx("div", {
-        className: "k-u-align-center",
-        children: /* @__PURE__ */ jsx("img", {
-          src: getImageUrl(src),
-          alt: ""
-        })
-      }), hasFocus && !!url && /* @__PURE__ */ jsx(LinkManager, {
-        url,
-        entityKey
-      })]
-    })
-  });
-};
-const ImageDisplayer = ({
-  contentState,
-  entityKey
-}) => {
-  const {
-    src,
-    url
-  } = contentState.getEntity(entityKey).getData();
-  return /* @__PURE__ */ jsx(StyledImage, {
-    className: "kiss-Draft__image-read",
-    children: url ? /* @__PURE__ */ jsx("a", {
-      href: url,
-      target: "_blank",
-      rel: "nofollow noopener",
-      children: /* @__PURE__ */ jsx("div", {
-        className: "k-u-align-center",
-        children: /* @__PURE__ */ jsx("img", {
-          src: getImageUrl(src),
-          alt: ""
-        })
-      })
-    }) : /* @__PURE__ */ jsx("div", {
-      className: "k-u-align-center",
-      children: /* @__PURE__ */ jsx("img", {
-        src: getImageUrl(src),
-        alt: ""
-      })
-    })
-  });
-};
-const HiddenInput = styled.input`
-  display: none;
-`;
-const imageStrategy = (contentBlock, callback, contentState) => {
-  contentBlock.findEntityRanges((character) => {
-    const entityKey = character.getEntity();
-    return entityKey !== null && contentState.getEntity(entityKey).getType() === "IMAGE";
-  }, callback);
-};
-const decorator$2 = {
-  strategy: imageStrategy,
-  component: ImageEditor
-};
-const readDecorator$2 = {
-  strategy: imageStrategy,
-  component: ImageDisplayer
-};
-const Form = ({
-  imageUrl,
-  setImageUrl
-}) => {
-  const [{
-    translations
-  }] = useContext(EditorContext);
-  const {
-    handleSubmit,
-    values,
-    isSubmitting
-  } = useFormikContext();
-  const [, , fileSizeHelpers] = useField("fileSize");
-  const [, , urlHelpers] = useField("url");
-  const [, , fileHelpers] = useField("file");
-  const fileInputRef = useRef(null);
-  return /* @__PURE__ */ jsxs(Fragment, {
-    children: [/* @__PURE__ */ jsx(HiddenInput, {
-      ref: fileInputRef,
-      name: "file",
-      type: "file",
-      id: "imageFile",
-      onChange: (event) => {
-        const file = event.target.files[0];
-        if (!file.type.match("image.*")) {
-          return;
-        }
-        fileHelpers.setValue(file);
-        fileSizeHelpers.setValue(file.size);
-        urlHelpers.setValue("");
-        const reader = new FileReader();
-        reader.addEventListener("load", (file2) => {
-          setImageUrl(file2.target.result);
-        });
-        reader.readAsDataURL(file);
-      },
-      accept: "image/gif, image/jpeg, image/jpg, image/png"
-    }), /* @__PURE__ */ jsx("div", {
-      className: "k-u-margin-top-single",
-      children: /* @__PURE__ */ jsx(Label, {
-        htmlFor: "url",
-        children: translations.image_upload.label
-      })
-    }), /* @__PURE__ */ jsx(FormikInputWithButton, {
-      name: "url",
-      placeholder: "https://",
-      value: translations.image_upload.preview,
-      onClick: () => {
-        setImageUrl(values.url);
-        fileSizeHelpers.setValue(0);
-      }
-    }), /* @__PURE__ */ jsx("div", {
-      className: "k-u-margin-vertical-single",
-      children: imageUrl && /* @__PURE__ */ jsx("img", {
-        src: imageUrl,
-        width: "100%",
-        alt: ""
-      })
-    }), /* @__PURE__ */ jsx(ErrorMessage, {
-      name: "url",
-      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
-        children: msg
-      })
-    }), /* @__PURE__ */ jsx(ErrorMessage, {
-      name: "fileSize",
-      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
-        children: msg
-      })
-    }), /* @__PURE__ */ jsxs("div", {
-      className: "k-u-margin-top-single",
-      children: [/* @__PURE__ */ jsx("div", {
-        className: "k-u-margin-bottom-single",
-        children: /* @__PURE__ */ jsx("a", {
-          href: "#",
-          className: "k-u-link k-u-link-primary1",
-          onClick: (e) => {
-            e.preventDefault();
-            fileInputRef.current.click();
-          },
-          children: /* @__PURE__ */ jsx(Text, {
-            tag: "span",
-            decoration: "underline",
-            children: translations.image_upload.upload
-          })
-        })
-      }), /* @__PURE__ */ jsxs(ModalNext.Paragraph, {
-        align: "left",
-        noMargin: true,
-        children: [translations.image_upload.help_file.formats, /* @__PURE__ */ jsx("br", {}), translations.image_upload.help_file.width, /* @__PURE__ */ jsx("br", {}), translations.image_upload.help_file.size]
-      }), /* @__PURE__ */ jsx(ModalNext.Actions, {
-        children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
-          fluid: true
-        }) : /* @__PURE__ */ jsx(ModalNext.Button, {
-          type: "button",
-          size: "big",
-          modifier: "helium",
-          onClick: handleSubmit,
-          children: translations.submit
-        })
-      })]
-    })]
-  });
-};
-const ImageControls = ({
-  disabled,
-  onUpload
-}) => {
-  const [modalOpened, openModal] = useState(false);
-  const [{
-    editorState,
-    translations,
-    disabled: contextDisabled
-  }, dispatch] = useContext(EditorContext);
-  const [imageUrl, setImageUrl] = useState("");
-  useEffect(() => {
-    if (!modalOpened) {
-      setImageUrl("");
-    }
-  }, [modalOpened]);
-  return /* @__PURE__ */ jsxs(Fragment, {
-    children: [/* @__PURE__ */ jsx(Button, {
-      icon: "image",
-      disabled: contextDisabled || disabled,
-      onToggle: () => {
-        if (modalOpened) {
-          openModal(false);
-        } else {
-          openModal(true);
-        }
-      }
-    }), /* @__PURE__ */ jsx(ModalNext, {
-      onClose: () => openModal(false),
-      isOpen: modalOpened,
-      headerTitle: /* @__PURE__ */ jsx(Title$1, {
-        modifier: "quaternary",
-        children: translations.image_upload.title
-      }),
-      children: ({
-        close
-      }) => {
-        return /* @__PURE__ */ jsx(ModalNext.Block, {
-          children: /* @__PURE__ */ jsx(Formik, {
-            initialValues: {
-              url: "",
-              fileSize: 0
-            },
-            validationSchema: Yup.object().shape({
-              url: Yup.string().url(translations.image.invalid_url).matches(/(?:jpg|jpeg|gif|png)$/, translations.image.invalid_extension),
-              fileSize: Yup.number().max(5e6, translations.image.max_size)
-            }),
-            onSubmit: ({
-              url,
-              fileSize,
-              file
-            }) => {
-              return new Promise((resolve, reject) => {
-                if (isEmpty(url) && fileSize === 0) {
-                  reject("WRONG");
-                }
-                if (!isEmpty(url) && fileSize === 0) {
-                  resolve(url);
-                }
-                onUpload(file).then((url2) => resolve(url2));
-              }).then((url2) => {
-                const contentState = editorState.getCurrentContent();
-                const contentStateWithEntity = contentState.createEntity("IMAGE", "IMMUTABLE", {
-                  src: url2
-                });
-                const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-                const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
-                const newState = EditorState.forceSelection(newEditorState, newEditorState.getCurrentContent().getSelectionAfter());
-                dispatch(updateEditor(newState));
-                close();
-                openModal(false);
-                setTimeout(() => openModal(false), 500);
-              });
-            },
-            children: () => /* @__PURE__ */ jsx(Form, {
-              imageUrl,
-              setImageUrl
-            })
-          })
-        });
-      }
-    })]
-  });
-};
-ImageControls.propTypes = {
-  disabled: PropTypes.bool,
-  onUpload: PropTypes.func
-};
-ImageControls.defaultProps = {
-  disabled: false,
-  onUpload: () => null
-};
-const linkify$3 = linkifyIt();
-linkify$3.tlds(tlds);
-const Wrapper$3 = styled.div`
-  display: inline-block;
-  position: relative;
-`;
-const ImageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  img {
-    max-height: ${pxToRem(200)};
-    max-width: 100%;
-  }
-`;
-const ImageLinked = ({
-  src
-}) => {
-  return /* @__PURE__ */ jsx(ImageWrapper, {
-    children: /* @__PURE__ */ jsx("img", {
-      src: getImageUrl(src),
-      alt: ""
-    })
-  });
-};
-const Link$1 = ({
-  contentState,
-  entityKey,
-  children
-}) => {
-  const [isVisible, setVisible] = useState(false);
-  const {
-    url
-  } = contentState.getEntity(entityKey).getData();
-  const [{
-    editorState,
-    focus
-  }, dispatch] = useContext(EditorContext);
-  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
-  useEffect(() => {
-    setTimeout(() => setVisible(hasFocus && focus), 0);
-  }, [focus, editorState]);
-  return /* @__PURE__ */ jsxs(Wrapper$3, {
-    "aria-live": "assertive",
-    children: [/* @__PURE__ */ jsx("a", {
-      href: url,
-      target: "_blank",
-      className: "k-u-link k-u-link-primary1",
-      rel: "nofollow noopener",
-      children
-    }), isVisible && /* @__PURE__ */ jsx(LinkInline, {
-      url,
-      onDelete: () => {
-        var _a;
-        const currentContent = contentState == null ? void 0 : contentState.getBlockForKey((_a = editorState == null ? void 0 : editorState.getSelection()) == null ? void 0 : _a.getFocusKey());
-        if (!currentContent)
-          return;
-        currentContent.findEntityRanges((character) => {
-          return character.getEntity() === entityKey;
-        }, (start, end) => {
-          const newsSelection = editorState.getSelection().merge({
-            focusOffset: end,
-            anchorOffset: start
-          });
-          const newsEditorState = Modifier.applyEntity(contentState, newsSelection, null);
-          dispatch(updateEditor(EditorState.push(editorState, newsEditorState, "apply-entity")));
-        });
-      }
-    })]
-  });
-};
-const linkStrategy$1 = (contentBlock, callback, contentState) => {
-  contentBlock.findEntityRanges((character) => {
-    const entityKey = character.getEntity();
-    return entityKey !== null && contentState.getEntity(entityKey).getType() === "LINK";
-  }, callback);
-};
-const decorator$1 = {
-  strategy: linkStrategy$1,
-  component: Link$1
-};
-const readDecorator$1 = {
-  strategy: linkStrategy$1,
-  component: (props) => {
-    const {
-      url
-    } = props.contentState.getEntity(props.entityKey).getData();
-    return /* @__PURE__ */ jsx(Wrapper$3, {
-      children: /* @__PURE__ */ jsx("a", {
-        href: url,
-        target: "_blank",
-        rel: "nofollow noopener",
-        className: "k-u-link k-u-link-primary1",
-        children: props.children
-      })
-    });
-  }
-};
-const LinkControls = ({
-  disabled,
-  onChange
-}) => {
-  const [modalOpened, openModal] = useState(false);
-  const [{
-    editorState,
-    editorRef,
-    translations,
-    disabled: contextDisabled
-  }, dispatch] = useContext(EditorContext);
-  const entity = getEntity(editorState);
-  const entityKey = getEntityKey(editorState);
-  const textToShow = () => {
-    if (!entity) {
-      return getCurrentSelection(editorState);
-    }
-    return getEntityText(editorState, entityKey);
-  };
-  const forceFocus = () => {
-    const currentSelection = editorState.getSelection();
-    setTimeout(() => editorRef.current.focus(), 0);
-    const newSelectionAtTheEnd = currentSelection.merge({
-      anchorOffset: currentSelection.getFocusOffset(),
-      hasFocus: true
-    });
-    dispatch(updateEditor(EditorState.forceSelection(editorState, newSelectionAtTheEnd)));
-  };
-  const active = !contextDisabled && !disabled && (entity || !isEmpty(textToShow()));
-  return /* @__PURE__ */ jsxs(Fragment, {
-    children: [/* @__PURE__ */ jsx(Button, {
-      icon: "link",
-      disabled: !active,
-      onToggle: () => {
-        if (modalOpened) {
-          openModal(false);
-        } else {
-          openModal(true);
-        }
-      }
-    }), /* @__PURE__ */ jsx(ModalNext, {
-      onClose: () => {
-        openModal(false);
-        forceFocus();
-      },
-      isOpen: modalOpened,
-      headerTitle: /* @__PURE__ */ jsx(Title$1, {
-        modifier: "quaternary",
-        children: translations.link.title
-      }),
-      children: ({
-        close
-      }) => {
-        return /* @__PURE__ */ jsx(ModalNext.Block, {
-          children: /* @__PURE__ */ jsx(Formik, {
-            enableReinitialize: true,
-            initialValues: {
-              url: entity ? entity.getData().url : "",
-              text: textToShow()
-            },
-            onSubmit: ({
-              url
-            }) => {
-              const link = linkify$3.match(url);
-              const contentState = editorState.getCurrentContent();
-              onChange();
-              if (entity) {
-                if ((entity == null ? void 0 : entity.get("type")) === "IMAGE") {
-                  const newImageContentState = contentState.mergeEntityData(entityKey, {
-                    url: link[0].url
-                  });
-                  dispatch(updateEditor(EditorState.push(editorState, newImageContentState, "change-block-data")));
-                } else {
-                  const newContentState = contentState.replaceEntityData(entityKey, {
-                    url: link[0].url
-                  });
-                  dispatch(updateEditor(EditorState.push(editorState, newContentState, "change-block-data")));
-                }
-              } else {
-                const contentStateWithEntity = contentState.createEntity("LINK", "MUTABLE", {
-                  url: link[0].url
-                });
-                const entityKey2 = contentStateWithEntity.getLastCreatedEntityKey();
-                const newEditorState = EditorState.set(editorState, {
-                  currentContent: contentStateWithEntity
-                });
-                dispatch(updateEditor(RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey2)));
-              }
-              close();
-              openModal(false);
-              setTimeout(() => editorRef.current.focus(), 0);
-            },
-            children: ({
-              handleSubmit
-            }) => {
-              var _a;
-              return /* @__PURE__ */ jsxs(Fragment, {
-                children: [/* @__PURE__ */ jsx("div", {
-                  className: "k-u-margin-bottom-double",
-                  children: (entity == null ? void 0 : entity.get("type")) === "IMAGE" ? /* @__PURE__ */ jsx(ImageLinked, {
-                    src: (_a = entity == null ? void 0 : entity.getData()) == null ? void 0 : _a.src
-                  }) : /* @__PURE__ */ jsxs(Fragment, {
-                    children: [/* @__PURE__ */ jsx(Label, {
-                      htmlFor: "",
-                      children: translations.link.text.label
-                    }), /* @__PURE__ */ jsx(InputText, {
-                      name: "text",
-                      disabled: true
-                    })]
-                  })
-                }), /* @__PURE__ */ jsxs("div", {
-                  className: "k-u-margin-vertical-double",
-                  children: [/* @__PURE__ */ jsx(Label, {
-                    size: "micro",
-                    htmlFor: "url",
-                    children: translations.image_upload.url
-                  }), /* @__PURE__ */ jsx(InputText, {
-                    name: "url",
-                    validate: (value) => {
-                      if (!linkify$3.test(value)) {
-                        return translations.link.error;
-                      }
-                    }
-                  })]
-                }), /* @__PURE__ */ jsx(ModalNext.Actions, {
-                  children: /* @__PURE__ */ jsx(ModalNext.Button, {
-                    size: "big",
-                    type: "button",
-                    modifier: "helium",
-                    onClick: handleSubmit,
-                    children: translations.submit
-                  })
-                })]
-              });
-            }
-          })
-        });
-      }
-    })]
-  });
-};
-LinkControls.propTypes = {
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-LinkControls.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
-const linkify$2 = linkifyIt();
-linkify$2.tlds(tlds);
-const Wrapper$2 = styled.div`
-  position: relative;
-  margin: ${pxToRem(30)} 0;
-
-  @media (min-width: ${pxToRem(ScreenConfig.S.min)}) {
-    display: inline-block;
-  }
-`;
-const ButtonLinkWithFluidStyle = styled(Button$1)`
-  @media (max-width: ${pxToRem(ScreenConfig.XS.max)}) {
-    min-width: initial;
-    width: 100%;
-  }
-`;
-const StyledArrowContainer = styled(ArrowContainer)`
-  display: flex;
-  position: absolute;
-  min-width: max-content;
-  padding: 0 ${pxToRem(20)};
-  background-color: ${COLORS.background1};
-  margin-top: ${pxToRem(5)};
-  transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
-`;
-const DeleteLink = styled(Text)`
-  display: block;
-  width: 100%;
-  padding: 0;
-  text-align: center;
-`;
-const VerticalSeparator = styled.span`
-  margin: ${pxToRem(5)} ${pxToRem(10)};
-  border-left: var(--border-width, 1px) solid ${COLORS.font2};
-`;
-const ShareLink = styled(Text)`
-  overflow: hidden;
-  display: inline-block;
-  max-width: ${pxToRem(150)};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-const StyledButtonLink = ({
-  href,
-  children
-}) => {
-  return /* @__PURE__ */ jsx(ButtonLinkWithFluidStyle, {
-    tag: "a",
-    href,
-    target: "_blank",
-    rel: "nofollow noopener",
-    modifier: "helium",
-    size: "big",
-    children
-  });
-};
-const ButtonLink = ({
-  contentState,
-  entityKey,
-  children
-}) => {
-  const [isVisible, setVisible] = useState(false);
-  const {
-    url
-  } = contentState.getEntity(entityKey).getData();
-  const [{
-    editorState,
-    focus,
-    translations
-  }, dispatch] = useContext(EditorContext);
-  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
-  useEffect(() => {
-    setTimeout(() => setVisible(hasFocus && focus), 0);
-  }, [focus, editorState]);
-  return /* @__PURE__ */ jsxs(Wrapper$2, {
-    "aria-live": "assertive",
-    children: [/* @__PURE__ */ jsx(StyledButtonLink, {
-      href: url,
-      children
-    }), isVisible && /* @__PURE__ */ jsxs(StyledArrowContainer, {
-      position: "top",
-      shadow: true,
-      borderWidth: 1,
-      borderColor: COLORS.line1,
-      contentEditable: false,
-      children: [/* @__PURE__ */ jsx(DeleteLink, {
-        href: "#",
-        tag: "a",
-        size: "micro",
-        weight: "regular",
-        color: "error",
-        onClick: (e) => {
-          e.preventDefault();
-          const currentContent = contentState.getBlockForKey(editorState.getSelection().getFocusKey());
-          currentContent.findEntityRanges((character) => {
-            return character.getEntity() === entityKey;
-          }, (start, end) => {
-            const newsSelection = editorState.getSelection().merge({
-              focusOffset: end,
-              anchorOffset: start
-            });
-            const newsEditorState = Modifier.applyEntity(contentState, newsSelection, null);
-            dispatch(updateEditor(EditorState.push(editorState, newsEditorState, "apply-entity")));
-          });
-        },
-        children: translations.link.button.delete
-      }), /* @__PURE__ */ jsx(VerticalSeparator, {}), /* @__PURE__ */ jsx(ShareLink, {
-        href: url,
-        target: "_blank",
-        rel: "noopener",
-        tag: "a",
-        size: "micro",
-        weight: "regular",
-        color: "font1",
-        children: url
-      })]
-    })]
-  });
-};
-const buttonLinkStrategy = (contentBlock, callback, contentState) => {
-  contentBlock.findEntityRanges((character) => {
-    const entityKey = character.getEntity();
-    return entityKey !== null && contentState.getEntity(entityKey).getType() === "BUTTON_LINK";
-  }, callback);
-};
-const decorator = {
-  strategy: buttonLinkStrategy,
-  component: ButtonLink
-};
-const readDecorator = {
-  strategy: buttonLinkStrategy,
-  component: (props) => {
-    const {
-      url
-    } = props.contentState.getEntity(props.entityKey).getData();
-    return /* @__PURE__ */ jsx(Wrapper$2, {
-      children: /* @__PURE__ */ jsx(StyledButtonLink, {
-        href: url,
-        children: props.children
-      })
-    });
-  }
-};
-const ButtonLinkControls = ({
-  disabled,
-  onChange
-}) => {
-  const [{
-    editorState,
-    editorRef,
-    translations
-  }, dispatch] = useContext(EditorContext);
-  const entity = getEntity(editorState);
-  const entityKey = getEntityKey(editorState);
-  const textToShow = () => {
-    if (!entity) {
-      return getCurrentSelection(editorState);
-    }
-    return getEntityText(editorState, entityKey);
-  };
-  return /* @__PURE__ */ jsx(ModalNext, {
-    headerTitle: /* @__PURE__ */ jsx(Title$1, {
-      noMargin: true,
-      modifier: "quaternary",
-      children: translations.button_link.title
-    }),
-    trigger: /* @__PURE__ */ jsx(Button, {
-      icon: "button_link",
-      className: "Editor__toolbar__button--large",
-      disabled
-    }),
-    children: ({
-      close
-    }) => {
-      return /* @__PURE__ */ jsx(Formik, {
-        enableReinitialize: true,
-        initialValues: {
-          url: entity ? entity.getData().url : "",
-          text: textToShow()
-        },
-        onSubmit: ({
-          url
-        }) => {
-          onChange(url);
-          const link = linkify$2.match(url);
-          const contentState = editorState.getCurrentContent();
-          if (entity) {
-            const newContentState = contentState.replaceEntityData(entityKey, {
-              url: link[0].url
-            });
-            dispatch(updateEditor(EditorState.push(editorState, newContentState, "change-block-data")));
-          } else {
-            const contentStateWithEntity = contentState.createEntity("BUTTON_LINK", "MUTABLE", {
-              url: link[0].url
-            });
-            const entityKey2 = contentStateWithEntity.getLastCreatedEntityKey();
-            const newEditorState = EditorState.set(editorState, {
-              currentContent: contentStateWithEntity
-            });
-            dispatch(updateEditor(RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey2)));
-          }
-          close();
-          setTimeout(() => editorRef.current.blur(), 0);
-        },
-        children: ({
-          handleSubmit
-        }) => {
-          return /* @__PURE__ */ jsxs(Fragment, {
-            children: [/* @__PURE__ */ jsxs(ModalNext.Block, {
-              className: "k-u-margin-bottom-quadruple",
-              children: [/* @__PURE__ */ jsxs("div", {
-                className: "k-u-margin-bottom-double",
-                children: [/* @__PURE__ */ jsx(Label, {
-                  htmlFor: "",
-                  children: translations.button_link.text
-                }), /* @__PURE__ */ jsx(InputText, {
-                  name: "text",
-                  disabled: true
-                })]
-              }), /* @__PURE__ */ jsx(Label, {
-                htmlFor: "url",
-                children: translations.button_link.url
-              }), /* @__PURE__ */ jsx(InputText, {
-                name: "url",
-                validate: (value) => {
-                  if (!linkify$2.test(value)) {
-                    return translations.link.error;
-                  }
-                }
-              })]
-            }), /* @__PURE__ */ jsx(ModalNext.Button, {
-              fluid: true,
-              size: "big",
-              type: "button",
-              modifier: "helium",
-              onClick: handleSubmit,
-              children: translations.submit
-            })]
-          });
-        }
-      });
-    }
-  });
-};
-ButtonLinkControls.propTypes = {
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-ButtonLinkControls.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
-const linkify = linkifyIt({
-  fuzzyLink: false
-});
-linkify.tlds(tlds);
-const linkStrategy = (contentBlock, callback) => {
-  const links = linkify.match(contentBlock.get("text"));
-  if (typeof links !== "undefined" && links !== null) {
-    for (let i = 0; i < links.length; i += 1) {
-      callback(links[i].index, links[i].lastIndex);
-    }
-  }
-};
-const Link = (props) => {
-  return /* @__PURE__ */ jsx("a", {
-    target: "_blank",
-    rel: "nofollow noopener",
-    className: "k-u-link k-u-link-primary1",
-    href: props.decoratedText,
-    children: props.children
-  });
-};
-var linkify$1 = {
-  strategy: linkStrategy,
-  component: Link
-};
 const isJSONContent$1 = (content) => {
   try {
     JSON.parse(content);
@@ -5728,9 +5745,9 @@ const resetEditor = (editorState) => {
   return EditorState.set(editorState, {
     decorator: new CompositeDecorator([
       decorator$2,
-      decorator$3,
-      decorator$1,
       decorator,
+      decorator$1,
+      decorator$3,
       linkify$1
     ])
   });
@@ -5814,6 +5831,13 @@ const removeEntities = (editorState) => {
   const newContentState = Modifier.applyEntity(currentContent, entitySelection, null);
   return EditorState.push(editorState, newContentState, "apply-entity");
 };
+const isPreviousEmptyBlock = (editorState) => {
+  const currentContent = editorState.getCurrentContent();
+  const selectionState = currentContent.getSelectionBefore();
+  const anchorKey = selectionState.getAnchorKey();
+  const curentBlock = currentContent.getBlockForKey(anchorKey);
+  return flow(trim, isEmpty)(curentBlock.getText());
+};
 const isEmptyBlock = (editorState) => {
   const currentContent = editorState.getCurrentContent();
   const selectionState = editorState.getSelection();
@@ -5838,6 +5862,13 @@ const isCurrentBlockAllSelected = (editorState) => {
   const start = (_b = selectionState == null ? void 0 : selectionState.getStartOffset()) != null ? _b : 0;
   const end = (_c = selectionState == null ? void 0 : selectionState.getEndOffset()) != null ? _c : 0;
   return blockTextLength === end - start;
+};
+const removePreviousEmptyBlock = (editorState) => {
+  const blockMap = editorState.getCurrentContent().getBlockMap().delete(editorState.getCurrentContent().getSelectionBefore().getFocusKey());
+  const newContentStateWithoutBlock = editorState.getCurrentContent().merge({
+    blockMap
+  });
+  return EditorState.push(editorState, newContentStateWithoutBlock, "remove-range");
 };
 const removeCurrentBlock = (editorState, blockKey) => {
   const contentState = editorState.getCurrentContent();
@@ -6738,7 +6769,7 @@ const getinitialValue = memoize((value) => {
     return EditorState.createEmpty();
   }
   try {
-    return EditorState.createWithContent(convertFromRaw(JSON.parse(value)), new CompositeDecorator([readDecorator$2, readDecorator$3, readDecorator$1, readDecorator, linkify$1]));
+    return EditorState.createWithContent(convertFromRaw(JSON.parse(value)), new CompositeDecorator([readDecorator$2, readDecorator, readDecorator$1, readDecorator$3, linkify$1]));
   } catch (e) {
     const blocksFromHTML = convertFromHTML$1(`<p>${value}</p>`);
     const contentState = ContentState.createFromBlockArray(blocksFromHTML);
