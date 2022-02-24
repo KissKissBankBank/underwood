@@ -4423,15 +4423,20 @@ const ImageControls = ({
               url,
               fileSize,
               file
+            }, {
+              setSubmitting
             }) => {
               return new Promise((resolve, reject) => {
                 if (isEmpty(url) && fileSize === 0) {
                   reject("WRONG");
+                  setSubmitting(false);
                 }
                 if (!isEmpty(url) && fileSize === 0) {
                   resolve(url);
                 }
-                onUpload(file).then((url2) => resolve(url2));
+                onUpload(file).then((url2) => resolve(url2)).catch(() => {
+                  setSubmitting(false);
+                });
               }).then((url2) => {
                 const contentState = editorState.getCurrentContent();
                 const contentStateWithEntity = contentState.createEntity("IMAGE", "IMMUTABLE", {
