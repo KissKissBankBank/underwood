@@ -18,8 +18,10 @@ import { EditorContext, updateEditor } from "../context";
 import {
   getImageUrl,
   hasEntityFocus,
+  isPreviousEmptyBlock,
   moveSelectionTo,
   removeDataFromEntity,
+  removePreviousEmptyBlock,
 } from "../utils";
 import LinkInline from "./link-inline";
 
@@ -112,7 +114,7 @@ export const readDecorator = {
   component: ImageDisplayer,
 };
 
-const Form = ({ imageUrl, setImageUrl }) => {
+const Form = ({ imageUrl, setImageUrl, errorMessage }) => {
   const [{ translations }] = useContext(EditorContext);
   const { handleSubmit, values, isSubmitting } = useFormikContext();
   const [, , fileSizeHelpers] = useField("fileSize");
@@ -184,6 +186,9 @@ const Form = ({ imageUrl, setImageUrl }) => {
           {translations.image_upload.help_file.width}
           <br />
           {translations.image_upload.help_file.size}
+          {errorMessage && (
+            <Field.ErrorMessage>{errorMessage}</Field.ErrorMessage>
+          )}
         </Modal.Paragraph>
         <Modal.Actions>
           {isSubmitting ? (
@@ -204,7 +209,7 @@ const Form = ({ imageUrl, setImageUrl }) => {
   );
 };
 
-const ImageControls = ({ disabled, onUpload }) => {
+const ImageControls = ({ disabled, onUpload, errorMessage }) => {
   const [modalOpened, openModal] = useState(false);
   const [{ editorState, translations, disabled: contextDisabled }, dispatch] =
     useContext(EditorContext);
@@ -280,14 +285,27 @@ const ImageControls = ({ disabled, onUpload }) => {
                       newEditorState,
                       newEditorState.getCurrentContent().getSelectionAfter()
                     );
-                    dispatch(updateEditor(newState));
+                    if (isPreviousEmptyBlock(newState)) {
+                      const newStateWithoutPreviousEmptyBlock =
+                        removePreviousEmptyBlock(newState);
+
+                      dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
+                    } else {
+                      dispatch(updateEditor(newState));
+                    }
                     close();
                     openModal(false);
                     setTimeout(() => openModal(false), 500);
                   });
                 }}
               >
-                {() => <Form imageUrl={imageUrl} setImageUrl={setImageUrl} />}
+                {() => (
+                  <Form
+                    imageUrl={imageUrl}
+                    setImageUrl={setImageUrl}
+                    errorMessage={errorMessage}
+                  />
+                )}
               </Formik>
             </Modal.Block>
           );
@@ -300,6 +318,7 @@ const ImageControls = ({ disabled, onUpload }) => {
 ImageControls.propTypes = {
   disabled: PropTypes.bool,
   onUpload: PropTypes.func,
+  errorMessage: PropTypes.string,
 };
 
 ImageControls.defaultProps = {

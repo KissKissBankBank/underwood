@@ -1,20 +1,26 @@
-import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
+import {
+  Field,
+  ModalNext as Modal,
+  parseHtml,
+  ResponsiveIframeContainer,
+  Title,
+} from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { Formik } from "formik";
+import PropTypes from "prop-types";
+import React, { useContext, useState } from "react";
 import * as Yup from "yup";
-import {
-  Title,
-  Field,
-  ResponsiveIframeContainer,
-  parseHtml,
-  ModalNext as Modal,
-} from "@kisskissbankbank/kitten";
-import ButtonEditor from "../../components/button";
-import { Label, InputWithButton, SubmitLoader } from "../../components/form";
 import { oembed } from "../../api/embedly";
+import ButtonEditor from "../../components/button";
+import { InputWithButton, Label, SubmitLoader } from "../../components/form";
 import { EditorContext, updateEditor } from "../../context";
-import { createMediaBlock, hasEntityFocus, moveSelectionTo } from "../../utils";
+import {
+  createMediaBlock,
+  hasEntityFocus,
+  isPreviousEmptyBlock,
+  moveSelectionTo,
+  removePreviousEmptyBlock,
+} from "../../utils";
 import { getDataForProvider } from "./providers";
 
 const VideoEditor = ({ contentState, entityKey, blockKey }) => {
@@ -132,15 +138,19 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                     }
                     const { html, ratio, height } =
                       getDataForProvider(response);
-                    dispatch(
-                      updateEditor(
-                        createMediaBlock(editorState, {
-                          html,
-                          embedRatio: ratio,
-                          ...(height && { height }),
-                        })
-                      )
-                    );
+
+                    const newState = createMediaBlock(editorState, {
+                      html,
+                      embedRatio: ratio,
+                      ...(height && { height }),
+                    });
+                    if (isPreviousEmptyBlock(newState)) {
+                      const newStateWithoutPreviousEmptyBlock =
+                        removePreviousEmptyBlock(newState);
+                      dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
+                    } else {
+                      dispatch(updateEditor(newState));
+                    }
                     close();
                     setTimeout(() => {
                       openModal(false);
