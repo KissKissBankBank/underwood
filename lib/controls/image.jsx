@@ -114,7 +114,12 @@ export const readDecorator = {
   component: ImageDisplayer,
 };
 
-const Form = ({ imageUrl, setImageUrl, errorMessage }) => {
+const Form = ({
+  imageUrl,
+  setImageUrl,
+  errorMessage,
+  onChange = () => null,
+}) => {
   const [{ translations }] = useContext(EditorContext);
   const { handleSubmit, values, isSubmitting } = useFormikContext();
   const [, , fileSizeHelpers] = useField("fileSize");
@@ -129,6 +134,7 @@ const Form = ({ imageUrl, setImageUrl, errorMessage }) => {
         type="file"
         id="imageFile"
         onChange={(event) => {
+          onChange(event);
           const file = event.target.files[0];
           if (!file.type.match("image.*")) {
             return;
@@ -209,7 +215,7 @@ const Form = ({ imageUrl, setImageUrl, errorMessage }) => {
   );
 };
 
-const ImageControls = ({ disabled, onUpload, errorMessage }) => {
+const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
   const [modalOpened, openModal] = useState(false);
   const [{ editorState, translations, disabled: contextDisabled }, dispatch] =
     useContext(EditorContext);
@@ -309,6 +315,7 @@ const ImageControls = ({ disabled, onUpload, errorMessage }) => {
                     imageUrl={imageUrl}
                     setImageUrl={setImageUrl}
                     errorMessage={errorMessage}
+                    onChange={onChange}
                   />
                 )}
               </Formik>
