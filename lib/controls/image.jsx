@@ -256,15 +256,20 @@ const ImageControls = ({ disabled, onUpload, errorMessage }) => {
                     translations.image.max_size
                   ),
                 })}
-                onSubmit={({ url, fileSize, file }) => {
+                onSubmit={({ url, fileSize, file }, { setSubmitting }) => {
                   return new Promise((resolve, reject) => {
                     if (isEmpty(url) && fileSize === 0) {
                       reject("WRONG");
+                      setSubmitting(false);
                     }
                     if (!isEmpty(url) && fileSize === 0) {
                       resolve(url);
                     }
-                    onUpload(file).then((url) => resolve(url));
+                    onUpload(file)
+                      .then((url) => resolve(url))
+                      .catch(() => {
+                        setSubmitting(false);
+                      });
                   }).then((url) => {
                     const contentState = editorState.getCurrentContent();
                     const contentStateWithEntity = contentState.createEntity(
