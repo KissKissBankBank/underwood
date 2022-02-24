@@ -4268,7 +4268,8 @@ const readDecorator$2 = {
 const Form = ({
   imageUrl,
   setImageUrl,
-  errorMessage
+  errorMessage,
+  onChange = () => null
 }) => {
   const [{
     translations
@@ -4289,6 +4290,7 @@ const Form = ({
       type: "file",
       id: "imageFile",
       onChange: (event) => {
+        onChange(event);
         const file = event.target.files[0];
         if (!file.type.match("image.*")) {
           return;
@@ -4374,6 +4376,7 @@ const Form = ({
 const ImageControls = ({
   disabled,
   onUpload,
+  onChange,
   errorMessage
 }) => {
   const [modalOpened, openModal] = useState(false);
@@ -4459,7 +4462,8 @@ const ImageControls = ({
             children: () => /* @__PURE__ */ jsx(Form, {
               imageUrl,
               setImageUrl,
-              errorMessage
+              errorMessage,
+              onChange
             })
           })
         });
