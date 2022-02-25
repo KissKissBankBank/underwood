@@ -6517,6 +6517,8 @@ const Actions = styled.div`
     margin-left: 0;
   }
 
+  margin-right: ${pxToRem(10)};
+
   @media (min-width: ${pxToRem(ScreenConfig.S.min)}) {
     margin-right: ${pxToRem(20)};
 

@@ -365,6 +365,8 @@ object-assign
     margin-left: 0;
   }
 
+  margin-right: ${l.pxToRem(10)};
+
   @media (min-width: ${l.pxToRem(l.ScreenConfig.S.min)}) {
     margin-right: ${l.pxToRem(20)};
 
