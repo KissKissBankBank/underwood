@@ -1,7 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
 import { domElementHelper } from "@kisskissbankbank/kitten";
+import classNames from "classnames";
 import {
   CompositeDecorator,
   ContentState,
@@ -11,15 +9,17 @@ import {
   EditorState,
 } from "draft-js";
 import memoize from "lodash/fp/memoize";
-import { EditorStyle, styleBlock } from "./style";
-import { readDecorator as videoReadDecorator } from "./controls/video";
-import { readDecorator as imageReadDecorator } from "./controls/image";
-import { readDecorator as linkDecorator } from "./controls/link";
-import { readDecorator as buttonLinkDecorator } from "./controls/button-link";
-import linkify from "./enhancers/linkify";
-import HtmlEditor from "./html-editor";
+import PropTypes from "prop-types";
+import React from "react";
 import { customBlockRenderMap } from "./block-render-map";
 import { EditorProvider } from "./context";
+import { readDecorator as buttonLinkDecorator } from "./controls/button-link";
+import { readDecorator as imageReadDecorator } from "./controls/image";
+import { readDecorator as linkDecorator } from "./controls/link";
+import { readDecorator as videoReadDecorator } from "./controls/video";
+import linkify from "./enhancers/linkify";
+import HtmlEditor from "./html-editor";
+import { EditorStyle, styleBlock } from "./style";
 
 const getinitialValue = memoize((value) => {
   if (!domElementHelper.canUseDom()) return null;

@@ -1,8 +1,8 @@
-import "./style.scss";
+import { convertToRaw, EditorState } from "draft-js";
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { EditorState, convertToRaw } from "draft-js";
-import { Editor, Playground, Controls, Displayer } from "./index";
+import { Controls, Displayer, Editor, Playground } from "./index";
+import "./style.scss";
 
 const EditorDev = () => {
   const [body, setBody] = useState(
@@ -23,6 +23,7 @@ const EditorDev = () => {
             <Controls.UnorderedList />
           </Controls.Group>
           <Controls.Group>
+            <Controls.Image onUpload={console.log} />
             <Controls.Video embedlyApiKey="8b7d8dd6504d41af9a77662672aabc2a" />
           </Controls.Group>
         </Controls>

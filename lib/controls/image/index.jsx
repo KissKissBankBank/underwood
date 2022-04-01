@@ -1,20 +1,18 @@
 import {
-  Field,
+  DropdownMenu,
   ModalNext as Modal,
-  Text,
   Title,
 } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { AtomicBlockUtils, EditorState } from "draft-js";
-import { ErrorMessage, Formik, useField, useFormikContext } from "formik";
+import { Formik } from "formik";
 import isEmpty from "lodash/fp/isEmpty";
 import PropTypes from "prop-types";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
-import ButtonEditor from "../components/button";
-import { InputWithButton, Label, SubmitLoader } from "../components/form";
-import { EditorContext, updateEditor } from "../context";
+import ButtonEditor from "../../components/button";
+import { EditorContext, updateEditor } from "../../context";
 import {
   getImageUrl,
   hasEntityFocus,
@@ -22,15 +20,26 @@ import {
   moveSelectionTo,
   removeDataFromEntity,
   removePreviousEmptyBlock,
-} from "../utils";
-import LinkInline from "./link-inline";
+} from "../../utils";
+import LinkInline from "../link-inline";
+import Form from "./form";
+import Update from "./update";
 
 const StyledImage = styled.div`
+  position: relative;
   width: 100%;
   img {
-    display: inline-block;
+    display: inline;
     height: auto;
     max-width: 100%;
+  }
+
+  .image-menu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    height: 100%;
   }
 `;
 
@@ -49,9 +58,10 @@ const LinkManager = ({ url, entityKey }) => {
 };
 
 const ImageEditor = ({ contentState, entityKey, blockKey }) => {
-  const [{ editorState }, dispatch] = useContext(EditorContext);
+  const [{ editorState, translations }, dispatch] = useContext(EditorContext);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
-  const { src, url } = contentState.getEntity(entityKey).getData();
+  const { src, url, description } = contentState.getEntity(entityKey).getData();
   const onClick = () => {
     dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
   };
@@ -63,36 +73,48 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
         })}
       >
         <div className="k-u-align-center">
-          <img src={getImageUrl(src)} alt="" />
+          <img src={getImageUrl(src)} alt={description} />
+          <DropdownMenu
+            className="image-menu"
+            menuPosition="center"
+            positionedButton
+          >
+            <DropdownMenu.Button onClick={() => setShowUpdateModal(true)}>
+              {translations.image_upload.modify_label}
+            </DropdownMenu.Button>
+          </DropdownMenu>
         </div>
         {hasFocus && !!url && <LinkManager url={url} entityKey={entityKey} />}
       </div>
-    </StyledImage>
-  );
-};
-
-const ImageDisplayer = ({ contentState, entityKey }) => {
-  const { src, url } = contentState.getEntity(entityKey).getData();
-  return (
-    <StyledImage className="kiss-Draft__image-read">
-      {url ? (
-        <a href={url} target="_blank" rel="nofollow noopener">
-          <div className="k-u-align-center">
-            <img src={getImageUrl(src)} alt="" />
-          </div>
-        </a>
-      ) : (
-        <div className="k-u-align-center">
-          <img src={getImageUrl(src)} alt="" />
-        </div>
+      {showUpdateModal && (
+        <Update
+          onClose={() => setShowUpdateModal(false)}
+          entityKey={entityKey}
+          description={description}
+        />
       )}
     </StyledImage>
   );
 };
 
-const HiddenInput = styled.input`
-  display: none;
-`;
+const ImageDisplayer = ({ contentState, entityKey }) => {
+  const { src, url, description } = contentState.getEntity(entityKey).getData();
+  return (
+    <StyledImage className="kiss-Draft__image-read">
+      {url ? (
+        <a href={url} target="_blank" rel="nofollow noopener">
+          <div className="k-u-align-center">
+            <img src={getImageUrl(src)} alt={description} />
+          </div>
+        </a>
+      ) : (
+        <div className="k-u-align-center">
+          <img src={getImageUrl(src)} alt={description} />
+        </div>
+      )}
+    </StyledImage>
+  );
+};
 
 const imageStrategy = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges((character) => {
@@ -114,109 +136,8 @@ export const readDecorator = {
   component: ImageDisplayer,
 };
 
-const Form = ({
-  imageUrl,
-  setImageUrl,
-  errorMessage,
-  onChange = () => null,
-}) => {
-  const [{ translations }] = useContext(EditorContext);
-  const { handleSubmit, values, isSubmitting } = useFormikContext();
-  const [, , fileSizeHelpers] = useField("fileSize");
-  const [, , urlHelpers] = useField("url");
-  const [, , fileHelpers] = useField("file");
-  const fileInputRef = useRef(null);
-  return (
-    <>
-      <HiddenInput
-        ref={fileInputRef}
-        name="file"
-        type="file"
-        id="imageFile"
-        onChange={(event) => {
-          onChange(event);
-          const file = event.target.files[0];
-          if (!file.type.match("image.*")) {
-            return;
-          }
-          fileHelpers.setValue(file);
-          fileSizeHelpers.setValue(file.size);
-          urlHelpers.setValue("");
-          const reader = new FileReader();
-          reader.addEventListener("load", (file) => {
-            setImageUrl(file.target.result);
-          });
-          reader.readAsDataURL(file);
-        }}
-        accept="image/gif, image/jpeg, image/jpg, image/png"
-      />
-      <div className="k-u-margin-top-single">
-        <Label htmlFor="url">{translations.image_upload.label}</Label>
-      </div>
-      <InputWithButton
-        name="url"
-        placeholder="https://"
-        buttonValue={translations.image_upload.preview}
-        onClick={() => {
-          setImageUrl(values.url);
-          fileSizeHelpers.setValue(0);
-        }}
-      />
-      <div className="k-u-margin-vertical-single">
-        {imageUrl && <img src={imageUrl} width="100%" alt="" />}
-      </div>
-      <ErrorMessage name="url">
-        {(msg) => <Field.ErrorMessage>{msg}</Field.ErrorMessage>}
-      </ErrorMessage>
-      <ErrorMessage name="fileSize">
-        {(msg) => <Field.ErrorMessage>{msg}</Field.ErrorMessage>}
-      </ErrorMessage>
-      <div className="k-u-margin-top-single">
-        <div className="k-u-margin-bottom-single">
-          <a
-            href="#"
-            className="k-u-link k-u-link-primary1"
-            onClick={(e) => {
-              e.preventDefault();
-              fileInputRef.current.click();
-            }}
-          >
-            <Text tag="span" decoration="underline">
-              {translations.image_upload.upload}
-            </Text>
-          </a>
-        </div>
-        <Modal.Paragraph align="left" noMargin>
-          {translations.image_upload.help_file.formats}
-          <br />
-          {translations.image_upload.help_file.width}
-          <br />
-          {translations.image_upload.help_file.size}
-          {errorMessage && (
-            <Field.ErrorMessage>{errorMessage}</Field.ErrorMessage>
-          )}
-        </Modal.Paragraph>
-        <Modal.Actions>
-          {isSubmitting ? (
-            <SubmitLoader fluid />
-          ) : (
-            <Modal.Button
-              type="button"
-              size="big"
-              modifier="helium"
-              onClick={handleSubmit}
-            >
-              {translations.submit}
-            </Modal.Button>
-          )}
-        </Modal.Actions>
-      </div>
-    </>
-  );
-};
-
 const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
-  const [modalOpened, openModal] = useState(false);
+  const [modalOpened, openModal] = useState(true);
   const [{ editorState, translations, disabled: contextDisabled }, dispatch] =
     useContext(EditorContext);
   const [imageUrl, setImageUrl] = useState("");
@@ -249,7 +170,7 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
           return (
             <Modal.Block>
               <Formik
-                initialValues={{ url: "", fileSize: 0 }}
+                initialValues={{ url: "", description: "" }}
                 validationSchema={Yup.object().shape({
                   url: Yup.string()
                     .url(translations.image.invalid_url)
@@ -257,25 +178,25 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
                       /(?:jpg|jpeg|gif|png)$/,
                       translations.image.invalid_extension
                     ),
-                  fileSize: Yup.number().max(
-                    5000000, // 5 Mo
-                    translations.image.max_size
-                  ),
                 })}
-                onSubmit={({ url, fileSize, file }, { setSubmitting }) => {
+                onSubmit={(
+                  { url, fileSize, file, description },
+                  { setSubmitting }
+                ) => {
                   return new Promise((resolve, reject) => {
-                    if (isEmpty(url) && fileSize === 0) {
+                    if (file && file.size === 0) {
                       reject("WRONG");
                       setSubmitting(false);
                     }
-                    if (!isEmpty(url) && fileSize === 0) {
+                    if (!isEmpty(url)) {
                       resolve(url);
+                    } else {
+                      onUpload(file)
+                        .then((url) => resolve(url))
+                        .catch(() => {
+                          setSubmitting(false);
+                        });
                     }
-                    onUpload(file)
-                      .then((url) => resolve(url))
-                      .catch(() => {
-                        setSubmitting(false);
-                      });
                   }).then((url) => {
                     const contentState = editorState.getCurrentContent();
                     const contentStateWithEntity = contentState.createEntity(
@@ -283,6 +204,7 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
                       "IMMUTABLE",
                       {
                         src: url,
+                        description,
                       }
                     );
                     const entityKey =

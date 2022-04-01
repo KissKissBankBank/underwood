@@ -1,20 +1,20 @@
-import { COLORS, Paragraph, pxToRem } from "@kisskissbankbank/kitten";
+import { Paragraph, pxToRem } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { convertToRaw, Editor as DraftEditor, EditorState } from "draft-js";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import { customBlockRenderMap } from "./block-render-map";
 import {
   EditorContext,
   setFocus,
   updateEditor,
   updateEditorRef,
 } from "./context";
-import { getEditorValue, resetEditor } from "./utils";
-import { EditorStyle, styleBlock } from "./style";
 import keyCommandHandler from "./handlers/key-command";
 import returnHandler from "./handlers/return";
-import { customBlockRenderMap } from "./block-render-map";
+import { EditorStyle, styleBlock } from "./style";
+import { getEditorValue, resetEditor } from "./utils";
 
 const Wrapper = styled.div`
   border-radius: var(--border-radius-s);
@@ -24,7 +24,8 @@ const Wrapper = styled.div`
     border: var(--border);
     padding: ${pxToRem(15)};
 
-    &.u-Editor--focused, &:focus-within {
+    &.u-Editor--focused,
+    &:focus-within {
       border: var(--border-active);
       outline: var(--outline-input);
       outline-offset: var(--outline-offset-input);
@@ -53,7 +54,8 @@ const Playground = ({
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const playgroundRef = useRef(null);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [{ editorState, focus }, dispatch] = useContext(EditorContext);
+  const [{ editorState, focus, disabled }, dispatch] =
+    useContext(EditorContext);
 
   const onChange = (editorState) => dispatch(updateEditor(editorState));
 
@@ -74,23 +76,19 @@ const Playground = ({
     onChange(resetEditor(getEditorValue(initialValue)));
   }, [initialValue]);
 
-  const handleWrapperClick = (event) => {
+  const handleWrapperClick = () => {
     if (!playgroundRef?.current) return;
 
     playgroundRef.current.focus();
-  }
+  };
 
   return (
     <Wrapper
-      className={classNames(
-        "u-Editor",
-        className,
-        {
-          "u-Editor--hasError": hasError,
-          "u-Editor--focused": focus,
-          "u-Editor--hasBorder": !withoutBorder,
-        }
-      )}
+      className={classNames("u-Editor", className, {
+        "u-Editor--hasError": hasError,
+        "u-Editor--focused": focus,
+        "u-Editor--hasBorder": !withoutBorder,
+      })}
       onClick={handleWrapperClick}
     >
       <EditorStyle />
@@ -107,7 +105,7 @@ const Playground = ({
           ref={playgroundRef}
           editorState={editorState}
           placeholder={placeholder}
-          readOnly={isDisabled}
+          readOnly={isDisabled || disabled}
           handleKeyCommand={keyCommandHandler(onChange)}
           handleReturn={returnHandler(onChange)}
           onChange={onChange}

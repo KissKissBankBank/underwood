@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { ErrorMessage, useField } from 'formik'
-import { Field } from '@kisskissbankbank/kitten'
+import { Field } from "@kisskissbankbank/kitten";
+import { ErrorMessage, useField } from "formik";
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 
 const InputText = ({
   name,
@@ -23,14 +23,14 @@ const InputText = ({
   validate,
   ...others
 }) => {
-  const [field, meta, { setValue }] = useField({ name, validate })
+  const [field, meta, { setValue }] = useField({ name, validate });
 
   useEffect(() => {
-    if (!defaultValue) return
-    if (field.value) return
+    if (!defaultValue) return;
+    if (field.value) return;
 
-    setValue(defaultValue)
-  }, [])
+    setValue(defaultValue);
+  }, []);
 
   return (
     <>
@@ -41,18 +41,18 @@ const InputText = ({
           error={meta.error && meta.touched}
           onFocus={onFocus}
           onChange={(e) => {
-            field.onChange(e)
+            field.onChange(e);
             if (normalize) {
-              setValue(normalize(e.target.value))
+              setValue(normalize(e.target.value));
             }
-            onChange(e)
+            onChange(e);
           }}
           onBlur={(e) => {
-            field.onBlur(e)
+            field.onBlur(e);
             if (normalize) {
-              setValue(normalize(e.target.value))
+              setValue(normalize(e.target.value));
             }
-            onBlur(e)
+            onBlur(e);
           }}
           data-test-id={name}
           placeholder={placeholder}
@@ -71,17 +71,17 @@ const InputText = ({
         {(msg) => <Field.ErrorMessage>{msg}</Field.ErrorMessage>}
       </ErrorMessage>
     </>
-  )
-}
+  );
+};
 
 InputText.defaultProps = {
-  type: 'text',
+  type: "input",
   disabled: false,
   validate: () => {},
   onFocus: () => {},
   onBlur: () => {},
   onChange: () => {},
-}
+};
 
 InputText.propTypes = {
   name: PropTypes.string.isRequired,
@@ -98,6 +98,6 @@ InputText.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   normalize: PropTypes.func,
-}
+};
 
-export default InputText
+export default InputText;
