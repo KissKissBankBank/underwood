@@ -23,6 +23,12 @@ const StyledButtonGroup = styled(ButtonGroup)`
   }
 `;
 
+const ImagePreview = styled.img`
+  width: 100%;
+  object-fit: contain;
+  aspect-ratio: 16/10;
+`;
+
 const UPLOAD_METHOD = {
   URL: "URL",
   FILE: "FILE",
@@ -116,12 +122,7 @@ const Form = ({
       <div className="k-u-margin-vertical-single">
         {imageUrl && (
           <>
-            <img
-              src={imageUrl}
-              width="100%"
-              alt=""
-              style={{ objectFit: "contain", aspectRatio: "16/10" }}
-            />
+            <ImagePreview src={imageUrl} alt="" />
             {uploadMethod === UPLOAD_METHOD.FILE && (
               <div className="k-u-margin-top-singleHalf k-u-align-center">
                 <Text

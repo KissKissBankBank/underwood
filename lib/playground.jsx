@@ -102,6 +102,7 @@ const Playground = ({
         })}
       >
         <DraftEditor
+          stripPastedStyles
           ref={playgroundRef}
           editorState={editorState}
           placeholder={placeholder}
