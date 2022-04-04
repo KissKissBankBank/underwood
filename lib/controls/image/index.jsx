@@ -80,7 +80,9 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
             positionedButton
           >
             <DropdownMenu.Button onClick={() => setShowUpdateModal(true)}>
-              {translations.image_upload.modify_label}
+              {isEmpty(description)
+                ? translations.image_upload.add_label
+                : translations.image_upload.modify_label}
             </DropdownMenu.Button>
           </DropdownMenu>
         </div>

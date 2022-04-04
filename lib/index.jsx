@@ -46,13 +46,14 @@ const defaultTranslations = {
     button_title: "Insert a picture",
     button_file: "From my computer",
     button_url: "From a URL",
-    modify_label: "Modify image",
+    modify_label: "Modify the image description",
+    add_label: "Add a description to the image",
     label: "URL:",
     url: "URL:",
     preview: "Preview",
     upload: "Select a file on your computer",
     max_size: "The size of your image exceeds 5 MB",
-    dimension_error: "Image dimensions too big (4096x4096px max)",
+    dimension_error: "Image dimensions too big (1000x4000 max)",
     description: {
       title: "Image description",
       label: (

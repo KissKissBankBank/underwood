@@ -58,6 +58,7 @@ const Update = ({ onClose, description, entityKey }) => {
                       </Label>
                       <InputText
                         name="description"
+                        tag="autoresize"
                         placeholder={
                           translations.image_upload.description.placeholder
                         }

@@ -113,7 +113,14 @@ const Form = ({
         </>
       )}
       <div className="k-u-margin-vertical-single">
-        {imageUrl && <img src={imageUrl} width="100%" alt="" />}
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            width="100%"
+            alt=""
+            style={{ objectFit: "contain", aspectRatio: "16/10" }}
+          />
+        )}
       </div>
       {imageUrl && (
         <>
@@ -123,6 +130,7 @@ const Form = ({
             </Label>
             <InputText
               name="description"
+              tag="autoresize"
               placeholder={translations.image_upload.description.placeholder}
             />
           </div>
