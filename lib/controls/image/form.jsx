@@ -115,16 +115,20 @@ const Form = ({
       <div className="k-u-margin-vertical-single">
         {imageUrl && <img src={imageUrl} width="100%" alt="" />}
       </div>
-      <div className="k-u-margin-vertical-double">
-        <Label htmlFor="description">
-          {translations.image_upload.description.label}
-        </Label>
-        <InputText
-          name="description"
-          placeholder={translations.image_upload.description.placeholder}
-        />
-      </div>
-      <AlertBox>{translations.image_upload.description.helper}</AlertBox>
+      {imageUrl && (
+        <>
+          <div className="k-u-margin-vertical-double">
+            <Label htmlFor="description">
+              {translations.image_upload.description.label}
+            </Label>
+            <InputText
+              name="description"
+              placeholder={translations.image_upload.description.placeholder}
+            />
+          </div>
+          <AlertBox>{translations.image_upload.description.helper}</AlertBox>
+        </>
+      )}
       <ErrorMessage name="url">
         {(msg) => <Field.ErrorMessage>{msg}</Field.ErrorMessage>}
       </ErrorMessage>
