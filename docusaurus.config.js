@@ -8,9 +8,10 @@ module.exports = {
   projectName: "underwood",
   onBrokenLinks: "warn",
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'fr'],
+    defaultLocale: "en",
+    locales: ["en", "fr"],
   },
+  plugins: ["docusaurus-plugin-sass"],
   themeConfig: {
     navbar: {
       title: "Underwood",
@@ -26,14 +27,15 @@ module.exports = {
           position: "left",
         },
         { to: "blog", label: "Blog", position: "left" },
+        { to: "playground", label: "Playground", position: "left" },
         {
           href: "https://github.com/KissKissBankBank/underwood",
           label: "GitHub",
           position: "right",
         },
         {
-          type: 'localeDropdown',
-          position: 'right',
+          type: "localeDropdown",
+          position: "right",
         },
       ],
     },
@@ -98,7 +100,7 @@ module.exports = {
             "https://github.com/KissKissBankBank/underwood/edit/master/website/blog/",
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
+          customCss: require.resolve("./src/css/custom.scss"),
         },
       },
     ],

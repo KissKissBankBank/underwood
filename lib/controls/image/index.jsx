@@ -137,7 +137,7 @@ export const readDecorator = {
 };
 
 const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
-  const [modalOpened, openModal] = useState(true);
+  const [modalOpened, openModal] = useState(false);
   const [{ editorState, translations, disabled: contextDisabled }, dispatch] =
     useContext(EditorContext);
   const [imageUrl, setImageUrl] = useState("");
