@@ -46,6 +46,7 @@ const defaultTranslations = {
     button_title: "Insert a picture",
     button_file: "From my computer",
     button_url: "From a URL",
+    modify_image: "Change image",
     modify_label: "Modify the image description",
     add_label: "Add a description to the image",
     label: "URL:",

@@ -4,6 +4,7 @@ import {
   Field,
   ImageDropUploader,
   ModalNext as Modal,
+  Text,
 } from "@kisskissbankbank/kitten";
 import { ErrorMessage, useField, useFormikContext } from "formik";
 import React, { useContext, useState } from "react";
@@ -114,12 +115,26 @@ const Form = ({
       )}
       <div className="k-u-margin-vertical-single">
         {imageUrl && (
-          <img
-            src={imageUrl}
-            width="100%"
-            alt=""
-            style={{ objectFit: "contain", aspectRatio: "16/10" }}
-          />
+          <>
+            <img
+              src={imageUrl}
+              width="100%"
+              alt=""
+              style={{ objectFit: "contain", aspectRatio: "16/10" }}
+            />
+            {uploadMethod === UPLOAD_METHOD.FILE && (
+              <div className="k-u-margin-top-singleHalf k-u-align-center">
+                <Text
+                  size="small"
+                  tag="button"
+                  onClick={() => setImageUrl(undefined)}
+                  className="k-u-reset-button k-u-link k-u-link-primary1"
+                >
+                  {translations.image_upload.modify_image}
+                </Text>
+              </div>
+            )}
+          </>
         )}
       </div>
       {imageUrl && (
