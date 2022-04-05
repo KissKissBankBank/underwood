@@ -3865,7 +3865,7 @@ var SubmitLoader = (_e) => {
     size: "big",
     "aria-live": "polite",
     as: "div",
-    className: classNames("kiss-SubmitLoader", "k-u-cursor-not-allowed", className)
+    className: classNames("k-u-cursor-not-allowed", className)
   }, props), {
     children: [/* @__PURE__ */ jsx(KissKissLoadingAnimation, {
       color: COLORS.background1
@@ -4105,7 +4105,7 @@ const ButtonLinkControls = ({
                 }
               })]
             }), /* @__PURE__ */ jsx(ModalNext.Button, {
-              fluid: true,
+              fit: "fluid",
               size: "big",
               type: "button",
               modifier: "helium",
@@ -4304,6 +4304,7 @@ const Form = ({
           children: /* @__PURE__ */ jsx(Text, {
             size: "small",
             tag: "button",
+            weight: "regular",
             onClick: () => setImageUrl(void 0),
             className: "k-u-reset-button k-u-link k-u-link-primary1",
             children: translations.image_upload.modify_image
@@ -4331,7 +4332,7 @@ const Form = ({
       })
     }), /* @__PURE__ */ jsx(ModalNext.Actions, {
       children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
-        fluid: true
+        fit: "fluid"
       }) : /* @__PURE__ */ jsx(ModalNext.Button, {
         type: "button",
         size: "big",
@@ -4402,7 +4403,7 @@ const Update = ({
                   type: "submit",
                   size: "big",
                   modifier: "helium",
-                  fluid: true,
+                  fit: "fluid",
                   children: translations.submit
                 })
               })]
