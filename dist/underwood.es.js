@@ -29,15 +29,15 @@ var __objRest = (source, exclude) => {
     }
   return target;
 };
-import require$$0, { createContext, useReducer, useContext, useEffect, useState, useRef } from "react";
-import PropTypes from "prop-types";
-import { EditorState, RichUtils, Modifier, AtomicBlockUtils, CompositeDecorator, convertToRaw, Editor as Editor$1, DefaultDraftBlockRenderMap, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
+import { EditorState, DefaultDraftBlockRenderMap, RichUtils, Modifier, AtomicBlockUtils, CompositeDecorator, convertToRaw, Editor as Editor$1, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
 export { convertToRaw } from "draft-js";
-import { Button as Button$1, pxToRem, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, COLORS, VisuallyHidden, ScreenConfig, ArrowContainer, Text, ModalNext, Title as Title$1, ResponsiveIframeContainer, parseHtml, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, domElementHelper, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
+import PropTypes from "prop-types";
+import require$$0, { createContext, useReducer, useContext, useEffect, useState, useRef } from "react";
+import { Title as Title$1, Button as Button$1, pxToRem, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, COLORS, VisuallyHidden, ScreenConfig, ArrowContainer, Text, ModalNext, ButtonGroup, ImageDropUploader, AlertBox, DropdownMenu, ResponsiveIframeContainer, parseHtml, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, domElementHelper, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import styled, { createGlobalStyle, css } from "styled-components";
 import { Map as Map$4, OrderedMap } from "immutable";
-import { useField, ErrorMessage, Formik, useFormikContext } from "formik";
+import { useField, ErrorMessage, Formik, useFormikContext, Form as Form$1 } from "formik";
 import linkifyIt from "linkify-it";
 import tlds from "tlds";
 import * as Yup from "yup";
@@ -164,8 +164,6 @@ const reducer = (state, action) => {
     case "update":
     case "focus":
       return __spreadValues(__spreadValues({}, state), action);
-    case "updateState":
-      return __spreadValues(__spreadValues({}, state), action.state);
   }
 };
 const EditorProvider = ({
@@ -181,10 +179,6 @@ const EditorProvider = ({
     children
   });
 };
-const updateState = (state) => ({
-  type: "updateState",
-  state
-});
 const updateEditor = (editorState) => ({
   type: "update",
   editorState
@@ -193,10 +187,52 @@ const updateEditorRef = (editorRef) => ({
   type: "update",
   editorRef
 });
+const updateDisabled = (disabled) => ({
+  type: "update",
+  disabled
+});
 const setFocus = (focus) => ({
   type: "focus",
   focus
 });
+const customBlockRenderMap = DefaultDraftBlockRenderMap.merge(Map$4({
+  "header-one": {
+    element: "span",
+    wrapper: /* @__PURE__ */ jsx(Title$1, {
+      tag: "h1",
+      modifier: "secondary",
+      noMargin: true,
+      className: "k-u-margin-bottom-singleHalf k-u-margin-bottom-double@s-up"
+    })
+  },
+  "header-two": {
+    element: "span",
+    wrapper: /* @__PURE__ */ jsx(Title$1, {
+      tag: "h2",
+      modifier: "tertiary",
+      noMargin: true,
+      className: "k-u-margin-bottom-singleHalf k-u-margin-bottom-double@l-up"
+    })
+  },
+  "header-three": {
+    element: "span",
+    wrapper: /* @__PURE__ */ jsx(Title$1, {
+      tag: "h3",
+      modifier: "quaternary",
+      noMargin: true,
+      className: "k-u-margin-bottom-singleHalf"
+    })
+  },
+  "header-four": {
+    element: "span",
+    wrapper: /* @__PURE__ */ jsx(Title$1, {
+      tag: "h4",
+      modifier: "quinary",
+      noMargin: true,
+      className: "k-u-margin-bottom-single k-u-margin-bottom-singleHalf@s-up"
+    })
+  }
+}));
 var _mapping = {};
 (function(exports) {
   exports.aliasToReal = {
@@ -2406,12 +2442,12 @@ var _Promise = Promise$2;
 var getNative = _getNative, root$1 = _root;
 var Set$2 = getNative(root$1, "Set");
 var _Set = Set$2;
-var DataView = _DataView, Map = _Map, Promise$1 = _Promise, Set$1 = _Set, WeakMap2 = _WeakMap, baseGetTag$2 = _baseGetTag, toSource = _toSource;
+var DataView = _DataView, Map = _Map, Promise$1 = _Promise, Set$1 = _Set, WeakMap = _WeakMap, baseGetTag$2 = _baseGetTag, toSource = _toSource;
 var mapTag$5 = "[object Map]", objectTag$3 = "[object Object]", promiseTag = "[object Promise]", setTag$5 = "[object Set]", weakMapTag$2 = "[object WeakMap]";
 var dataViewTag$3 = "[object DataView]";
-var dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map), promiseCtorString = toSource(Promise$1), setCtorString = toSource(Set$1), weakMapCtorString = toSource(WeakMap2);
+var dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map), promiseCtorString = toSource(Promise$1), setCtorString = toSource(Set$1), weakMapCtorString = toSource(WeakMap);
 var getTag$6 = baseGetTag$2;
-if (DataView && getTag$6(new DataView(new ArrayBuffer(1))) != dataViewTag$3 || Map && getTag$6(new Map()) != mapTag$5 || Promise$1 && getTag$6(Promise$1.resolve()) != promiseTag || Set$1 && getTag$6(new Set$1()) != setTag$5 || WeakMap2 && getTag$6(new WeakMap2()) != weakMapTag$2) {
+if (DataView && getTag$6(new DataView(new ArrayBuffer(1))) != dataViewTag$3 || Map && getTag$6(new Map()) != mapTag$5 || Promise$1 && getTag$6(Promise$1.resolve()) != promiseTag || Set$1 && getTag$6(new Set$1()) != setTag$5 || WeakMap && getTag$6(new WeakMap()) != weakMapTag$2) {
   getTag$6 = function(value) {
     var result = baseGetTag$2(value), Ctor = result == objectTag$3 ? value.constructor : void 0, ctorString = Ctor ? toSource(Ctor) : "";
     if (ctorString) {
@@ -3752,7 +3788,7 @@ const InputText = (_a) => {
   });
 };
 InputText.defaultProps = {
-  type: "text",
+  type: "input",
   disabled: false,
   validate: () => {
   },
@@ -4160,12 +4196,238 @@ const LinkInline = ({
     })]
   });
 };
+const StyledButtonGroup = styled(ButtonGroup)`
+  .k-ButtonGroup__button {
+    width: 50%;
+  }
+`;
+const ImagePreview = styled.img`
+  width: 100%;
+  object-fit: contain;
+  aspect-ratio: 16/10;
+`;
+const UPLOAD_METHOD = {
+  URL: "URL",
+  FILE: "FILE"
+};
+const Form = ({
+  imageUrl,
+  setImageUrl,
+  errorMessage,
+  onChange = () => null
+}) => {
+  const [uploadMethod, setUploadMethod] = useState(UPLOAD_METHOD.FILE);
+  const [{
+    translations
+  }] = useContext(EditorContext);
+  const {
+    handleSubmit,
+    values,
+    isSubmitting
+  } = useFormikContext();
+  const [, , urlHelpers] = useField("url");
+  const [, , fileHelpers] = useField("file");
+  return /* @__PURE__ */ jsxs(Fragment, {
+    children: [/* @__PURE__ */ jsxs(StyledButtonGroup, {
+      className: "k-u-margin-bottom-double",
+      children: [/* @__PURE__ */ jsx(ButtonGroup.Button, {
+        active: uploadMethod === UPLOAD_METHOD.FILE,
+        onClick: () => {
+          setUploadMethod(UPLOAD_METHOD.FILE);
+          setImageUrl(void 0);
+        },
+        children: translations.image_upload.button_file
+      }), /* @__PURE__ */ jsx(ButtonGroup.Button, {
+        active: uploadMethod === UPLOAD_METHOD.URL,
+        onClick: () => {
+          setUploadMethod(UPLOAD_METHOD.URL);
+          setImageUrl(void 0);
+        },
+        children: translations.image_upload.button_url
+      })]
+    }), uploadMethod === UPLOAD_METHOD.FILE && !imageUrl && /* @__PURE__ */ jsx(ImageDropUploader, {
+      id: "underwood-image-drop-uploader",
+      dimensionErrorText: translations.image_upload.dimension_error,
+      sizeErrorText: translations.image_upload.max_size,
+      errorMessage,
+      onChange: (event) => {
+        var _a;
+        onChange(event);
+        const file = event.file;
+        if (!((_a = file == null ? void 0 : file.type) == null ? void 0 : _a.match("image.*"))) {
+          return;
+        }
+        fileHelpers.setValue(file);
+        urlHelpers.setValue("");
+        setImageUrl(event.value);
+      },
+      acceptedFileSize: 5242880,
+      acceptedImageDimensions: {
+        height: 1e3,
+        width: 4e3
+      },
+      acceptedMimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+      buttonTitle: translations.image_upload.button_title,
+      buttonText: /* @__PURE__ */ jsxs("div", {
+        className: "k-u-flex k-u-flex-direction-column k-u-flex-gap-noneHalf",
+        children: [/* @__PURE__ */ jsx("span", {
+          children: translations.image_upload.help_file.formats
+        }), /* @__PURE__ */ jsx("span", {
+          children: translations.image_upload.help_file.width
+        }), /* @__PURE__ */ jsx("span", {
+          children: translations.image_upload.help_file.size
+        })]
+      })
+    }), uploadMethod === UPLOAD_METHOD.URL && /* @__PURE__ */ jsxs(Fragment, {
+      children: [/* @__PURE__ */ jsx("div", {
+        className: "k-u-margin-top-single",
+        children: /* @__PURE__ */ jsx(Label, {
+          htmlFor: "url",
+          children: translations.image_upload.label
+        })
+      }), /* @__PURE__ */ jsx(FormikInputWithButton, {
+        name: "url",
+        placeholder: "https://",
+        buttonValue: translations.image_upload.preview,
+        onClick: () => {
+          setImageUrl(values.url);
+        }
+      })]
+    }), /* @__PURE__ */ jsx("div", {
+      className: "k-u-margin-vertical-single",
+      children: imageUrl && /* @__PURE__ */ jsxs(Fragment, {
+        children: [/* @__PURE__ */ jsx(ImagePreview, {
+          src: imageUrl,
+          alt: ""
+        }), uploadMethod === UPLOAD_METHOD.FILE && /* @__PURE__ */ jsx("div", {
+          className: "k-u-margin-top-singleHalf k-u-align-center",
+          children: /* @__PURE__ */ jsx(Text, {
+            size: "small",
+            tag: "button",
+            onClick: () => setImageUrl(void 0),
+            className: "k-u-reset-button k-u-link k-u-link-primary1",
+            children: translations.image_upload.modify_image
+          })
+        })]
+      })
+    }), imageUrl && /* @__PURE__ */ jsxs(Fragment, {
+      children: [/* @__PURE__ */ jsxs("div", {
+        className: "k-u-margin-vertical-double",
+        children: [/* @__PURE__ */ jsx(Label, {
+          htmlFor: "description",
+          children: translations.image_upload.description.label
+        }), /* @__PURE__ */ jsx(InputText, {
+          name: "description",
+          tag: "autoresize",
+          placeholder: translations.image_upload.description.placeholder
+        })]
+      }), /* @__PURE__ */ jsx(AlertBox, {
+        children: translations.image_upload.description.helper
+      })]
+    }), /* @__PURE__ */ jsx(ErrorMessage, {
+      name: "url",
+      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
+        children: msg
+      })
+    }), /* @__PURE__ */ jsx(ModalNext.Actions, {
+      children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
+        fluid: true
+      }) : /* @__PURE__ */ jsx(ModalNext.Button, {
+        type: "button",
+        size: "big",
+        modifier: "helium",
+        onClick: handleSubmit,
+        children: translations.submit
+      })
+    })]
+  });
+};
+const Update = ({
+  onClose,
+  description,
+  entityKey
+}) => {
+  const [{
+    editorState,
+    translations
+  }, dispatch] = useContext(EditorContext);
+  useEffect(() => {
+    dispatch(updateDisabled(true));
+    return () => dispatch(updateDisabled(false));
+  }, []);
+  return /* @__PURE__ */ jsx(ModalNext, {
+    isOpen: true,
+    onClose,
+    headerTitle: /* @__PURE__ */ jsx(Title$1, {
+      modifier: "quaternary",
+      children: translations.image_upload.description.title
+    }),
+    children: ({
+      close
+    }) => {
+      return /* @__PURE__ */ jsx(Formik, {
+        initialValues: {
+          description
+        },
+        onSubmit: ({
+          description: description2
+        }) => {
+          const contentState = editorState.getCurrentContent();
+          const contentWithNewData = contentState.mergeEntityData(entityKey, {
+            description: description2
+          });
+          const userSelection = editorState.getSelection();
+          const newEditor = EditorState.push(editorState, contentWithNewData, "change-block-data");
+          dispatch(updateEditor(EditorState.forceSelection(newEditor, userSelection)));
+          close();
+          onClose();
+        },
+        children: () => {
+          return /* @__PURE__ */ jsx(Form$1, {
+            children: /* @__PURE__ */ jsxs(ModalNext.Block, {
+              children: [/* @__PURE__ */ jsxs("div", {
+                className: "k-u-margin-vertical-double",
+                children: [/* @__PURE__ */ jsx(Label, {
+                  htmlFor: "description",
+                  children: translations.image_upload.description.label
+                }), /* @__PURE__ */ jsx(InputText, {
+                  name: "description",
+                  tag: "autoresize",
+                  placeholder: translations.image_upload.description.placeholder
+                })]
+              }), /* @__PURE__ */ jsx(AlertBox, {
+                children: translations.image_upload.description.helper
+              }), /* @__PURE__ */ jsx(ModalNext.Actions, {
+                children: /* @__PURE__ */ jsx(ModalNext.Button, {
+                  type: "submit",
+                  size: "big",
+                  modifier: "helium",
+                  fluid: true,
+                  children: translations.submit
+                })
+              })]
+            })
+          });
+        }
+      });
+    }
+  });
+};
 const StyledImage = styled.div`
+  position: relative;
   width: 100%;
   img {
-    display: inline-block;
+    display: inline;
     height: auto;
     max-width: 100%;
+  }
+
+  .image-menu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    height: 100%;
   }
 `;
 const LinkManager = ({
@@ -4188,34 +4450,49 @@ const ImageEditor = ({
   blockKey
 }) => {
   const [{
-    editorState
+    editorState,
+    translations
   }, dispatch] = useContext(EditorContext);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
   const {
     src,
-    url
+    url,
+    description
   } = contentState.getEntity(entityKey).getData();
   const onClick = () => {
     dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
   };
-  return /* @__PURE__ */ jsx(StyledImage, {
+  return /* @__PURE__ */ jsxs(StyledImage, {
     className: "kiss-Draft__image",
     onClick,
-    children: /* @__PURE__ */ jsxs("div", {
+    children: [/* @__PURE__ */ jsxs("div", {
       className: classNames("kiss-Draft__image-focus", {
         "kiss-Draft__image-focus__focused": hasFocus
       }),
-      children: [/* @__PURE__ */ jsx("div", {
+      children: [/* @__PURE__ */ jsxs("div", {
         className: "k-u-align-center",
-        children: /* @__PURE__ */ jsx("img", {
+        children: [/* @__PURE__ */ jsx("img", {
           src: getImageUrl(src),
-          alt: ""
-        })
+          alt: description
+        }), /* @__PURE__ */ jsx(DropdownMenu, {
+          className: "image-menu",
+          menuPosition: "center",
+          positionedButton: true,
+          children: /* @__PURE__ */ jsx(DropdownMenu.Button, {
+            onClick: () => setShowUpdateModal(true),
+            children: isEmpty(description) ? translations.image_upload.add_label : translations.image_upload.modify_label
+          })
+        })]
       }), hasFocus && !!url && /* @__PURE__ */ jsx(LinkManager, {
         url,
         entityKey
       })]
-    })
+    }), showUpdateModal && /* @__PURE__ */ jsx(Update, {
+      onClose: () => setShowUpdateModal(false),
+      entityKey,
+      description
+    })]
   });
 };
 const ImageDisplayer = ({
@@ -4224,7 +4501,8 @@ const ImageDisplayer = ({
 }) => {
   const {
     src,
-    url
+    url,
+    description
   } = contentState.getEntity(entityKey).getData();
   return /* @__PURE__ */ jsx(StyledImage, {
     className: "kiss-Draft__image-read",
@@ -4236,21 +4514,18 @@ const ImageDisplayer = ({
         className: "k-u-align-center",
         children: /* @__PURE__ */ jsx("img", {
           src: getImageUrl(src),
-          alt: ""
+          alt: description
         })
       })
     }) : /* @__PURE__ */ jsx("div", {
       className: "k-u-align-center",
       children: /* @__PURE__ */ jsx("img", {
         src: getImageUrl(src),
-        alt: ""
+        alt: description
       })
     })
   });
 };
-const HiddenInput = styled.input`
-  display: none;
-`;
 const imageStrategy$2 = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
@@ -4264,114 +4539,6 @@ const decorator$2 = {
 const readDecorator$2 = {
   strategy: imageStrategy$2,
   component: ImageDisplayer
-};
-const Form = ({
-  imageUrl,
-  setImageUrl,
-  errorMessage,
-  onChange = () => null
-}) => {
-  const [{
-    translations
-  }] = useContext(EditorContext);
-  const {
-    handleSubmit,
-    values,
-    isSubmitting
-  } = useFormikContext();
-  const [, , fileSizeHelpers] = useField("fileSize");
-  const [, , urlHelpers] = useField("url");
-  const [, , fileHelpers] = useField("file");
-  const fileInputRef = useRef(null);
-  return /* @__PURE__ */ jsxs(Fragment, {
-    children: [/* @__PURE__ */ jsx(HiddenInput, {
-      ref: fileInputRef,
-      name: "file",
-      type: "file",
-      id: "imageFile",
-      onChange: (event) => {
-        onChange(event);
-        const file = event.target.files[0];
-        if (!file.type.match("image.*")) {
-          return;
-        }
-        fileHelpers.setValue(file);
-        fileSizeHelpers.setValue(file.size);
-        urlHelpers.setValue("");
-        const reader = new FileReader();
-        reader.addEventListener("load", (file2) => {
-          setImageUrl(file2.target.result);
-        });
-        reader.readAsDataURL(file);
-      },
-      accept: "image/gif, image/jpeg, image/jpg, image/png"
-    }), /* @__PURE__ */ jsx("div", {
-      className: "k-u-margin-top-single",
-      children: /* @__PURE__ */ jsx(Label, {
-        htmlFor: "url",
-        children: translations.image_upload.label
-      })
-    }), /* @__PURE__ */ jsx(FormikInputWithButton, {
-      name: "url",
-      placeholder: "https://",
-      buttonValue: translations.image_upload.preview,
-      onClick: () => {
-        setImageUrl(values.url);
-        fileSizeHelpers.setValue(0);
-      }
-    }), /* @__PURE__ */ jsx("div", {
-      className: "k-u-margin-vertical-single",
-      children: imageUrl && /* @__PURE__ */ jsx("img", {
-        src: imageUrl,
-        width: "100%",
-        alt: ""
-      })
-    }), /* @__PURE__ */ jsx(ErrorMessage, {
-      name: "url",
-      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
-        children: msg
-      })
-    }), /* @__PURE__ */ jsx(ErrorMessage, {
-      name: "fileSize",
-      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
-        children: msg
-      })
-    }), /* @__PURE__ */ jsxs("div", {
-      className: "k-u-margin-top-single",
-      children: [/* @__PURE__ */ jsx("div", {
-        className: "k-u-margin-bottom-single",
-        children: /* @__PURE__ */ jsx("a", {
-          href: "#",
-          className: "k-u-link k-u-link-primary1",
-          onClick: (e) => {
-            e.preventDefault();
-            fileInputRef.current.click();
-          },
-          children: /* @__PURE__ */ jsx(Text, {
-            tag: "span",
-            decoration: "underline",
-            children: translations.image_upload.upload
-          })
-        })
-      }), /* @__PURE__ */ jsxs(ModalNext.Paragraph, {
-        align: "left",
-        noMargin: true,
-        children: [translations.image_upload.help_file.formats, /* @__PURE__ */ jsx("br", {}), translations.image_upload.help_file.width, /* @__PURE__ */ jsx("br", {}), translations.image_upload.help_file.size, errorMessage && /* @__PURE__ */ jsx(Field.ErrorMessage, {
-          children: errorMessage
-        })]
-      }), /* @__PURE__ */ jsx(ModalNext.Actions, {
-        children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
-          fluid: true
-        }) : /* @__PURE__ */ jsx(ModalNext.Button, {
-          type: "button",
-          size: "big",
-          modifier: "helium",
-          onClick: handleSubmit,
-          children: translations.submit
-        })
-      })]
-    })]
-  });
 };
 const ImageControls = ({
   disabled,
@@ -4416,34 +4583,36 @@ const ImageControls = ({
           children: /* @__PURE__ */ jsx(Formik, {
             initialValues: {
               url: "",
-              fileSize: 0
+              description: ""
             },
             validationSchema: Yup.object().shape({
-              url: Yup.string().url(translations.image.invalid_url).matches(/(?:jpg|jpeg|gif|png)$/, translations.image.invalid_extension),
-              fileSize: Yup.number().max(5e6, translations.image.max_size)
+              url: Yup.string().url(translations.image.invalid_url).matches(/(?:jpg|jpeg|gif|png)$/, translations.image.invalid_extension)
             }),
             onSubmit: ({
               url,
               fileSize,
-              file
+              file,
+              description
             }, {
               setSubmitting
             }) => {
               return new Promise((resolve, reject) => {
-                if (isEmpty(url) && fileSize === 0) {
+                if (file && file.size === 0) {
                   reject("WRONG");
                   setSubmitting(false);
                 }
-                if (!isEmpty(url) && fileSize === 0) {
+                if (!isEmpty(url)) {
                   resolve(url);
+                } else {
+                  onUpload(file).then((url2) => resolve(url2)).catch(() => {
+                    setSubmitting(false);
+                  });
                 }
-                onUpload(file).then((url2) => resolve(url2)).catch(() => {
-                  setSubmitting(false);
-                });
               }).then((url2) => {
                 const contentState = editorState.getCurrentContent();
                 const contentStateWithEntity = contentState.createEntity("IMAGE", "IMMUTABLE", {
-                  src: url2
+                  src: url2,
+                  description
                 });
                 const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
                 const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
@@ -5965,6 +6134,50 @@ const createMediaBlock = (editorState, data = {}) => {
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   return AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
 };
+var keyCommandHandler = (onChange) => (command, editorState) => {
+  const currentEntity = getEntity(editorState);
+  if (command === "backspace" && isImageBlock(currentEntity) || isVideoBlock(currentEntity)) {
+    onChange(forceSelection(editorState));
+    return "handled";
+  }
+  if (command === "backspace" && (currentEntity == null ? void 0 : currentEntity.getType()) === "IMAGE") {
+    onChange(removeEntities(editorState));
+    return "handled";
+  }
+  if (command === "backspace" && isCurrentBlockAllSelected(editorState) && isPreviousBlockAnImage(editorState)) {
+    onChange(forceSelection(editorState));
+    return "handled";
+  }
+  if (command === "backspace" && isFirstBlock(editorState) && isEmptyBlock(editorState)) {
+    onChange(forceSelection(editorState));
+    return "handled";
+  }
+  const newState = RichUtils.handleKeyCommand(editorState, command);
+  if (newState) {
+    onChange(newState);
+    return "handled";
+  }
+  return "not-handled";
+};
+var returnHandler = (onChange) => (event, editorState) => {
+  const contentState = editorState.getCurrentContent();
+  const currentKey = editorState.getSelection().getAnchorKey();
+  const currentBlock = contentState.getBlockForKey(currentKey);
+  const currentEntity = getEntity(editorState);
+  if (isVideoBlock(currentEntity) || isImageBlock(currentEntity)) {
+    onChange(addBlockAfter(editorState, currentKey));
+    return "handled";
+  }
+  if (currentBlock.getText() === "" && ["unordered-list-item", "blockquote"].includes(currentBlock.getType())) {
+    onChange(resetTypeOnSelectionAfter(editorState));
+    return "handled";
+  }
+  if (["header-two", "header-three"].includes(currentBlock.getType())) {
+    onChange(addBlockAfter(editorState, currentKey));
+    return "handled";
+  }
+  return "not-handled";
+};
 const EditorStyle = createGlobalStyle`
   .public-DraftEditorPlaceholder-root {
     ${TYPOGRAPHY.fontStyles.light};
@@ -6102,88 +6315,6 @@ const styleBlock = ({ isDisabled, useRichTextStyle, compact }) => (contentBlock)
     [alignmentStyle]: alignmentStyle
   });
 };
-var keyCommandHandler = (onChange) => (command, editorState) => {
-  const currentEntity = getEntity(editorState);
-  if (command === "backspace" && isImageBlock(currentEntity) || isVideoBlock(currentEntity)) {
-    onChange(forceSelection(editorState));
-    return "handled";
-  }
-  if (command === "backspace" && (currentEntity == null ? void 0 : currentEntity.getType()) === "IMAGE") {
-    onChange(removeEntities(editorState));
-    return "handled";
-  }
-  if (command === "backspace" && isCurrentBlockAllSelected(editorState) && isPreviousBlockAnImage(editorState)) {
-    onChange(forceSelection(editorState));
-    return "handled";
-  }
-  if (command === "backspace" && isFirstBlock(editorState) && isEmptyBlock(editorState)) {
-    onChange(forceSelection(editorState));
-    return "handled";
-  }
-  const newState = RichUtils.handleKeyCommand(editorState, command);
-  if (newState) {
-    onChange(newState);
-    return "handled";
-  }
-  return "not-handled";
-};
-var returnHandler = (onChange) => (event, editorState) => {
-  const contentState = editorState.getCurrentContent();
-  const currentKey = editorState.getSelection().getAnchorKey();
-  const currentBlock = contentState.getBlockForKey(currentKey);
-  const currentEntity = getEntity(editorState);
-  if (isVideoBlock(currentEntity) || isImageBlock(currentEntity)) {
-    onChange(addBlockAfter(editorState, currentKey));
-    return "handled";
-  }
-  if (currentBlock.getText() === "" && ["unordered-list-item", "blockquote"].includes(currentBlock.getType())) {
-    onChange(resetTypeOnSelectionAfter(editorState));
-    return "handled";
-  }
-  if (["header-two", "header-three"].includes(currentBlock.getType())) {
-    onChange(addBlockAfter(editorState, currentKey));
-    return "handled";
-  }
-  return "not-handled";
-};
-const customBlockRenderMap = DefaultDraftBlockRenderMap.merge(Map$4({
-  "header-one": {
-    element: "span",
-    wrapper: /* @__PURE__ */ jsx(Title$1, {
-      tag: "h1",
-      modifier: "secondary",
-      noMargin: true,
-      className: "k-u-margin-bottom-singleHalf k-u-margin-bottom-double@s-up"
-    })
-  },
-  "header-two": {
-    element: "span",
-    wrapper: /* @__PURE__ */ jsx(Title$1, {
-      tag: "h2",
-      modifier: "tertiary",
-      noMargin: true,
-      className: "k-u-margin-bottom-singleHalf k-u-margin-bottom-double@l-up"
-    })
-  },
-  "header-three": {
-    element: "span",
-    wrapper: /* @__PURE__ */ jsx(Title$1, {
-      tag: "h3",
-      modifier: "quaternary",
-      noMargin: true,
-      className: "k-u-margin-bottom-singleHalf"
-    })
-  },
-  "header-four": {
-    element: "span",
-    wrapper: /* @__PURE__ */ jsx(Title$1, {
-      tag: "h4",
-      modifier: "quinary",
-      noMargin: true,
-      className: "k-u-margin-bottom-single k-u-margin-bottom-singleHalf@s-up"
-    })
-  }
-}));
 const Wrapper$1 = styled.div`
   border-radius: var(--border-radius-s);
   cursor: text;
@@ -6192,7 +6323,8 @@ const Wrapper$1 = styled.div`
     border: var(--border);
     padding: ${pxToRem(15)};
 
-    &.u-Editor--focused, &:focus-within {
+    &.u-Editor--focused,
+    &:focus-within {
       border: var(--border-active);
       outline: var(--outline-input);
       outline-offset: var(--outline-offset-input);
@@ -6232,7 +6364,8 @@ const Playground = (_g) => {
   const playgroundRef = useRef(null);
   const [{
     editorState,
-    focus
+    focus,
+    disabled
   }, dispatch] = useContext(EditorContext);
   const onChange = (editorState2) => dispatch(updateEditor(editorState2));
   useEffect(() => {
@@ -6244,7 +6377,7 @@ const Playground = (_g) => {
   useEffect(() => {
     onChange(resetEditor(getEditorValue(initialValue)));
   }, [initialValue]);
-  const handleWrapperClick = (event) => {
+  const handleWrapperClick = () => {
     if (!(playgroundRef == null ? void 0 : playgroundRef.current))
       return;
     playgroundRef.current.focus();
@@ -6265,10 +6398,11 @@ const Playground = (_g) => {
         "u-Editor__compact": compact
       }),
       children: /* @__PURE__ */ jsx(Editor$1, {
+        stripPastedStyles: true,
         ref: playgroundRef,
         editorState,
         placeholder: placeholder2,
-        readOnly: isDisabled,
+        readOnly: isDisabled || disabled,
         handleKeyCommand: keyCommandHandler(onChange),
         handleReturn: returnHandler(onChange),
         onChange,
@@ -6317,35 +6451,195 @@ Playground.defaultProps = {
   isDisabled: false,
   compact: false
 };
-const Toolbar = styled.div`
+const Actions = styled.div`
   display: flex;
-  overflow-y: scroll;
-  padding: ${pxToRem(12)} 0;
-  background-color: ${COLORS.background3};
 
-  > :last-child {
-    margin-right: 0;
+  > * {
+    margin-left: calc(-1 * var(--border-width, 1px));
   }
 
-  @media (min-width: ${pxToRem(ScreenConfig.M.min)}) {
-    overflow-y: initial;
-    padding: ${pxToRem(15)} 0;
+  :first-child > :first-child {
+    margin-left: 0;
   }
 
-  &.Editor-Toolbar__whiteMode {
-    background-color: ${COLORS.background1};
+  margin-right: ${pxToRem(10)};
+
+  @media (min-width: ${pxToRem(ScreenConfig.S.min)}) {
+    margin-right: ${pxToRem(20)};
+
+    > :not(:first-child) {
+      margin-left: calc(-1 * var(--border-width, 1px));
+    }
   }
 
-  &.Editor-Toolbar__centered {
-    justify-content: center;
+  > :hover:not(:disabled),
+  > :focus:not(:disabled) {
+    z-index: 1;
   }
 
-  ${({
-  whiteMode
-}) => whiteMode && css`
-      background-color: ${COLORS.background1};
-    `}
+  .Editor__toolbar__button--isSelected {
+    z-index: 2;
+  }
 `;
+const Generic = ({
+  disabled,
+  label,
+  onChange
+}) => {
+  var _a;
+  const [{
+    editorState,
+    disabled: contextDisabled
+  }, dispatch] = useContext(EditorContext);
+  const currentAlignmentStyle = (_a = getCurrentAlignmentStyle(editorState)) != null ? _a : "k-u-align-left";
+  return /* @__PURE__ */ jsx(Button, {
+    icon: label,
+    disabled: contextDisabled || disabled,
+    active: currentAlignmentStyle === label,
+    onToggle: () => {
+      onChange();
+      const currentContent = editorState.getCurrentContent();
+      const selection = editorState.getSelection();
+      dispatch(updateEditor(EditorState.push(editorState, Modifier.setBlockData(currentContent, selection, Map$4({
+        alignmentStyle: label
+      })), "change-inline-style")));
+    }
+  }, label);
+};
+Generic.propTypes = {
+  label: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+Generic.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
+const Center = (props) => {
+  return /* @__PURE__ */ jsx(Generic, __spreadValues({
+    label: "k-u-align-center"
+  }, props));
+};
+Center.propTypes = {
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+Center.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
+const Left = (props) => {
+  return /* @__PURE__ */ jsx(Generic, __spreadValues({
+    label: "k-u-align-left"
+  }, props));
+};
+Left.propTypes = {
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+Left.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
+const Right = (props) => {
+  return /* @__PURE__ */ jsx(Generic, __spreadValues({
+    label: "k-u-align-right"
+  }, props));
+};
+Right.propTypes = {
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+Right.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
+const Bold = ({
+  disabled,
+  onChange
+}) => {
+  const [{
+    editorState,
+    disabled: contextDisabled
+  }, dispatch] = useContext(EditorContext);
+  const currentStyle = editorState.getCurrentInlineStyle();
+  return /* @__PURE__ */ jsx(Button, {
+    active: currentStyle.has("BOLD"),
+    icon: "format_bold",
+    onToggle: (style) => {
+      onChange();
+      dispatch(updateEditor(RichUtils.toggleInlineStyle(editorState, style)));
+    },
+    style: "BOLD",
+    disabled: contextDisabled || disabled
+  }, "format_bold");
+};
+Bold.propTypes = {
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+Bold.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
+const Italic = ({
+  disabled,
+  onChange
+}) => {
+  const [{
+    editorState,
+    disabled: contextDisabled
+  }, dispatch] = useContext(EditorContext);
+  const currentStyle = editorState.getCurrentInlineStyle();
+  return /* @__PURE__ */ jsx(Button, {
+    active: currentStyle.has("ITALIC"),
+    icon: "format_italic",
+    onToggle: (style) => {
+      onChange();
+      dispatch(updateEditor(RichUtils.toggleInlineStyle(editorState, style)));
+    },
+    style: "ITALIC",
+    disabled: contextDisabled || disabled
+  }, "format_italic");
+};
+Italic.propTypes = {
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+Italic.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
+const Quote = ({
+  disabled,
+  onChange
+}) => {
+  const [{
+    editorState,
+    disabled: contextDisabled
+  }, dispatch] = useContext(EditorContext);
+  const currentContent = editorState.getCurrentContent();
+  const selection = editorState.getSelection();
+  const currentBlockType = currentContent.getBlockForKey(selection.getStartKey()).get("type");
+  const active = currentBlockType === "blockquote";
+  return /* @__PURE__ */ jsx(Button, {
+    icon: "quote",
+    active,
+    disabled: contextDisabled || disabled,
+    onToggle: () => {
+      onChange();
+      dispatch(updateEditor(RichUtils.toggleBlockType(editorState, "blockquote")));
+    }
+  });
+};
+Quote.propTypes = {
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func
+};
+Quote.defaultProps = {
+  disabled: false,
+  onChange: () => null
+};
 const Wrapper = styled(Details)`
   summary.Editor__toolbar__tagListToggle {
     border-radius: ${pxToRem(8)};
@@ -6506,66 +6800,35 @@ TagsList.defaultProps = {
   disabled: false,
   onChange: () => null
 };
-const Actions = styled.div`
+const Toolbar = styled.div`
   display: flex;
+  overflow-y: scroll;
+  padding: ${pxToRem(12)} 0;
+  background-color: ${COLORS.background3};
 
-  > * {
-    margin-left: calc(-1 * var(--border-width, 1px));
+  > :last-child {
+    margin-right: 0;
   }
 
-  :first-child > :first-child {
-    margin-left: 0;
+  @media (min-width: ${pxToRem(ScreenConfig.M.min)}) {
+    overflow-y: initial;
+    padding: ${pxToRem(15)} 0;
   }
 
-  margin-right: ${pxToRem(10)};
-
-  @media (min-width: ${pxToRem(ScreenConfig.S.min)}) {
-    margin-right: ${pxToRem(20)};
-
-    > :not(:first-child) {
-      margin-left: calc(-1 * var(--border-width, 1px));
-    }
+  &.Editor-Toolbar__whiteMode {
+    background-color: ${COLORS.background1};
   }
 
-  > :hover:not(:disabled),
-  > :focus:not(:disabled) {
-    z-index: 1;
+  &.Editor-Toolbar__centered {
+    justify-content: center;
   }
 
-  .Editor__toolbar__button--isSelected {
-    z-index: 2;
-  }
+  ${({
+  whiteMode
+}) => whiteMode && css`
+      background-color: ${COLORS.background1};
+    `}
 `;
-const Quote = ({
-  disabled,
-  onChange
-}) => {
-  const [{
-    editorState,
-    disabled: contextDisabled
-  }, dispatch] = useContext(EditorContext);
-  const currentContent = editorState.getCurrentContent();
-  const selection = editorState.getSelection();
-  const currentBlockType = currentContent.getBlockForKey(selection.getStartKey()).get("type");
-  const active = currentBlockType === "blockquote";
-  return /* @__PURE__ */ jsx(Button, {
-    icon: "quote",
-    active,
-    disabled: contextDisabled || disabled,
-    onToggle: () => {
-      onChange();
-      dispatch(updateEditor(RichUtils.toggleBlockType(editorState, "blockquote")));
-    }
-  });
-};
-Quote.propTypes = {
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-Quote.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
 const UnorderedList = ({
   disabled,
   onChange
@@ -6596,135 +6859,6 @@ UnorderedList.defaultProps = {
   disabled: false,
   onChange: () => null
 };
-const Bold = ({
-  disabled,
-  onChange
-}) => {
-  const [{
-    editorState,
-    disabled: contextDisabled
-  }, dispatch] = useContext(EditorContext);
-  const currentStyle = editorState.getCurrentInlineStyle();
-  return /* @__PURE__ */ jsx(Button, {
-    active: currentStyle.has("BOLD"),
-    icon: "format_bold",
-    onToggle: (style) => {
-      onChange();
-      dispatch(updateEditor(RichUtils.toggleInlineStyle(editorState, style)));
-    },
-    style: "BOLD",
-    disabled: contextDisabled || disabled
-  }, "format_bold");
-};
-Bold.propTypes = {
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-Bold.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
-const Italic = ({
-  disabled,
-  onChange
-}) => {
-  const [{
-    editorState,
-    disabled: contextDisabled
-  }, dispatch] = useContext(EditorContext);
-  const currentStyle = editorState.getCurrentInlineStyle();
-  return /* @__PURE__ */ jsx(Button, {
-    active: currentStyle.has("ITALIC"),
-    icon: "format_italic",
-    onToggle: (style) => {
-      onChange();
-      dispatch(updateEditor(RichUtils.toggleInlineStyle(editorState, style)));
-    },
-    style: "ITALIC",
-    disabled: contextDisabled || disabled
-  }, "format_italic");
-};
-Italic.propTypes = {
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-Italic.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
-const Generic = ({
-  disabled,
-  label,
-  onChange
-}) => {
-  var _a;
-  const [{
-    editorState,
-    disabled: contextDisabled
-  }, dispatch] = useContext(EditorContext);
-  const currentAlignmentStyle = (_a = getCurrentAlignmentStyle(editorState)) != null ? _a : "k-u-align-left";
-  return /* @__PURE__ */ jsx(Button, {
-    icon: label,
-    disabled: contextDisabled || disabled,
-    active: currentAlignmentStyle === label,
-    onToggle: () => {
-      onChange();
-      const currentContent = editorState.getCurrentContent();
-      const selection = editorState.getSelection();
-      dispatch(updateEditor(EditorState.push(editorState, Modifier.setBlockData(currentContent, selection, Map$4({
-        alignmentStyle: label
-      })), "change-inline-style")));
-    }
-  }, label);
-};
-Generic.propTypes = {
-  label: PropTypes.string.isRequired,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-Generic.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
-const Left = (props) => {
-  return /* @__PURE__ */ jsx(Generic, __spreadValues({
-    label: "k-u-align-left"
-  }, props));
-};
-Left.propTypes = {
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-Left.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
-const Right = (props) => {
-  return /* @__PURE__ */ jsx(Generic, __spreadValues({
-    label: "k-u-align-right"
-  }, props));
-};
-Right.propTypes = {
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-Right.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
-const Center = (props) => {
-  return /* @__PURE__ */ jsx(Generic, __spreadValues({
-    label: "k-u-align-center"
-  }, props));
-};
-Center.propTypes = {
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func
-};
-Center.defaultProps = {
-  disabled: false,
-  onChange: () => null
-};
 const Controls = ({
   whiteMode,
   disabled,
@@ -6734,9 +6868,7 @@ const Controls = ({
 }) => {
   const [, dispatch] = useContext(EditorContext);
   useEffect(() => {
-    dispatch(updateState({
-      disabled
-    }));
+    dispatch(updateDisabled(disabled));
   }, [disabled]);
   return /* @__PURE__ */ jsx(Toolbar, {
     className: classNames(className, {
@@ -6973,10 +7105,29 @@ const defaultTranslations = {
   },
   image_upload: {
     title: "Insert a picture",
+    button_title: "Insert a picture",
+    button_file: "From my computer",
+    button_url: "From a URL",
+    modify_image: "Change image",
+    modify_label: "Modify the image description",
+    add_label: "Add a description to the image",
     label: "URL:",
     url: "URL:",
     preview: "Preview",
     upload: "Select a file on your computer",
+    max_size: "The size of your image exceeds 5 MB",
+    dimension_error: "Image dimensions too big (1000x4000 max)",
+    description: {
+      title: "Image description",
+      label: /* @__PURE__ */ jsxs("span", {
+        children: ["Image description ", /* @__PURE__ */ jsx("span", {
+          className: "k-u-weight-light",
+          children: "(optional)"
+        })]
+      }),
+      placeholder: 'Ex: Team photo "For us, cycling is freedom". ',
+      helper: "Write a brief description of your image to make your content accessible to people with visual disabilities. Write the minimum text necessary to understand the context accurately (title, quote, graphic, description of the (title, quote, graphic, description of the image...). If your image is purely decorative, you can skip this step."
+    },
     help_file: {
       formats: "Available formats: jpg, jpeg, gif, png, bmp",
       width: "Maximum weight: 5 MB",
