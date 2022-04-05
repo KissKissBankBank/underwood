@@ -72,7 +72,7 @@ const Update = ({ onClose, description, entityKey }) => {
                         type="submit"
                         size="big"
                         modifier="helium"
-                        fluid
+                        fit="fluid"
                       >
                         {translations.submit}
                       </Modal.Button>

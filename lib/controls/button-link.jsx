@@ -1,33 +1,33 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { Formik } from 'formik'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { EditorState, Modifier, RichUtils } from 'draft-js'
 import {
-  Button,
-  Title,
-  Text,
-  COLORS,
   ArrowContainer,
+  Button,
+  COLORS,
+  ModalNext as Modal,
   pxToRem,
   ScreenConfig,
-  ModalNext as Modal,
-} from '@kisskissbankbank/kitten'
-import linkifyIt from 'linkify-it'
-import tlds from 'tlds'
+  Text,
+  Title,
+} from "@kisskissbankbank/kitten";
+import { EditorState, Modifier, RichUtils } from "draft-js";
+import { Formik } from "formik";
+import linkifyIt from "linkify-it";
+import PropTypes from "prop-types";
+import React, { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
+import tlds from "tlds";
+import ButtonEditor from "../components/button";
+import { InputText, Label } from "../components/form";
+import { EditorContext, updateEditor } from "../context";
 import {
   getCurrentSelection,
   getEntity,
   getEntityKey,
   getEntityText,
   hasEntityFocus,
-} from '../utils'
-import ButtonEditor from '../components/button'
-import { Label, InputText } from '../components/form'
-import { EditorContext, updateEditor } from '../context'
+} from "../utils";
 
-const linkify = linkifyIt()
-linkify.tlds(tlds)
+const linkify = linkifyIt();
+linkify.tlds(tlds);
 
 const Wrapper = styled.div`
   position: relative;
@@ -36,14 +36,14 @@ const Wrapper = styled.div`
   @media (min-width: ${pxToRem(ScreenConfig.S.min)}) {
     display: inline-block;
   }
-`
+`;
 
 const ButtonLinkWithFluidStyle = styled(Button)`
   @media (max-width: ${pxToRem(ScreenConfig.XS.max)}) {
     min-width: initial;
     width: 100%;
   }
-`
+`;
 
 const StyledArrowContainer = styled(ArrowContainer)`
   display: flex;
@@ -53,19 +53,19 @@ const StyledArrowContainer = styled(ArrowContainer)`
   background-color: ${COLORS.background1};
   margin-top: ${pxToRem(5)};
   transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
-`
+`;
 
 const DeleteLink = styled(Text)`
   display: block;
   width: 100%;
   padding: 0;
   text-align: center;
-`
+`;
 
 const VerticalSeparator = styled.span`
   margin: ${pxToRem(5)} ${pxToRem(10)};
   border-left: var(--border-width, 1px) solid ${COLORS.font2};
-`
+`;
 
 const ShareLink = styled(Text)`
   overflow: hidden;
@@ -73,7 +73,7 @@ const ShareLink = styled(Text)`
   max-width: ${pxToRem(150)};
   text-overflow: ellipsis;
   white-space: nowrap;
-`
+`;
 
 const StyledButtonLink = ({ href, children }) => {
   return (
@@ -87,19 +87,19 @@ const StyledButtonLink = ({ href, children }) => {
     >
       {children}
     </ButtonLinkWithFluidStyle>
-  )
-}
+  );
+};
 
 const ButtonLink = ({ contentState, entityKey, children }) => {
-  const [isVisible, setVisible] = useState(false)
-  const { url } = contentState.getEntity(entityKey).getData()
+  const [isVisible, setVisible] = useState(false);
+  const { url } = contentState.getEntity(entityKey).getData();
   const [{ editorState, focus, translations }, dispatch] =
-    useContext(EditorContext)
-  const hasFocus = hasEntityFocus(contentState, editorState, entityKey)
+    useContext(EditorContext);
+  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
 
   useEffect(() => {
-    setTimeout(() => setVisible(hasFocus && focus), 0)
-  }, [focus, editorState])
+    setTimeout(() => setVisible(hasFocus && focus), 0);
+  }, [focus, editorState]);
 
   return (
     <Wrapper aria-live="assertive">
@@ -120,35 +120,35 @@ const ButtonLink = ({ contentState, entityKey, children }) => {
             weight="regular"
             color="error"
             onClick={(e) => {
-              e.preventDefault()
+              e.preventDefault();
               const currentContent = contentState.getBlockForKey(
-                editorState.getSelection().getFocusKey(),
-              )
+                editorState.getSelection().getFocusKey()
+              );
               currentContent.findEntityRanges(
                 (character) => {
-                  return character.getEntity() === entityKey
+                  return character.getEntity() === entityKey;
                 },
                 (start, end) => {
                   const newsSelection = editorState.getSelection().merge({
                     focusOffset: end,
                     anchorOffset: start,
-                  })
+                  });
                   const newsEditorState = Modifier.applyEntity(
                     contentState,
                     newsSelection,
-                    null,
-                  )
+                    null
+                  );
                   dispatch(
                     updateEditor(
                       EditorState.push(
                         editorState,
                         newsEditorState,
-                        'apply-entity',
-                      ),
-                    ),
-                  )
-                },
-              )
+                        "apply-entity"
+                      )
+                    )
+                  );
+                }
+              );
             }}
           >
             {translations.link.button.delete}
@@ -168,47 +168,47 @@ const ButtonLink = ({ contentState, entityKey, children }) => {
         </StyledArrowContainer>
       )}
     </Wrapper>
-  )
-}
+  );
+};
 
 const buttonLinkStrategy = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges((character) => {
-    const entityKey = character.getEntity()
+    const entityKey = character.getEntity();
     return (
       entityKey !== null &&
-      contentState.getEntity(entityKey).getType() === 'BUTTON_LINK'
-    )
-  }, callback)
-}
+      contentState.getEntity(entityKey).getType() === "BUTTON_LINK"
+    );
+  }, callback);
+};
 
 export const decorator = {
   strategy: buttonLinkStrategy,
   component: ButtonLink,
-}
+};
 
 export const readDecorator = {
   strategy: buttonLinkStrategy,
   component: (props) => {
-    const { url } = props.contentState.getEntity(props.entityKey).getData()
+    const { url } = props.contentState.getEntity(props.entityKey).getData();
     return (
       <Wrapper>
         <StyledButtonLink href={url}>{props.children}</StyledButtonLink>
       </Wrapper>
-    )
+    );
   },
-}
+};
 
 const ButtonLinkControls = ({ disabled, onChange }) => {
   const [{ editorState, editorRef, translations }, dispatch] =
-    useContext(EditorContext)
-  const entity = getEntity(editorState)
-  const entityKey = getEntityKey(editorState)
+    useContext(EditorContext);
+  const entity = getEntity(editorState);
+  const entityKey = getEntityKey(editorState);
   const textToShow = () => {
     if (!entity) {
-      return getCurrentSelection(editorState)
+      return getCurrentSelection(editorState);
     }
-    return getEntityText(editorState, entityKey)
-  }
+    return getEntityText(editorState, entityKey);
+  };
 
   return (
     <Modal
@@ -230,51 +230,51 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
           <Formik
             enableReinitialize
             initialValues={{
-              url: entity ? entity.getData().url : '',
+              url: entity ? entity.getData().url : "",
               text: textToShow(),
             }}
             onSubmit={({ url }) => {
-              onChange(url)
-              const link = linkify.match(url)
-              const contentState = editorState.getCurrentContent()
+              onChange(url);
+              const link = linkify.match(url);
+              const contentState = editorState.getCurrentContent();
               if (entity) {
                 const newContentState = contentState.replaceEntityData(
                   entityKey,
-                  { url: link[0].url },
-                )
+                  { url: link[0].url }
+                );
                 dispatch(
                   updateEditor(
                     EditorState.push(
                       editorState,
                       newContentState,
-                      'change-block-data',
-                    ),
-                  ),
-                )
+                      "change-block-data"
+                    )
+                  )
+                );
               } else {
                 const contentStateWithEntity = contentState.createEntity(
-                  'BUTTON_LINK',
-                  'MUTABLE',
-                  { url: link[0].url },
-                )
+                  "BUTTON_LINK",
+                  "MUTABLE",
+                  { url: link[0].url }
+                );
                 const entityKey =
-                  contentStateWithEntity.getLastCreatedEntityKey()
+                  contentStateWithEntity.getLastCreatedEntityKey();
                 const newEditorState = EditorState.set(editorState, {
                   currentContent: contentStateWithEntity,
-                })
+                });
 
                 dispatch(
                   updateEditor(
                     RichUtils.toggleLink(
                       newEditorState,
                       newEditorState.getSelection(),
-                      entityKey,
-                    ),
-                  ),
-                )
+                      entityKey
+                    )
+                  )
+                );
               }
-              close()
-              setTimeout(() => editorRef.current.blur(), 0)
+              close();
+              setTimeout(() => editorRef.current.blur(), 0);
             }}
           >
             {({ handleSubmit }) => {
@@ -292,14 +292,14 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
                       name="url"
                       validate={(value) => {
                         if (!linkify.test(value)) {
-                          return translations.link.error
+                          return translations.link.error;
                         }
                       }}
                     />
                   </Modal.Block>
 
                   <Modal.Button
-                    fluid
+                    fit="fluid"
                     size="big"
                     type="button"
                     modifier="helium"
@@ -308,23 +308,23 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
                     {translations.submit}
                   </Modal.Button>
                 </>
-              )
+              );
             }}
           </Formik>
-        )
+        );
       }}
     </Modal>
-  )
-}
+  );
+};
 
 ButtonLinkControls.propTypes = {
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-}
+};
 
 ButtonLinkControls.defaultProps = {
   disabled: false,
   onChange: () => null,
-}
+};
 
-export default ButtonLinkControls
+export default ButtonLinkControls;

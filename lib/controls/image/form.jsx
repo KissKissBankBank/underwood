@@ -128,6 +128,7 @@ const Form = ({
                 <Text
                   size="small"
                   tag="button"
+                  weight="regular"
                   onClick={() => setImageUrl(undefined)}
                   className="k-u-reset-button k-u-link k-u-link-primary1"
                 >
@@ -158,7 +159,7 @@ const Form = ({
       </ErrorMessage>
       <Modal.Actions>
         {isSubmitting ? (
-          <SubmitLoader fluid />
+          <SubmitLoader fit="fluid" />
         ) : (
           <Modal.Button
             type="button"
