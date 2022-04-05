@@ -1,8 +1,14 @@
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { Container } from "@kisskissbankbank/kitten";
+import Layout from "@theme/Layout";
 import { convertToRaw, EditorState } from "draft-js";
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import { Controls, Displayer, Editor, Playground } from "./index";
-import "./style.scss";
+import {
+  Controls,
+  Displayer,
+  Editor,
+  Playground as UnderwoodPlayground,
+} from "../../lib";
 
 const EditorDev = () => {
   const [body, setBody] = useState(
@@ -27,7 +33,7 @@ const EditorDev = () => {
             <Controls.Video embedlyApiKey="8b7d8dd6504d41af9a77662672aabc2a" />
           </Controls.Group>
         </Controls>
-        <Playground
+        <UnderwoodPlayground
           className="k-u-margin-top-double"
           onChange={(text) => {
             setBody(JSON.stringify(text));
@@ -39,4 +45,19 @@ const EditorDev = () => {
   );
 };
 
-ReactDOM.render(<EditorDev />, document.getElementById("body"));
+const Playground = () => {
+  const context = useDocusaurusContext();
+  const { siteConfig = {} } = context;
+  return (
+    <Layout
+      title={`Hello from ${siteConfig.title}`}
+      description="Underwood playground"
+    >
+      <Container>
+        <EditorDev />
+      </Container>
+    </Layout>
+  );
+};
+
+export default Playground;

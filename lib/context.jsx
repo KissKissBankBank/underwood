@@ -1,24 +1,22 @@
-import React, { createContext, useReducer } from 'react'
-import { EditorState } from 'draft-js'
+import { EditorState } from "draft-js";
+import React, { createContext, useReducer } from "react";
 
 const initialState = {
   editorState: EditorState.createEmpty(),
   focus: false,
   editorRef: null,
   disabled: false,
-}
+};
 
-export const EditorContext = createContext(initialState)
+export const EditorContext = createContext(initialState);
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'update':
-    case 'focus':
-      return { ...state, ...action }
-    case 'updateState':
-      return { ...state, ...action.state }
+    case "update":
+    case "focus":
+      return { ...state, ...action };
   }
-}
+};
 
 export const EditorProvider = ({
   translations,
@@ -35,25 +33,25 @@ export const EditorProvider = ({
     >
       {children}
     </EditorContext.Provider>
-  )
-}
-
-export const updateState = (state) => ({
-  type: 'updateState',
-  state,
-})
+  );
+};
 
 export const updateEditor = (editorState) => ({
-  type: 'update',
+  type: "update",
   editorState,
-})
+});
 
 export const updateEditorRef = (editorRef) => ({
-  type: 'update',
+  type: "update",
   editorRef,
-})
+});
+
+export const updateDisabled = (disabled) => ({
+  type: "update",
+  disabled,
+});
 
 export const setFocus = (focus) => ({
-  type: 'focus',
+  type: "focus",
   focus,
-})
+});

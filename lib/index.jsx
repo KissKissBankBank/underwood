@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import { convertToRaw } from "draft-js";
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 import { EditorProvider } from "./context";
 
 const defaultTranslations = {
@@ -43,10 +43,29 @@ const defaultTranslations = {
   },
   image_upload: {
     title: "Insert a picture",
+    button_title: "Insert a picture",
+    button_file: "From my computer",
+    button_url: "From a URL",
+    modify_image: "Change image",
+    modify_label: "Modify the image description",
+    add_label: "Add a description to the image",
     label: "URL:",
     url: "URL:",
     preview: "Preview",
     upload: "Select a file on your computer",
+    max_size: "The size of your image exceeds 5 MB",
+    dimension_error: "Image dimensions too big (1000x4000 max)",
+    description: {
+      title: "Image description",
+      label: (
+        <span>
+          Image description <span className="k-u-weight-light">(optional)</span>
+        </span>
+      ),
+      placeholder: 'Ex: Team photo "For us, cycling is freedom". ',
+      helper:
+        "Write a brief description of your image to make your content accessible to people with visual disabilities. Write the minimum text necessary to understand the context accurately (title, quote, graphic, description of the (title, quote, graphic, description of the image...). If your image is purely decorative, you can skip this step.",
+    },
     help_file: {
       formats: "Available formats: jpg, jpeg, gif, png, bmp",
       width: "Maximum weight: 5 MB",
