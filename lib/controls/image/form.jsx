@@ -157,20 +157,22 @@ const Form = ({
       <ErrorMessage name="url">
         {(msg) => <Field.ErrorMessage>{msg}</Field.ErrorMessage>}
       </ErrorMessage>
-      <Modal.Actions>
-        {isSubmitting ? (
-          <SubmitLoader fit="fluid" />
-        ) : (
-          <Modal.Button
-            type="button"
-            size="big"
-            modifier="helium"
-            onClick={handleSubmit}
-          >
-            {translations.submit}
-          </Modal.Button>
-        )}
-      </Modal.Actions>
+      {imageUrl && (
+        <Modal.Actions>
+          {isSubmitting ? (
+            <SubmitLoader fit="fluid" />
+          ) : (
+            <Modal.Button
+              type="button"
+              size="big"
+              modifier="helium"
+              onClick={handleSubmit}
+            >
+              {translations.submit}
+            </Modal.Button>
+          )}
+        </Modal.Actions>
+      )}
     </>
   );
 };
