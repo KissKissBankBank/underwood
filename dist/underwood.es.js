@@ -4263,8 +4263,8 @@ const Form = ({
       },
       acceptedFileSize: 5242880,
       acceptedImageDimensions: {
-        height: 1e3,
-        width: 4e3
+        height: 4e3,
+        width: 1e3
       },
       acceptedMimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
       buttonTitle: translations.image_upload.button_title,
