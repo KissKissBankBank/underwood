@@ -210,20 +210,22 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                           {translations.video.problem}
                         </Field.ErrorMessage>
                       )}
-                      <Modal.Actions>
-                        {isSubmitting ? (
-                          <SubmitLoader fluid />
-                        ) : (
-                          <Modal.Button
-                            size="big"
-                            type="button"
-                            modifier="helium"
-                            onClick={handleSubmit}
-                          >
-                            {translations.submit}
-                          </Modal.Button>
-                        )}
-                      </Modal.Actions>
+                      {embedlyHtml && (
+                        <Modal.Actions>
+                          {isSubmitting ? (
+                            <SubmitLoader fit="fluid" />
+                          ) : (
+                            <Modal.Button
+                              size="large"
+                              type="button"
+                              modifier="helium"
+                              onClick={handleSubmit}
+                            >
+                              {translations.submit}
+                            </Modal.Button>
+                          )}
+                        </Modal.Actions>
+                      )}
                     </>
                   );
                 }}

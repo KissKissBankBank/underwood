@@ -164,7 +164,7 @@ const Form = ({
           ) : (
             <Modal.Button
               type="button"
-              size="big"
+              size="large"
               modifier="helium"
               onClick={handleSubmit}
             >
