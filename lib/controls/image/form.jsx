@@ -85,8 +85,8 @@ const Form = ({
           }}
           acceptedFileSize={5242880}
           acceptedImageDimensions={{
-            height: 1000,
-            width: 4000,
+            height: 4000,
+            width: 1000,
           }}
           acceptedMimeTypes={[
             "image/jpeg",
