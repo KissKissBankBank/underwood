@@ -83,7 +83,7 @@ const StyledButtonLink = ({ href, children }) => {
       target="_blank"
       rel="nofollow noopener"
       modifier="helium"
-      size="big"
+      size="large"
     >
       {children}
     </ButtonLinkWithFluidStyle>
@@ -300,7 +300,7 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
 
                   <Modal.Button
                     fit="fluid"
-                    size="big"
+                    size="large"
                     type="button"
                     modifier="helium"
                     onClick={handleSubmit}

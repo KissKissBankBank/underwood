@@ -1,14 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Formik } from 'formik'
-import styled from 'styled-components'
-import isEmtpy from 'lodash/fp/isEmpty'
-import { EditorState, Modifier, RichUtils } from 'draft-js'
-import linkifyIt from 'linkify-it'
-import tlds from 'tlds'
-import { Title, pxToRem, ModalNext as Modal } from '@kisskissbankbank/kitten'
-import ButtonEditor from '../components/button'
-import { Label, InputText } from '../components/form'
+import { ModalNext as Modal, pxToRem, Title } from "@kisskissbankbank/kitten";
+import { EditorState, Modifier, RichUtils } from "draft-js";
+import { Formik } from "formik";
+import linkifyIt from "linkify-it";
+import isEmtpy from "lodash/fp/isEmpty";
+import PropTypes from "prop-types";
+import React, { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
+import tlds from "tlds";
+import ButtonEditor from "../components/button";
+import { InputText, Label } from "../components/form";
+import { EditorContext, updateEditor } from "../context";
 import {
   getCurrentSelection,
   getEntity,
@@ -16,17 +17,16 @@ import {
   getEntityText,
   getImageUrl,
   hasEntityFocus,
-} from '../utils'
-import { EditorContext, updateEditor } from '../context'
-import LinkInline from './link-inline'
+} from "../utils";
+import LinkInline from "./link-inline";
 
-const linkify = linkifyIt()
-linkify.tlds(tlds)
+const linkify = linkifyIt();
+linkify.tlds(tlds);
 
 const Wrapper = styled.div`
   display: inline-block;
   position: relative;
-`
+`;
 
 const ImageWrapper = styled.div`
   display: flex;
@@ -35,24 +35,24 @@ const ImageWrapper = styled.div`
     max-height: ${pxToRem(200)};
     max-width: 100%;
   }
-`
+`;
 
 const ImageLinked = ({ src }) => {
   return (
     <ImageWrapper>
       <img src={getImageUrl(src)} alt="" />
     </ImageWrapper>
-  )
-}
+  );
+};
 
 const Link = ({ contentState, entityKey, children }) => {
-  const [isVisible, setVisible] = useState(false)
-  const { url } = contentState.getEntity(entityKey).getData()
-  const [{ editorState, focus }, dispatch] = useContext(EditorContext)
-  const hasFocus = hasEntityFocus(contentState, editorState, entityKey)
+  const [isVisible, setVisible] = useState(false);
+  const { url } = contentState.getEntity(entityKey).getData();
+  const [{ editorState, focus }, dispatch] = useContext(EditorContext);
+  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
   useEffect(() => {
-    setTimeout(() => setVisible(hasFocus && focus), 0)
-  }, [focus, editorState])
+    setTimeout(() => setVisible(hasFocus && focus), 0);
+  }, [focus, editorState]);
   return (
     <Wrapper aria-live="assertive">
       <a
@@ -68,60 +68,60 @@ const Link = ({ contentState, entityKey, children }) => {
           url={url}
           onDelete={() => {
             const currentContent = contentState?.getBlockForKey(
-              editorState?.getSelection()?.getFocusKey(),
-            )
-            if (!currentContent) return
+              editorState?.getSelection()?.getFocusKey()
+            );
+            if (!currentContent) return;
             currentContent.findEntityRanges(
               (character) => {
-                return character.getEntity() === entityKey
+                return character.getEntity() === entityKey;
               },
               (start, end) => {
                 const newsSelection = editorState.getSelection().merge({
                   focusOffset: end,
                   anchorOffset: start,
-                })
+                });
                 const newsEditorState = Modifier.applyEntity(
                   contentState,
                   newsSelection,
-                  null,
-                )
+                  null
+                );
                 dispatch(
                   updateEditor(
                     EditorState.push(
                       editorState,
                       newsEditorState,
-                      'apply-entity',
-                    ),
-                  ),
-                )
-              },
-            )
+                      "apply-entity"
+                    )
+                  )
+                );
+              }
+            );
           }}
         />
       )}
     </Wrapper>
-  )
-}
+  );
+};
 
 const linkStrategy = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges((character) => {
-    const entityKey = character.getEntity()
+    const entityKey = character.getEntity();
     return (
       entityKey !== null &&
-      contentState.getEntity(entityKey).getType() === 'LINK'
-    )
-  }, callback)
-}
+      contentState.getEntity(entityKey).getType() === "LINK"
+    );
+  }, callback);
+};
 
 export const decorator = {
   strategy: linkStrategy,
   component: Link,
-}
+};
 
 export const readDecorator = {
   strategy: linkStrategy,
   component: (props) => {
-    const { url } = props.contentState.getEntity(props.entityKey).getData()
+    const { url } = props.contentState.getEntity(props.entityKey).getData();
     return (
       <Wrapper>
         <a
@@ -133,39 +133,39 @@ export const readDecorator = {
           {props.children}
         </a>
       </Wrapper>
-    )
+    );
   },
-}
+};
 
 const LinkControls = ({ disabled, onChange }) => {
-  const [modalOpened, openModal] = useState(false)
+  const [modalOpened, openModal] = useState(false);
   const [
     { editorState, editorRef, translations, disabled: contextDisabled },
     dispatch,
-  ] = useContext(EditorContext)
-  const entity = getEntity(editorState)
-  const entityKey = getEntityKey(editorState)
+  ] = useContext(EditorContext);
+  const entity = getEntity(editorState);
+  const entityKey = getEntityKey(editorState);
   const textToShow = () => {
     if (!entity) {
-      return getCurrentSelection(editorState)
+      return getCurrentSelection(editorState);
     }
-    return getEntityText(editorState, entityKey)
-  }
+    return getEntityText(editorState, entityKey);
+  };
   const forceFocus = () => {
-    const currentSelection = editorState.getSelection()
-    setTimeout(() => editorRef.current.focus(), 0)
+    const currentSelection = editorState.getSelection();
+    setTimeout(() => editorRef.current.focus(), 0);
     const newSelectionAtTheEnd = currentSelection.merge({
       anchorOffset: currentSelection.getFocusOffset(),
       hasFocus: true,
-    })
+    });
     dispatch(
       updateEditor(
-        EditorState.forceSelection(editorState, newSelectionAtTheEnd),
-      ),
-    )
-  }
+        EditorState.forceSelection(editorState, newSelectionAtTheEnd)
+      )
+    );
+  };
   const active =
-    !contextDisabled && !disabled && (entity || !isEmtpy(textToShow()))
+    !contextDisabled && !disabled && (entity || !isEmtpy(textToShow()));
   return (
     <>
       <ButtonEditor
@@ -173,16 +173,16 @@ const LinkControls = ({ disabled, onChange }) => {
         disabled={!active}
         onToggle={() => {
           if (modalOpened) {
-            openModal(false)
+            openModal(false);
           } else {
-            openModal(true)
+            openModal(true);
           }
         }}
       />
       <Modal
         onClose={() => {
-          openModal(false)
-          forceFocus()
+          openModal(false);
+          forceFocus();
         }}
         isOpen={modalOpened}
         headerTitle={
@@ -195,75 +195,75 @@ const LinkControls = ({ disabled, onChange }) => {
               <Formik
                 enableReinitialize
                 initialValues={{
-                  url: entity ? entity.getData().url : '',
+                  url: entity ? entity.getData().url : "",
                   text: textToShow(),
                 }}
                 onSubmit={({ url }) => {
-                  const link = linkify.match(url)
-                  const contentState = editorState.getCurrentContent()
-                  onChange()
+                  const link = linkify.match(url);
+                  const contentState = editorState.getCurrentContent();
+                  onChange();
                   if (entity) {
-                    if (entity?.get('type') === 'IMAGE') {
+                    if (entity?.get("type") === "IMAGE") {
                       const newImageContentState = contentState.mergeEntityData(
                         entityKey,
-                        { url: link[0].url },
-                      )
+                        { url: link[0].url }
+                      );
                       dispatch(
                         updateEditor(
                           EditorState.push(
                             editorState,
                             newImageContentState,
-                            'change-block-data',
-                          ),
-                        ),
-                      )
+                            "change-block-data"
+                          )
+                        )
+                      );
                     } else {
                       const newContentState = contentState.replaceEntityData(
                         entityKey,
-                        { url: link[0].url },
-                      )
+                        { url: link[0].url }
+                      );
                       dispatch(
                         updateEditor(
                           EditorState.push(
                             editorState,
                             newContentState,
-                            'change-block-data',
-                          ),
-                        ),
-                      )
+                            "change-block-data"
+                          )
+                        )
+                      );
                     }
                   } else {
                     const contentStateWithEntity = contentState.createEntity(
-                      'LINK',
-                      'MUTABLE',
-                      { url: link[0].url },
-                    )
+                      "LINK",
+                      "MUTABLE",
+                      { url: link[0].url }
+                    );
                     const entityKey =
-                      contentStateWithEntity.getLastCreatedEntityKey()
+                      contentStateWithEntity.getLastCreatedEntityKey();
                     const newEditorState = EditorState.set(editorState, {
                       currentContent: contentStateWithEntity,
-                    })
+                    });
 
                     dispatch(
                       updateEditor(
                         RichUtils.toggleLink(
                           newEditorState,
                           newEditorState.getSelection(),
-                          entityKey,
-                        ),
-                      ),
-                    )
+                          entityKey
+                        )
+                      )
+                    );
                   }
-                  close()
-                  openModal(false)
-                  setTimeout(() => editorRef.current.focus(), 0)
+                  close();
+                  openModal(false);
+                  setTimeout(() => editorRef.current.focus(), 0);
                 }}
               >
                 {({ handleSubmit }) => {
                   return (
                     <>
                       <div className="k-u-margin-bottom-double">
-                        {entity?.get('type') === 'IMAGE' ? (
+                        {entity?.get("type") === "IMAGE" ? (
                           <ImageLinked src={entity?.getData()?.src} />
                         ) : (
                           <>
@@ -283,14 +283,14 @@ const LinkControls = ({ disabled, onChange }) => {
                           name="url"
                           validate={(value) => {
                             if (!linkify.test(value)) {
-                              return translations.link.error
+                              return translations.link.error;
                             }
                           }}
                         />
                       </div>
                       <Modal.Actions>
                         <Modal.Button
-                          size="big"
+                          size="large"
                           type="button"
                           modifier="helium"
                           onClick={handleSubmit}
@@ -299,25 +299,25 @@ const LinkControls = ({ disabled, onChange }) => {
                         </Modal.Button>
                       </Modal.Actions>
                     </>
-                  )
+                  );
                 }}
               </Formik>
             </Modal.Block>
-          )
+          );
         }}
       </Modal>
     </>
-  )
-}
+  );
+};
 
 LinkControls.propTypes = {
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-}
+};
 
 LinkControls.defaultProps = {
   disabled: false,
   onChange: () => null,
-}
+};
 
-export default LinkControls
+export default LinkControls;

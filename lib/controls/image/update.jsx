@@ -70,7 +70,7 @@ const Update = ({ onClose, description, entityKey }) => {
                     <Modal.Actions>
                       <Modal.Button
                         type="submit"
-                        size="big"
+                        size="large"
                         modifier="helium"
                         fit="fluid"
                       >

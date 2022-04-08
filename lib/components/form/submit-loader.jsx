@@ -13,7 +13,7 @@ export default ({ className, ...props }) => {
   return (
     <Button
       modifier="helium"
-      size="big"
+      size="large"
       aria-live="polite"
       as="div"
       className={classNames("k-u-cursor-not-allowed", className)}
