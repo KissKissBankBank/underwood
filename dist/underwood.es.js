@@ -3862,7 +3862,7 @@ var SubmitLoader = (_e) => {
   }] = useContext(EditorContext);
   return /* @__PURE__ */ jsxs(Button$1, __spreadProps(__spreadValues({
     modifier: "helium",
-    size: "big",
+    size: "large",
     "aria-live": "polite",
     as: "div",
     className: classNames("k-u-cursor-not-allowed", className)
@@ -3926,7 +3926,7 @@ const StyledButtonLink = ({
     target: "_blank",
     rel: "nofollow noopener",
     modifier: "helium",
-    size: "big",
+    size: "large",
     children
   });
 };
@@ -4106,7 +4106,7 @@ const ButtonLinkControls = ({
               })]
             }), /* @__PURE__ */ jsx(ModalNext.Button, {
               fit: "fluid",
-              size: "big",
+              size: "large",
               type: "button",
               modifier: "helium",
               onClick: handleSubmit,
@@ -4330,12 +4330,12 @@ const Form = ({
       children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
         children: msg
       })
-    }), /* @__PURE__ */ jsx(ModalNext.Actions, {
+    }), imageUrl && /* @__PURE__ */ jsx(ModalNext.Actions, {
       children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
         fit: "fluid"
       }) : /* @__PURE__ */ jsx(ModalNext.Button, {
         type: "button",
-        size: "big",
+        size: "large",
         modifier: "helium",
         onClick: handleSubmit,
         children: translations.submit
@@ -4401,7 +4401,7 @@ const Update = ({
               }), /* @__PURE__ */ jsx(ModalNext.Actions, {
                 children: /* @__PURE__ */ jsx(ModalNext.Button, {
                   type: "submit",
-                  size: "big",
+                  size: "large",
                   modifier: "helium",
                   fit: "fluid",
                   children: translations.submit
@@ -4873,7 +4873,7 @@ const LinkControls = ({
                   })]
                 }), /* @__PURE__ */ jsx(ModalNext.Actions, {
                   children: /* @__PURE__ */ jsx(ModalNext.Button, {
-                    size: "big",
+                    size: "large",
                     type: "button",
                     modifier: "helium",
                     onClick: handleSubmit,
@@ -5146,11 +5146,11 @@ const VideoControls = ({
                   })
                 }), hasOembedError && /* @__PURE__ */ jsx(Field.ErrorMessage, {
                   children: translations.video.problem
-                }), /* @__PURE__ */ jsx(ModalNext.Actions, {
+                }), embedlyHtml && /* @__PURE__ */ jsx(ModalNext.Actions, {
                   children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
-                    fluid: true
+                    fit: "fluid"
                   }) : /* @__PURE__ */ jsx(ModalNext.Button, {
-                    size: "big",
+                    size: "large",
                     type: "button",
                     modifier: "helium",
                     onClick: handleSubmit,
