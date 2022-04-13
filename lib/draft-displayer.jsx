@@ -1,5 +1,6 @@
 import { domElementHelper } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
+import DOMPurify from 'dompurify'
 import {
   CompositeDecorator,
   ContentState,
@@ -75,7 +76,8 @@ const DraftDisplayer = ({
   configResponsiveImageHandler,
 }) => {
   if (!domElementHelper.canUseDom()) return renderRaw(text);
-  return isJSONContent(text) ? (
+  const clean = DOMPurify.sanitize(text)
+  return isJSONContent(clean) ? (
     <EditorProvider configResponsiveImageHandler={configResponsiveImageHandler}>
       <EditorStyle />
       <section
@@ -85,7 +87,7 @@ const DraftDisplayer = ({
       >
         <Editor
           onChange={() => null}
-          editorState={getinitialValue(text)}
+          editorState={getinitialValue(clean)}
           blockStyleFn={styleBlock({ isDisabled, useRichTextStyle, compact })}
           blockRenderMap={customBlockRenderMap}
           readOnly
@@ -95,7 +97,7 @@ const DraftDisplayer = ({
   ) : (
     <EditorProvider configResponsiveImageHandler={configResponsiveImageHandler}>
       <HtmlEditor
-        html={text}
+        html={clean}
         perfEnabled={perfEnabled}
         useRichTextStyle={useRichTextStyle}
       />
