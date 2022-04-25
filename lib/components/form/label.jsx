@@ -28,7 +28,7 @@ Label.propTypes = {
 }
 
 Label.defaultProps = {
-  size: 'micro',
+  size: 'small',
 }
 
 export default Label
