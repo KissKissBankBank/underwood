@@ -163,7 +163,6 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                   return (
                     <>
                       <Label
-                        size="micro"
                         className="k-u-margin-bottom-single"
                         htmlFor="url"
                       >

@@ -276,7 +276,7 @@ const LinkControls = ({ disabled, onChange }) => {
                       </div>
 
                       <div className="k-u-margin-vertical-double">
-                        <Label size="micro" htmlFor="url">
+                        <Label htmlFor="url">
                           {translations.image_upload.url}
                         </Label>
                         <InputText
