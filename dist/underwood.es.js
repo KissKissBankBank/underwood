@@ -3694,7 +3694,7 @@ Label.propTypes = {
   tooltip: PropTypes.string
 };
 Label.defaultProps = {
-  size: "micro"
+  size: "small"
 };
 const InputText = (_a) => {
   var _b = _a, {
@@ -4860,7 +4860,6 @@ const LinkControls = ({
                 }), /* @__PURE__ */ jsxs("div", {
                   className: "k-u-margin-vertical-double",
                   children: [/* @__PURE__ */ jsx(Label, {
-                    size: "micro",
                     htmlFor: "url",
                     children: translations.image_upload.url
                   }), /* @__PURE__ */ jsx(InputText, {
@@ -5104,7 +5103,6 @@ const VideoControls = ({
             }) => {
               return /* @__PURE__ */ jsxs(Fragment, {
                 children: [/* @__PURE__ */ jsx(Label, {
-                  size: "micro",
                   className: "k-u-margin-bottom-single",
                   htmlFor: "url",
                   children: translations.image_upload.label
