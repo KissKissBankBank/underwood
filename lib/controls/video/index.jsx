@@ -20,6 +20,7 @@ import {
   isPreviousEmptyBlock,
   moveSelectionTo,
   removePreviousEmptyBlock,
+  sanitizeIframeReactComp,
 } from "../../utils";
 import { getDataForProvider } from "./providers";
 
@@ -34,6 +35,7 @@ const VideoEditor = ({ contentState, entityKey, blockKey }) => {
     dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
   };
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
+  const reactComp = parseHtml(embedlyHtml || html, { sanitize: false });
   return (
     <ResponsiveIframeContainer
       ratio={embedRatio || 67.5}
@@ -46,7 +48,7 @@ const VideoEditor = ({ contentState, entityKey, blockKey }) => {
         })}
         onClick={onClick}
       >
-        {parseHtml(embedlyHtml || html, { sanitize: false })}
+        {sanitizeIframeReactComp(reactComp)}
       </div>
     </ResponsiveIframeContainer>
   );
@@ -56,13 +58,14 @@ const VideoDisplayer = (props) => {
   const { embedlyHtml, embedRatio, height, html } = props.contentState
     .getEntity(props.entityKey)
     .getData();
+  const reactComp = parseHtml(embedlyHtml || html, { sanitize: false });
   return (
     <ResponsiveIframeContainer
       ratio={embedRatio || 67.5}
       className="kiss-Draft__media-read"
       style={{ ...(height && { height }) }}
     >
-      {parseHtml(embedlyHtml || html, { sanitize: false })}
+      {sanitizeIframeReactComp(reactComp)}
     </ResponsiveIframeContainer>
   );
 };
@@ -162,10 +165,7 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                 {({ handleSubmit, isSubmitting, values }) => {
                   return (
                     <>
-                      <Label
-                        className="k-u-margin-bottom-single"
-                        htmlFor="url"
-                      >
+                      <Label className="k-u-margin-bottom-single" htmlFor="url">
                         {translations.image_upload.label}
                       </Label>
                       <InputWithButton
@@ -200,7 +200,9 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                             ratio={embedRatio}
                             style={{ ...(height && { height }) }}
                           >
-                            {parseHtml(embedlyHtml, { sanitize: false })}
+                            {sanitizeIframeReactComp(
+                              parseHtml(embedlyHtml, { sanitize: false })
+                            )}
                           </ResponsiveIframeContainer>
                         </div>
                       )}
