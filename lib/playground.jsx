@@ -37,94 +37,101 @@ const Wrapper = styled.div`
   }
 `;
 
-const Playground = ({
-  className,
-  hasError,
-  onFocus,
-  onBlur,
-  rawValue,
-  initialValue,
-  placeholder,
-  withoutBorder,
-  useRichTextStyle,
-  isDisabled,
-  compact,
-  ...props
-}) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const playgroundRef = useRef(null);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [{ editorState, focus, disabled }, dispatch] =
-    useContext(EditorContext);
+const Playground = React.forwardRef(
+  (
+    {
+      className,
+      hasError,
+      onFocus,
+      onBlur,
+      rawValue,
+      initialValue,
+      placeholder,
+      withoutBorder,
+      useRichTextStyle,
+      isDisabled,
+      compact,
+      ...props
+    },
+    ref
+  ) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const playgroundRef = useRef(null);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [{ editorState, focus, disabled }, dispatch] =
+      useContext(EditorContext);
 
-  const onChange = (editorState) => dispatch(updateEditor(editorState));
+    const onChange = (editorState) => dispatch(updateEditor(editorState));
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    props.onChange(
-      rawValue
-        ? convertToRaw(editorState.getCurrentContent())
-        : editorState.getCurrentContent()
-    );
-  }, [editorState]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    dispatch(updateEditorRef(playgroundRef));
-  }, [playgroundRef]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    onChange(resetEditor(getEditorValue(initialValue)));
-  }, [initialValue]);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      props.onChange(
+        rawValue
+          ? convertToRaw(editorState.getCurrentContent())
+          : editorState.getCurrentContent()
+      );
+    }, [editorState]);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      dispatch(updateEditorRef(ref || playgroundRef));
+    }, [ref, playgroundRef]);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      onChange(resetEditor(getEditorValue(initialValue)));
+    }, [initialValue]);
 
-  const handleWrapperClick = () => {
-    if (!playgroundRef?.current) return;
+    const handleWrapperClick = () => {
+      if (playgroundRef?.current) {
+        playgroundRef.current.focus();
+      } else if (ref?.current) {
+        ref.current.focus();
+      }
+    };
 
-    playgroundRef.current.focus();
-  };
-
-  return (
-    <Wrapper
-      className={classNames("u-Editor", className, {
-        "u-Editor--hasError": hasError,
-        "u-Editor--focused": focus,
-        "u-Editor--hasBorder": !withoutBorder,
-      })}
-      onClick={handleWrapperClick}
-    >
-      <EditorStyle />
-      <Paragraph
-        data-test-id={props["data-test-id"]}
-        tag="section"
-        modifier="tertiary"
-        noMargin
-        className={classNames("u-Editor__root", {
-          "u-Editor__compact": compact,
+    return (
+      <Wrapper
+        className={classNames("u-Editor", className, {
+          "u-Editor--hasError": hasError,
+          "u-Editor--focused": focus,
+          "u-Editor--hasBorder": !withoutBorder,
         })}
+        onClick={handleWrapperClick}
       >
-        <DraftEditor
-          stripPastedStyles
-          ref={playgroundRef}
-          editorState={editorState}
-          placeholder={placeholder}
-          readOnly={isDisabled || disabled}
-          handleKeyCommand={keyCommandHandler(onChange)}
-          handleReturn={returnHandler(onChange)}
-          onChange={onChange}
-          onFocus={() => {
-            dispatch(setFocus(true));
-            onFocus();
-          }}
-          onBlur={() => {
-            dispatch(setFocus(false));
-            onBlur();
-          }}
-          blockStyleFn={styleBlock({ isDisabled, useRichTextStyle, compact })}
-          blockRenderMap={customBlockRenderMap}
-        />
-      </Paragraph>
-    </Wrapper>
-  );
-};
+        <EditorStyle />
+        <Paragraph
+          data-test-id={props["data-test-id"]}
+          tag="section"
+          modifier="tertiary"
+          noMargin
+          className={classNames("u-Editor__root", {
+            "u-Editor__compact": compact,
+          })}
+        >
+          <DraftEditor
+            stripPastedStyles
+            ref={ref || playgroundRef}
+            editorState={editorState}
+            placeholder={placeholder}
+            readOnly={isDisabled || disabled}
+            handleKeyCommand={keyCommandHandler(onChange)}
+            handleReturn={returnHandler(onChange)}
+            onChange={onChange}
+            onFocus={() => {
+              dispatch(setFocus(true));
+              onFocus();
+            }}
+            onBlur={() => {
+              dispatch(setFocus(false));
+              onBlur();
+            }}
+            blockStyleFn={styleBlock({ isDisabled, useRichTextStyle, compact })}
+            blockRenderMap={customBlockRenderMap}
+          />
+        </Paragraph>
+      </Wrapper>
+    );
+  }
+);
 
 Playground.propTypes = {
   onChange: PropTypes.func,
