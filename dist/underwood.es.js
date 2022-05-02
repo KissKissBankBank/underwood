@@ -29,11 +29,11 @@ var __objRest = (source, exclude) => {
     }
   return target;
 };
-import { EditorState, DefaultDraftBlockRenderMap, RichUtils, Modifier, AtomicBlockUtils, CompositeDecorator, convertToRaw, Editor as Editor$1, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
+import { EditorState, DefaultDraftBlockRenderMap, Modifier, RichUtils, AtomicBlockUtils, CompositeDecorator, convertToRaw, Editor as Editor$1, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
 export { convertToRaw } from "draft-js";
 import PropTypes from "prop-types";
 import require$$0, { createContext, useReducer, useContext, useEffect, useState, useRef } from "react";
-import { Title as Title$1, Button as Button$1, pxToRem, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, COLORS, VisuallyHidden, ScreenConfig, ArrowContainer, Text, ModalNext, ButtonGroup, ImageDropUploader, AlertBox, DropdownMenu, ResponsiveIframeContainer, parseHtml, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, domElementHelper, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
+import { Title as Title$1, Button as Button$1, pxToRem, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, COLORS, VisuallyHidden, ScreenConfig, ArrowContainer, Text, ModalNext, ButtonGroup, ImageDropUploader, AlertBox, DropdownMenu, parseHtml, ResponsiveIframeContainer, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, domElementHelper, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import styled, { createGlobalStyle, css } from "styled-components";
 import { Map as Map$4, OrderedMap } from "immutable";
@@ -233,6 +233,41 @@ const customBlockRenderMap = DefaultDraftBlockRenderMap.merge(Map$4({
     })
   }
 }));
+var dist = {};
+Object.defineProperty(dist, "__esModule", { value: true });
+var sanitizeUrl_1 = dist.sanitizeUrl = void 0;
+var invalidProtocolRegex = /^([^\w]*)(javascript|data|vbscript)/im;
+var htmlEntitiesRegex = /&#(\w+)(^\w|;)?/g;
+var ctrlCharactersRegex = /[\u0000-\u001F\u007F-\u009F\u2000-\u200D\uFEFF]/gim;
+var urlSchemeRegex = /^([^:]+):/gm;
+var relativeFirstCharacters = [".", "/"];
+function isRelativeUrlWithoutProtocol(url) {
+  return relativeFirstCharacters.indexOf(url[0]) > -1;
+}
+function decodeHtmlCharacters(str) {
+  return str.replace(htmlEntitiesRegex, function(match, dec) {
+    return String.fromCharCode(dec);
+  });
+}
+function sanitizeUrl(url) {
+  var sanitizedUrl = decodeHtmlCharacters(url || "").replace(ctrlCharactersRegex, "").trim();
+  if (!sanitizedUrl) {
+    return "about:blank";
+  }
+  if (isRelativeUrlWithoutProtocol(sanitizedUrl)) {
+    return sanitizedUrl;
+  }
+  var urlSchemeParseResults = sanitizedUrl.match(urlSchemeRegex);
+  if (!urlSchemeParseResults) {
+    return sanitizedUrl;
+  }
+  var urlScheme = urlSchemeParseResults[0];
+  if (invalidProtocolRegex.test(urlScheme)) {
+    return "about:blank";
+  }
+  return sanitizedUrl;
+}
+sanitizeUrl_1 = dist.sanitizeUrl = sanitizeUrl;
 var _mapping = {};
 (function(exports) {
   exports.aliasToReal = {
@@ -3154,11 +3189,11 @@ function hasPath$1(object, path, hasFunc) {
 }
 var _hasPath = hasPath$1;
 var baseHasIn = _baseHasIn, hasPath = _hasPath;
-function hasIn$1(object, path) {
+function hasIn$2(object, path) {
   return object != null && hasPath(object, path, baseHasIn);
 }
-var hasIn_1 = hasIn$1;
-var baseIsEqual$1 = _baseIsEqual, get$1 = get_1, hasIn = hasIn_1, isKey$1 = _isKey, isStrictComparable = _isStrictComparable, matchesStrictComparable = _matchesStrictComparable, toKey$4 = _toKey;
+var hasIn_1 = hasIn$2;
+var baseIsEqual$1 = _baseIsEqual, get$1 = get_1, hasIn$1 = hasIn_1, isKey$1 = _isKey, isStrictComparable = _isStrictComparable, matchesStrictComparable = _matchesStrictComparable, toKey$4 = _toKey;
 var COMPARE_PARTIAL_FLAG = 1, COMPARE_UNORDERED_FLAG = 2;
 function baseMatchesProperty$1(path, srcValue) {
   if (isKey$1(path) && isStrictComparable(srcValue)) {
@@ -3166,7 +3201,7 @@ function baseMatchesProperty$1(path, srcValue) {
   }
   return function(object) {
     var objValue = get$1(object, path);
-    return objValue === void 0 && objValue === srcValue ? hasIn(object, path) : baseIsEqual$1(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
+    return objValue === void 0 && objValue === srcValue ? hasIn$1(object, path) : baseIsEqual$1(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
   };
 }
 var _baseMatchesProperty = baseMatchesProperty$1;
@@ -3260,13 +3295,13 @@ function overRest$1(func2, start, transform) {
 }
 var _overRest = overRest$1;
 var flatten = flatten_1, overRest = _overRest, setToString = _setToString;
-function flatRest$3(func2) {
+function flatRest$4(func2) {
   return setToString(overRest(func2, void 0, flatten), func2 + "");
 }
-var _flatRest = flatRest$3;
-var createWrap = _createWrap, flatRest$2 = _flatRest;
+var _flatRest = flatRest$4;
+var createWrap = _createWrap, flatRest$3 = _flatRest;
 var WRAP_REARG_FLAG$1 = 256;
-var rearg = flatRest$2(function(func2, indexes) {
+var rearg = flatRest$3(function(func2, indexes) {
   return createWrap(func2, WRAP_REARG_FLAG$1, void 0, void 0, void 0, indexes);
 });
 var rearg_1 = rearg;
@@ -3295,15 +3330,15 @@ var _util = {
   "toPath": toPath_1
 };
 var baseConvert = _baseConvert, util = _util;
-function convert$a(name, func2, options) {
+function convert$b(name, func2, options) {
   return baseConvert(util, name, func2, options);
 }
-var convert_1 = convert$a;
-var LodashWrapper = _LodashWrapper, flatRest$1 = _flatRest, getData = _getData, getFuncName = _getFuncName, isArray$2 = isArray_1, isLaziable = _isLaziable;
+var convert_1 = convert$b;
+var LodashWrapper = _LodashWrapper, flatRest$2 = _flatRest, getData = _getData, getFuncName = _getFuncName, isArray$2 = isArray_1, isLaziable = _isLaziable;
 var FUNC_ERROR_TEXT$1 = "Expected a function";
 var WRAP_CURRY_FLAG = 8, WRAP_PARTIAL_FLAG = 32, WRAP_ARY_FLAG = 128, WRAP_REARG_FLAG = 256;
 function createFlow$1(fromRight) {
-  return flatRest$1(function(funcs) {
+  return flatRest$2(function(funcs) {
     var length = funcs.length, index = length, prereq = LodashWrapper.prototype.thru;
     if (fromRight) {
       funcs.reverse();
@@ -3344,12 +3379,12 @@ var _createFlow = createFlow$1;
 var createFlow = _createFlow;
 var flow$1 = createFlow();
 var flow_1 = flow$1;
-var convert$9 = convert_1, func$9 = convert$9("flow", flow_1);
+var convert$a = convert_1, func$a = convert$a("flow", flow_1);
+func$a.placeholder = placeholder;
+var flow = func$a;
+var convert$9 = convert_1, func$9 = convert$9("get", get_1);
 func$9.placeholder = placeholder;
-var flow = func$9;
-var convert$8 = convert_1, func$8 = convert$8("get", get_1);
-func$8.placeholder = placeholder;
-var get = func$8;
+var get = func$9;
 var baseKeys = _baseKeys, getTag = _getTag, isArguments = isArguments_1, isArray$1 = isArray_1, isArrayLike$1 = isArrayLike_1, isBuffer = isBuffer$4.exports, isPrototype = _isPrototype, isTypedArray = isTypedArray_1;
 var mapTag = "[object Map]", setTag = "[object Set]";
 var objectProto = Object.prototype;
@@ -3383,9 +3418,9 @@ var _falseOptions = {
   "immutable": false,
   "rearg": false
 };
-var convert$7 = convert_1, func$7 = convert$7("isEmpty", isEmpty_1, _falseOptions);
-func$7.placeholder = placeholder;
-var isEmpty = func$7;
+var convert$8 = convert_1, func$8 = convert$8("isEmpty", isEmpty_1, _falseOptions);
+func$8.placeholder = placeholder;
+var isEmpty = func$8;
 function last$1(array) {
   var length = array == null ? 0 : array.length;
   return length ? array[length - 1] : void 0;
@@ -3426,9 +3461,9 @@ function customOmitClone$1(value) {
   return isPlainObject(value) ? void 0 : value;
 }
 var _customOmitClone = customOmitClone$1;
-var arrayMap$1 = _arrayMap, baseClone = _baseClone, baseUnset = _baseUnset, castPath$2 = _castPath, copyObject = _copyObject, customOmitClone = _customOmitClone, flatRest = _flatRest, getAllKeysIn$1 = _getAllKeysIn;
+var arrayMap$1 = _arrayMap, baseClone = _baseClone, baseUnset = _baseUnset, castPath$2 = _castPath, copyObject = _copyObject, customOmitClone = _customOmitClone, flatRest$1 = _flatRest, getAllKeysIn$1 = _getAllKeysIn;
 var CLONE_DEEP_FLAG = 1, CLONE_FLAT_FLAG = 2, CLONE_SYMBOLS_FLAG = 4;
-var omit$1 = flatRest(function(object, paths) {
+var omit$1 = flatRest$1(function(object, paths) {
   var result = {};
   if (object == null) {
     return result;
@@ -3450,9 +3485,61 @@ var omit$1 = flatRest(function(object, paths) {
   return result;
 });
 var omit_1 = omit$1;
-var convert$6 = convert_1, func$6 = convert$6("omit", omit_1);
+var convert$7 = convert_1, func$7 = convert$7("omit", omit_1);
+func$7.placeholder = placeholder;
+var omit = func$7;
+var assignValue = _assignValue, castPath$1 = _castPath, isIndex = _isIndex, isObject = isObject_1, toKey = _toKey;
+function baseSet$1(object, path, value, customizer) {
+  if (!isObject(object)) {
+    return object;
+  }
+  path = castPath$1(path, object);
+  var index = -1, length = path.length, lastIndex = length - 1, nested = object;
+  while (nested != null && ++index < length) {
+    var key = toKey(path[index]), newValue = value;
+    if (key === "__proto__" || key === "constructor" || key === "prototype") {
+      return object;
+    }
+    if (index != lastIndex) {
+      var objValue = nested[key];
+      newValue = customizer ? customizer(objValue, key, nested) : void 0;
+      if (newValue === void 0) {
+        newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
+      }
+    }
+    assignValue(nested, key, newValue);
+    nested = nested[key];
+  }
+  return object;
+}
+var _baseSet = baseSet$1;
+var baseGet = _baseGet, baseSet = _baseSet, castPath = _castPath;
+function basePickBy$2(object, paths, predicate) {
+  var index = -1, length = paths.length, result = {};
+  while (++index < length) {
+    var path = paths[index], value = baseGet(object, path);
+    if (predicate(value, path)) {
+      baseSet(result, castPath(path, object), value);
+    }
+  }
+  return result;
+}
+var _basePickBy = basePickBy$2;
+var basePickBy$1 = _basePickBy, hasIn = hasIn_1;
+function basePick$1(object, paths) {
+  return basePickBy$1(object, paths, function(value, path) {
+    return hasIn(object, path);
+  });
+}
+var _basePick = basePick$1;
+var basePick = _basePick, flatRest = _flatRest;
+var pick$1 = flatRest(function(object, paths) {
+  return object == null ? {} : basePick(object, paths);
+});
+var pick_1 = pick$1;
+var convert$6 = convert_1, func$6 = convert$6("pick", pick_1);
 func$6.placeholder = placeholder;
-var omit = func$6;
+var pick = func$6;
 function arrayReduce$1(array, iteratee2, accumulator, initAccum) {
   var index = -1, length = array == null ? 0 : array.length;
   if (initAccum && length) {
@@ -4907,7 +4994,6 @@ const oembed = (customConfig) => {
 };
 const calculRatio = ({ height, width }) => (height / width * 100).toPrecision(4);
 const getDataForProvider = (response) => {
-  console.log(response);
   if (response.type === "video" || response.type === "rich" && response.provider_name !== "SoundCloud") {
     return {
       ratio: calculRatio({
@@ -4965,6 +5051,9 @@ const VideoEditor = ({
     dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
   };
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
+  const reactComp = parseHtml(embedlyHtml || html, {
+    sanitize: false
+  });
   return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
     ratio: embedRatio || 67.5,
     className: "kiss-Draft__media",
@@ -4976,9 +5065,7 @@ const VideoEditor = ({
         "kiss-Draft__media-focus__focused": hasFocus
       }),
       onClick,
-      children: parseHtml(embedlyHtml || html, {
-        sanitize: false
-      })
+      children: sanitizeIframeReactComp(reactComp)
     })
   });
 };
@@ -4989,15 +5076,16 @@ const VideoDisplayer = (props) => {
     height,
     html
   } = props.contentState.getEntity(props.entityKey).getData();
+  const reactComp = parseHtml(embedlyHtml || html, {
+    sanitize: false
+  });
   return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
     ratio: embedRatio || 67.5,
     className: "kiss-Draft__media-read",
     style: __spreadValues({}, height && {
       height
     }),
-    children: parseHtml(embedlyHtml || html, {
-      sanitize: false
-    })
+    children: sanitizeIframeReactComp(reactComp)
   });
 };
 const videoStrategy = (contentBlock, callback, contentState) => {
@@ -5138,9 +5226,9 @@ const VideoControls = ({
                     style: __spreadValues({}, height && {
                       height
                     }),
-                    children: parseHtml(embedlyHtml, {
+                    children: sanitizeIframeReactComp(parseHtml(embedlyHtml, {
                       sanitize: false
-                    })
+                    }))
                   })
                 }), hasOembedError && /* @__PURE__ */ jsx(Field.ErrorMessage, {
                   children: translations.video.problem
@@ -5445,12 +5533,13 @@ const Media = (props) => {
   const {
     html
   } = props.contentState.getEntity(props.entityKey).getData();
+  const reactComp = parseHtml(html, {
+    sanitize: false
+  });
   return /* @__PURE__ */ jsx(LazyLoader, {
     children: /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
       ratio: 67.5,
-      children: parseHtml(html, {
-        sanitize: false
-      })
+      children: sanitizeIframeReactComp(reactComp)
     })
   });
 };
@@ -5568,43 +5657,6 @@ function negate$1(predicate) {
   };
 }
 var negate_1 = negate$1;
-var assignValue = _assignValue, castPath$1 = _castPath, isIndex = _isIndex, isObject = isObject_1, toKey = _toKey;
-function baseSet$1(object, path, value, customizer) {
-  if (!isObject(object)) {
-    return object;
-  }
-  path = castPath$1(path, object);
-  var index = -1, length = path.length, lastIndex = length - 1, nested = object;
-  while (nested != null && ++index < length) {
-    var key = toKey(path[index]), newValue = value;
-    if (key === "__proto__" || key === "constructor" || key === "prototype") {
-      return object;
-    }
-    if (index != lastIndex) {
-      var objValue = nested[key];
-      newValue = customizer ? customizer(objValue, key, nested) : void 0;
-      if (newValue === void 0) {
-        newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
-      }
-    }
-    assignValue(nested, key, newValue);
-    nested = nested[key];
-  }
-  return object;
-}
-var _baseSet = baseSet$1;
-var baseGet = _baseGet, baseSet = _baseSet, castPath = _castPath;
-function basePickBy$1(object, paths, predicate) {
-  var index = -1, length = paths.length, result = {};
-  while (++index < length) {
-    var path = paths[index], value = baseGet(object, path);
-    if (predicate(value, path)) {
-      baseSet(result, castPath(path, object), value);
-    }
-  }
-  return result;
-}
-var _basePickBy = basePickBy$1;
 var arrayMap = _arrayMap, baseIteratee$1 = _baseIteratee, basePickBy = _basePickBy, getAllKeysIn = _getAllKeysIn;
 function pickBy$1(object, predicate) {
   if (object == null) {
@@ -5900,6 +5952,25 @@ const isJSONContent$1 = (content) => {
   } catch (e) {
     return false;
   }
+};
+const sanitizeIframeReactComp = (iframeReactComp) => {
+  var _a;
+  return __spreadProps(__spreadValues({}, iframeReactComp), {
+    props: __spreadProps(__spreadValues({}, pick([
+      "allow",
+      "allowFullScreen",
+      "className",
+      "style",
+      "sandbox",
+      "frameBorder",
+      "height",
+      "scrolling",
+      "title",
+      "width"
+    ])(iframeReactComp == null ? void 0 : iframeReactComp.props)), {
+      src: sanitizeUrl_1((_a = iframeReactComp == null ? void 0 : iframeReactComp.props) == null ? void 0 : _a.src)
+    })
+  });
 };
 const getJSONContent = (value) => {
   if (!domElementHelper.canUseDom())
@@ -6334,7 +6405,7 @@ const Wrapper$1 = styled.div`
     }
   }
 `;
-const Playground = (_g) => {
+const Playground = require$$0.forwardRef((_g, ref) => {
   var _h = _g, {
     className,
     hasError,
@@ -6371,15 +6442,17 @@ const Playground = (_g) => {
     props.onChange(rawValue ? convertToRaw(editorState.getCurrentContent()) : editorState.getCurrentContent());
   }, [editorState]);
   useEffect(() => {
-    dispatch(updateEditorRef(playgroundRef));
-  }, [playgroundRef]);
+    dispatch(updateEditorRef(ref || playgroundRef));
+  }, [ref, playgroundRef]);
   useEffect(() => {
     onChange(resetEditor(getEditorValue(initialValue)));
   }, [initialValue]);
   const handleWrapperClick = () => {
-    if (!(playgroundRef == null ? void 0 : playgroundRef.current))
-      return;
-    playgroundRef.current.focus();
+    if (playgroundRef == null ? void 0 : playgroundRef.current) {
+      playgroundRef.current.focus();
+    } else if (ref == null ? void 0 : ref.current) {
+      ref.current.focus();
+    }
   };
   return /* @__PURE__ */ jsxs(Wrapper$1, {
     className: classNames("u-Editor", className, {
@@ -6398,7 +6471,7 @@ const Playground = (_g) => {
       }),
       children: /* @__PURE__ */ jsx(Editor$1, {
         stripPastedStyles: true,
-        ref: playgroundRef,
+        ref: ref || playgroundRef,
         editorState,
         placeholder: placeholder2,
         readOnly: isDisabled || disabled,
@@ -6422,7 +6495,7 @@ const Playground = (_g) => {
       })
     })]
   });
-};
+});
 Playground.propTypes = {
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
