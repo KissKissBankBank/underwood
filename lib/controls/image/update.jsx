@@ -1,4 +1,4 @@
-import { AlertBox, ModalNext as Modal, Title } from "@kisskissbankbank/kitten";
+import { AlertBox, Modal, Button } from "@kisskissbankbank/kitten";
 import { EditorState } from "draft-js";
 import { Form, Formik } from "formik";
 import React, { useContext, useEffect } from "react";
@@ -16,14 +16,14 @@ const Update = ({ onClose, description, entityKey }) => {
     <Modal
       isOpen
       onClose={onClose}
-      headerTitle={
-        <Title modifier="quaternary">
-          {translations.image_upload.description.title}
-        </Title>
-      }
     >
       {({ close }) => {
         return (
+          <>
+                  <Modal.Title>
+          {translations.image_upload.description.title}
+        </Modal.Title>
+
           <Formik
             initialValues={{ description }}
             onSubmit={({ description }) => {
@@ -51,8 +51,8 @@ const Update = ({ onClose, description, entityKey }) => {
             {() => {
               return (
                 <Form>
-                  <Modal.Block>
-                    <div className="k-u-margin-vertical-double">
+                  <Modal.Form>
+                    <div className="k-u-margin-bottom-double">
                       <Label htmlFor="description">
                         {translations.image_upload.description.label}
                       </Label>
@@ -64,24 +64,26 @@ const Update = ({ onClose, description, entityKey }) => {
                         }
                       />
                     </div>
+
                     <AlertBox>
                       {translations.image_upload.description.helper}
                     </AlertBox>
-                    <Modal.Actions>
-                      <Modal.Button
+
+                    <Modal.Actions className="k-u-margin-top-triple">
+                      <Button
                         type="submit"
                         size="large"
                         modifier="helium"
-                        fit="fluid"
                       >
                         {translations.submit}
-                      </Modal.Button>
+                      </Button>
                     </Modal.Actions>
-                  </Modal.Block>
+                  </Modal.Form>
                 </Form>
               );
             }}
           </Formik>
+          </>
         );
       }}
     </Modal>

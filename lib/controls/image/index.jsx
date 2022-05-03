@@ -1,6 +1,6 @@
 import {
   DropdownMenu,
-  ModalNext as Modal,
+  Modal,
   Title,
 } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
@@ -28,6 +28,7 @@ import Update from "./update";
 const StyledImage = styled.div`
   position: relative;
   width: 100%;
+
   img {
     display: inline;
     height: auto;
@@ -42,6 +43,19 @@ const StyledImage = styled.div`
     height: 100%;
   }
 `;
+
+const StyledDropdownMenu = styled(DropdownMenu)`
+  &[open]::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-primary-500);
+    opacity: .2;
+  }
+`
 
 const LinkManager = ({ url, entityKey }) => {
   const [{ editorState }, dispatch] = useContext(EditorContext);
@@ -74,7 +88,7 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
       >
         <div className="k-u-align-center">
           <img src={getImageUrl(src)} alt={description} />
-          <DropdownMenu
+          <StyledDropdownMenu
             className="image-menu"
             menuPosition="center"
             positionedButton
@@ -84,7 +98,7 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
                 ? translations.image_upload.add_label
                 : translations.image_upload.modify_label}
             </DropdownMenu.Button>
-          </DropdownMenu>
+          </StyledDropdownMenu>
         </div>
         {hasFocus && !!url && <LinkManager url={url} entityKey={entityKey} />}
       </div>
@@ -164,13 +178,12 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
       <Modal
         onClose={() => openModal(false)}
         isOpen={modalOpened}
-        headerTitle={
-          <Title modifier="quaternary">{translations.image_upload.title}</Title>
-        }
       >
         {({ close }) => {
           return (
-            <Modal.Block>
+            <>
+            <Modal.Title>{translations.image_upload.title}</Modal.Title>
+            <Modal.Form>
               <Formik
                 initialValues={{ url: "", description: "" }}
                 validationSchema={Yup.object().shape({
@@ -243,7 +256,8 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
                   />
                 )}
               </Formik>
-            </Modal.Block>
+            </Modal.Form>
+            </>
           );
         }}
       </Modal>

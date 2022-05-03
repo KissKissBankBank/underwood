@@ -3,8 +3,9 @@ import {
   ButtonGroup,
   Field,
   ImageDropUploader,
-  ModalNext as Modal,
+  Modal,
   Text,
+  Button,
 } from "@kisskissbankbank/kitten";
 import { ErrorMessage, useField, useFormikContext } from "formik";
 import React, { useContext, useState } from "react";
@@ -27,6 +28,7 @@ const ImagePreview = styled.img`
   width: 100%;
   object-fit: contain;
   aspect-ratio: 16/10;
+  background-color: var(--color-grey-200);
 `;
 
 const UPLOAD_METHOD = {
@@ -46,7 +48,7 @@ const Form = ({
   const [, , urlHelpers] = useField("url");
   const [, , fileHelpers] = useField("file");
   return (
-    <>
+    <form>
       <StyledButtonGroup className="k-u-margin-bottom-double">
         <ButtonGroup.Button
           active={uploadMethod === UPLOAD_METHOD.FILE}
@@ -67,67 +69,76 @@ const Form = ({
           {translations.image_upload.button_url}
         </ButtonGroup.Button>
       </StyledButtonGroup>
-      {uploadMethod === UPLOAD_METHOD.FILE && !imageUrl && (
-        <ImageDropUploader
-          id="underwood-image-drop-uploader"
-          dimensionErrorText={translations.image_upload.dimension_error}
-          sizeErrorText={translations.image_upload.max_size}
-          errorMessage={errorMessage}
-          onChange={(event) => {
-            onChange(event);
-            const file = event.file;
-            if (!file?.type?.match("image.*")) {
-              return;
+
+      <div aria-live="polite">
+        {uploadMethod === UPLOAD_METHOD.FILE && !imageUrl && (
+          <ImageDropUploader
+            id="underwood-image-drop-uploader"
+            dimensionErrorText={translations.image_upload.dimension_error}
+            sizeErrorText={translations.image_upload.max_size}
+            errorMessage={errorMessage}
+            onChange={(event) => {
+              onChange(event);
+              const file = event.file;
+              if (!file?.type?.match("image.*")) {
+                return;
+              }
+              fileHelpers.setValue(file);
+              urlHelpers.setValue("");
+              setImageUrl(event.value);
+            }}
+            acceptedFileSize={5242880}
+            acceptedImageDimensions={{
+              height: 4000,
+              width: 1000,
+            }}
+            acceptedMimeTypes={[
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp",
+            ]}
+            buttonTitle={translations.image_upload.button_title}
+            buttonText={
+              <div className="k-u-flex k-u-flex-direction-column k-u-flex-gap-noneHalf">
+                <span>{translations.image_upload.help_file.formats}</span>
+                <span>{translations.image_upload.help_file.width}</span>
+                <span>{translations.image_upload.help_file.size}</span>
+              </div>
             }
-            fileHelpers.setValue(file);
-            urlHelpers.setValue("");
-            setImageUrl(event.value);
-          }}
-          acceptedFileSize={5242880}
-          acceptedImageDimensions={{
-            height: 4000,
-            width: 1000,
-          }}
-          acceptedMimeTypes={[
-            "image/jpeg",
-            "image/png",
-            "image/gif",
-            "image/webp",
-          ]}
-          buttonTitle={translations.image_upload.button_title}
-          buttonText={
-            <div className="k-u-flex k-u-flex-direction-column k-u-flex-gap-noneHalf">
-              <span>{translations.image_upload.help_file.formats}</span>
-              <span>{translations.image_upload.help_file.width}</span>
-              <span>{translations.image_upload.help_file.size}</span>
+          />
+        )}
+        {uploadMethod === UPLOAD_METHOD.URL && (
+          <>
+            <div className="k-u-margin-top-single">
+              <Label htmlFor="url">{translations.image_upload.label}</Label>
             </div>
-          }
-        />
-      )}
-      {uploadMethod === UPLOAD_METHOD.URL && (
+            <InputWithButton
+              name="url"
+              placeholder="https://"
+              buttonValue={translations.image_upload.preview}
+              onClick={() => {
+                setImageUrl(values.url);
+              }}
+            />
+
+            <ErrorMessage name="url">
+              {(msg) => <Field.ErrorMessage>{msg}</Field.ErrorMessage>}
+            </ErrorMessage>
+          </>
+        )}
+      </div>
+
+      {imageUrl && (
         <>
           <div className="k-u-margin-top-single">
-            <Label htmlFor="url">{translations.image_upload.label}</Label>
-          </div>
-          <InputWithButton
-            name="url"
-            placeholder="https://"
-            buttonValue={translations.image_upload.preview}
-            onClick={() => {
-              setImageUrl(values.url);
-            }}
-          />
-        </>
-      )}
-      <div className="k-u-margin-vertical-single">
-        {imageUrl && (
-          <>
             <ImagePreview src={imageUrl} alt="" />
             {uploadMethod === UPLOAD_METHOD.FILE && (
               <div className="k-u-margin-top-singleHalf k-u-align-center">
                 <Text
                   size="small"
                   tag="button"
+                  type="button"
                   weight="regular"
                   onClick={() => setImageUrl(undefined)}
                   className="k-u-reset-button k-u-link k-u-link-primary1"
@@ -136,11 +147,8 @@ const Form = ({
                 </Text>
               </div>
             )}
-          </>
-        )}
-      </div>
-      {imageUrl && (
-        <>
+          </div>
+
           <div className="k-u-margin-vertical-double">
             <Label htmlFor="description">
               {translations.image_upload.description.label}
@@ -151,29 +159,26 @@ const Form = ({
               placeholder={translations.image_upload.description.placeholder}
             />
           </div>
+
           <AlertBox>{translations.image_upload.description.helper}</AlertBox>
+
+          <Modal.Actions className="k-u-margin-top-triple">
+            {isSubmitting ? (
+              <SubmitLoader fit="fluid" />
+            ) : (
+              <Button
+                type="submit"
+                size="large"
+                modifier="helium"
+                onClick={handleSubmit}
+              >
+                {translations.submit}
+              </Button>
+            )}
+          </Modal.Actions>
         </>
       )}
-      <ErrorMessage name="url">
-        {(msg) => <Field.ErrorMessage>{msg}</Field.ErrorMessage>}
-      </ErrorMessage>
-      {imageUrl && (
-        <Modal.Actions>
-          {isSubmitting ? (
-            <SubmitLoader fit="fluid" />
-          ) : (
-            <Modal.Button
-              type="button"
-              size="large"
-              modifier="helium"
-              onClick={handleSubmit}
-            >
-              {translations.submit}
-            </Modal.Button>
-          )}
-        </Modal.Actions>
-      )}
-    </>
+    </form>
   );
 };
 
