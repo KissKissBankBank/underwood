@@ -2,11 +2,10 @@ import {
   ArrowContainer,
   Button,
   COLORS,
-  ModalNext as Modal,
+  Modal,
   pxToRem,
   ScreenConfig,
   Text,
-  Title,
 } from "@kisskissbankbank/kitten";
 import { EditorState, Modifier, RichUtils } from "draft-js";
 import { Formik } from "formik";
@@ -25,6 +24,7 @@ import {
   getEntityText,
   hasEntityFocus,
 } from "../utils";
+import LinkInline from './link-inline';
 
 const linkify = linkifyIt();
 linkify.tlds(tlds);
@@ -38,55 +38,20 @@ const Wrapper = styled.div`
   }
 `;
 
-const ButtonLinkWithFluidStyle = styled(Button)`
-  @media (max-width: ${pxToRem(ScreenConfig.XS.max)}) {
-    min-width: initial;
-    width: 100%;
-  }
-`;
-
-const StyledArrowContainer = styled(ArrowContainer)`
-  display: flex;
-  position: absolute;
-  min-width: max-content;
-  padding: 0 ${pxToRem(20)};
-  background-color: ${COLORS.background1};
-  margin-top: ${pxToRem(5)};
-  transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
-`;
-
-const DeleteLink = styled(Text)`
-  display: block;
-  width: 100%;
-  padding: 0;
-  text-align: center;
-`;
-
-const VerticalSeparator = styled.span`
-  margin: ${pxToRem(5)} ${pxToRem(10)};
-  border-left: var(--border-width, 1px) solid ${COLORS.font2};
-`;
-
-const ShareLink = styled(Text)`
-  overflow: hidden;
-  display: inline-block;
-  max-width: ${pxToRem(150)};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
 const StyledButtonLink = ({ href, children }) => {
   return (
-    <ButtonLinkWithFluidStyle
+    <Button
       tag="a"
       href={href}
       target="_blank"
       rel="nofollow noopener"
       modifier="helium"
       size="large"
+      fit="content"
+      mobileFit="fluid"
     >
       {children}
-    </ButtonLinkWithFluidStyle>
+    </Button>
   );
 };
 
@@ -106,21 +71,9 @@ const ButtonLink = ({ contentState, entityKey, children }) => {
       <StyledButtonLink href={url}>{children}</StyledButtonLink>
 
       {isVisible && (
-        <StyledArrowContainer
-          position="top"
-          shadow
-          borderWidth={1}
-          borderColor={COLORS.line1}
-          contentEditable={false}
-        >
-          <DeleteLink
-            href="#"
-            tag="a"
-            size="micro"
-            weight="regular"
-            color="error"
-            onClick={(e) => {
-              e.preventDefault();
+        <LinkInline
+          url={url}
+          onDelete={() => {
               const currentContent = contentState.getBlockForKey(
                 editorState.getSelection().getFocusKey()
               );
@@ -150,22 +103,7 @@ const ButtonLink = ({ contentState, entityKey, children }) => {
                 }
               );
             }}
-          >
-            {translations.link.button.delete}
-          </DeleteLink>
-          <VerticalSeparator />
-          <ShareLink
-            href={url}
-            target="_blank"
-            rel="noopener"
-            tag="a"
-            size="micro"
-            weight="regular"
-            color="font1"
-          >
-            {url}
-          </ShareLink>
-        </StyledArrowContainer>
+        />
       )}
     </Wrapper>
   );
@@ -199,6 +137,7 @@ export const readDecorator = {
 };
 
 const ButtonLinkControls = ({ disabled, onChange }) => {
+  const [modalOpened, openModal] = useState(false);
   const [{ editorState, editorRef, translations }, dispatch] =
     useContext(EditorContext);
   const entity = getEntity(editorState);
@@ -211,109 +150,123 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
   };
 
   return (
+    <>
+    <ButtonEditor
+      icon="button_link"
+      className="Editor__toolbar__button--large"
+      disabled={disabled}
+      onToggle={() => {
+        if (modalOpened) {
+          openModal(false);
+        } else {
+          openModal(true);
+        }
+      }}
+    />
+
     <Modal
-      headerTitle={
-        <Title noMargin modifier="quaternary">
-          {translations.button_link.title}
-        </Title>
-      }
-      trigger={
-        <ButtonEditor
-          icon="button_link"
-          className="Editor__toolbar__button--large"
-          disabled={disabled}
-        />
-      }
+      onClose={() => {
+        openModal(false);
+      }}
+      isOpen={modalOpened}
     >
       {({ close }) => {
         return (
-          <Formik
-            enableReinitialize
-            initialValues={{
-              url: entity ? entity.getData().url : "",
-              text: textToShow(),
-            }}
-            onSubmit={({ url }) => {
-              onChange(url);
-              const link = linkify.match(url);
-              const contentState = editorState.getCurrentContent();
-              if (entity) {
-                const newContentState = contentState.replaceEntityData(
-                  entityKey,
-                  { url: link[0].url }
-                );
-                dispatch(
-                  updateEditor(
-                    EditorState.push(
-                      editorState,
-                      newContentState,
-                      "change-block-data"
+          <>
+            <Modal.Title>
+              {translations.button_link.title}
+            </Modal.Title>
+
+            <Formik
+              enableReinitialize
+              initialValues={{
+                url: entity ? entity.getData().url : "",
+                text: textToShow(),
+              }}
+              onSubmit={({ url }) => {
+                onChange(url);
+                const link = linkify.match(url);
+                const contentState = editorState.getCurrentContent();
+                if (entity) {
+                  const newContentState = contentState.replaceEntityData(
+                    entityKey,
+                    { url: link[0].url }
+                  );
+                  dispatch(
+                    updateEditor(
+                      EditorState.push(
+                        editorState,
+                        newContentState,
+                        "change-block-data"
+                      )
                     )
-                  )
-                );
-              } else {
-                const contentStateWithEntity = contentState.createEntity(
-                  "BUTTON_LINK",
-                  "MUTABLE",
-                  { url: link[0].url }
-                );
-                const entityKey =
-                  contentStateWithEntity.getLastCreatedEntityKey();
-                const newEditorState = EditorState.set(editorState, {
-                  currentContent: contentStateWithEntity,
-                });
+                  );
+                } else {
+                  const contentStateWithEntity = contentState.createEntity(
+                    "BUTTON_LINK",
+                    "MUTABLE",
+                    { url: link[0].url }
+                  );
+                  const entityKey =
+                    contentStateWithEntity.getLastCreatedEntityKey();
+                  const newEditorState = EditorState.set(editorState, {
+                    currentContent: contentStateWithEntity,
+                  });
 
-                dispatch(
-                  updateEditor(
-                    RichUtils.toggleLink(
-                      newEditorState,
-                      newEditorState.getSelection(),
-                      entityKey
+                  dispatch(
+                    updateEditor(
+                      RichUtils.toggleLink(
+                        newEditorState,
+                        newEditorState.getSelection(),
+                        entityKey
+                      )
                     )
-                  )
+                  );
+                }
+                close();
+                setTimeout(() => editorRef.current.blur(), 0);
+              }}
+            >
+              {({ handleSubmit }) => {
+                return (
+                  <form>
+                    <Modal.Content align="left">
+                      <div>
+                        <Label htmlFor="">{translations.button_link.text}</Label>
+                        <InputText name="text" disabled />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="url">{translations.button_link.url}</Label>
+                        <InputText
+                          name="url"
+                          validate={(value) => {
+                            if (!linkify.test(value)) {
+                              return translations.link.error;
+                            }
+                          }}
+                        />
+                      </div>
+
+                      <Modal.Actions>
+                        <Button
+                          modifier="helium"
+                          type="submit"
+                          onClick={handleSubmit}
+                        >
+                          {translations.submit}
+                        </Button>
+                      </Modal.Actions>
+                    </Modal.Content>
+                  </form>
                 );
-              }
-              close();
-              setTimeout(() => editorRef.current.blur(), 0);
-            }}
-          >
-            {({ handleSubmit }) => {
-              return (
-                <>
-                  <Modal.Block className="k-u-margin-bottom-quadruple">
-                    <div className="k-u-margin-bottom-double">
-                      <Label htmlFor="">{translations.button_link.text}</Label>
-                      <InputText name="text" disabled />
-                    </div>
-
-                    <Label htmlFor="url">{translations.button_link.url}</Label>
-
-                    <InputText
-                      name="url"
-                      validate={(value) => {
-                        if (!linkify.test(value)) {
-                          return translations.link.error;
-                        }
-                      }}
-                    />
-                  </Modal.Block>
-
-                  <Modal.Button
-                    fit="fluid"
-                    size="large"
-                    type="button"
-                    modifier="helium"
-                    onClick={handleSubmit}
-                  >
-                    {translations.submit}
-                  </Modal.Button>
-                </>
-              );
-            }}
-          </Formik>
+              }}
+            </Formik>
+          </>
         );
       }}
     </Modal>
+    </>
   );
 };
 
