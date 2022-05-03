@@ -258,50 +258,49 @@ const LinkControls = ({ disabled, onChange }) => {
                 {({ handleSubmit }) => {
                   return (
                     <form>
-                    <Modal.Content align="left">
-                      <div>
-                        {entity?.get("type") === "IMAGE" ? (
-                          <ImageLinked src={entity?.getData()?.src} />
-                        ) : (
-                          <>
-                            <Label htmlFor="text">
-                              {translations.link.text.label}
-                            </Label>
-                            <InputText name="text" disabled />
-                          </>
-                        )}
-                      </div>
+                      <Modal.Content align="left">
+                        <div>
+                          {entity?.get("type") === "IMAGE" ? (
+                            <ImageLinked src={entity?.getData()?.src} />
+                          ) : (
+                            <>
+                              <Label htmlFor="text">
+                                {translations.link.text.label}
+                              </Label>
+                              <InputText name="text" disabled />
+                            </>
+                          )}
+                        </div>
 
-                      <div>
-                        <Label htmlFor="url">
-                          {translations.image_upload.url}
-                        </Label>
-                        <InputText
-                          name="url"
-                          validate={(value) => {
-                            if (!linkify.test(value)) {
-                              return translations.link.error;
-                            }
-                          }}
-                        />
-                      </div>
+                        <div>
+                          <Label htmlFor="url">
+                            {translations.image_upload.url}
+                          </Label>
+                          <InputText
+                            name="url"
+                            validate={(value) => {
+                              if (!linkify.test(value)) {
+                                return translations.link.error;
+                              }
+                            }}
+                          />
+                        </div>
 
-                      <Modal.Actions>
-                        <Button
-                          size="large"
-                          type="submit"
-                          modifier="helium"
-                          onClick={handleSubmit}
-                        >
-                          {translations.submit}
-                        </Button>
-                      </Modal.Actions>
-                    </Modal.Content>
+                        <Modal.Actions>
+                          <Button
+                            size="large"
+                            type="submit"
+                            modifier="helium"
+                            onClick={handleSubmit}
+                          >
+                            {translations.submit}
+                          </Button>
+                        </Modal.Actions>
+                      </Modal.Content>
                     </form>
                   );
                 }}
               </Formik>
-
             </>
           );
         }}

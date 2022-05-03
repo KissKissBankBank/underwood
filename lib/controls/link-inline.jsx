@@ -1,7 +1,12 @@
-import React, { useContext } from 'react'
-import { ArrowContainer, COLORS, pxToRem, Text } from '@kisskissbankbank/kitten'
-import styled from 'styled-components'
-import { EditorContext } from '../context'
+import React, { useContext } from "react";
+import {
+  ArrowContainer,
+  COLORS,
+  pxToRem,
+  Text,
+} from "@kisskissbankbank/kitten";
+import styled from "styled-components";
+import { EditorContext } from "../context";
 
 const Wrapper = styled(ArrowContainer)`
   display: flex;
@@ -28,9 +33,9 @@ const Wrapper = styled(ArrowContainer)`
     flex: 2 0 auto;
     max-width: ${pxToRem(240)};
   }
-`
+`;
 const LinkInline = ({ onDelete, url }) => {
-  const [{ translations }] = useContext(EditorContext)
+  const [{ translations }] = useContext(EditorContext);
   return (
     <Wrapper
       position="top"
@@ -48,9 +53,9 @@ const LinkInline = ({ onDelete, url }) => {
         type="button"
         color="error"
         onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          onDelete(e)
+          e.preventDefault();
+          e.stopPropagation();
+          onDelete(e);
         }}
       >
         {translations.link.button.delete}
@@ -65,15 +70,15 @@ const LinkInline = ({ onDelete, url }) => {
         tag="a"
         color="font1"
         onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          window.open(url, '_blank').focus()
+          e.preventDefault();
+          e.stopPropagation();
+          window.open(url, "_blank").focus();
         }}
       >
         {url}
       </Text>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default LinkInline
+export default LinkInline;

@@ -113,125 +113,127 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
           }
         }}
       />
-      <Modal
-        onClose={() => openModal(false)}
-        isOpen={modalOpened}
-      >
+      <Modal onClose={() => openModal(false)} isOpen={modalOpened}>
         {({ close }) => {
           return (
             <>
-            <Modal.Title>{translations.media_upload.title}</Modal.Title>
-            <Modal.Form align="left">
-              <Formik
-                initialValues={{ url: "" }}
-                validationSchema={Yup.object().shape({
-                  url: Yup.string().url(translations.video.invalid_url),
-                })}
-                onSubmit={({ url }) => {
-                  onChange(url);
-                  oembedError(false);
-                  return oembed({
-                    key: embedlyApiKey,
-                    maxwidth: 640,
-                    url,
-                  }).then((response) => {
-                    if (response.type === "error") {
-                      oembedError(true);
-                      return;
-                    }
-                    const { html, ratio, height } =
-                      getDataForProvider(response);
+              <Modal.Title>{translations.media_upload.title}</Modal.Title>
+              <Modal.Form align="left">
+                <Formik
+                  initialValues={{ url: "" }}
+                  validationSchema={Yup.object().shape({
+                    url: Yup.string().url(translations.video.invalid_url),
+                  })}
+                  onSubmit={({ url }) => {
+                    onChange(url);
+                    oembedError(false);
+                    return oembed({
+                      key: embedlyApiKey,
+                      maxwidth: 640,
+                      url,
+                    }).then((response) => {
+                      if (response.type === "error") {
+                        oembedError(true);
+                        return;
+                      }
+                      const { html, ratio, height } =
+                        getDataForProvider(response);
 
-                    const newState = createMediaBlock(editorState, {
-                      html,
-                      embedRatio: ratio,
-                      ...(height && { height }),
+                      const newState = createMediaBlock(editorState, {
+                        html,
+                        embedRatio: ratio,
+                        ...(height && { height }),
+                      });
+                      if (isPreviousEmptyBlock(newState)) {
+                        const newStateWithoutPreviousEmptyBlock =
+                          removePreviousEmptyBlock(newState);
+                        dispatch(
+                          updateEditor(newStateWithoutPreviousEmptyBlock)
+                        );
+                      } else {
+                        dispatch(updateEditor(newState));
+                      }
+                      close();
+                      setTimeout(() => {
+                        openModal(false);
+                        setEmbedlyHtml(undefined);
+                      }, 500);
                     });
-                    if (isPreviousEmptyBlock(newState)) {
-                      const newStateWithoutPreviousEmptyBlock =
-                        removePreviousEmptyBlock(newState);
-                      dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
-                    } else {
-                      dispatch(updateEditor(newState));
-                    }
-                    close();
-                    setTimeout(() => {
-                      openModal(false);
-                      setEmbedlyHtml(undefined);
-                    }, 500);
-                  });
-                }}
-              >
-                {({ handleSubmit, isSubmitting, values }) => {
-                  return (
-                    <>
-                      <Label className="k-u-margin-bottom-single" htmlFor="url">
-                        {translations.image_upload.label}
-                      </Label>
-                      <InputWithButton
-                        name="url"
-                        placeholder="https://"
-                        buttonValue={translations.image_upload.preview}
-                        onClick={() => {
-                          oembedError(false);
-                          oembed({
-                            key: embedlyApiKey,
-                            maxwidth: 640,
-                            url: values.url,
-                          }).then((response) => {
-                            if (response.type === "error") {
-                              oembedError(true);
-                              return;
-                            }
-                            const {
-                              html,
-                              ratio,
-                              height = undefined,
-                            } = getDataForProvider(response);
-                            setEmbedRatio(ratio);
-                            setEmbedlyHtml(html);
-                            setHeight(height);
-                          });
-                        }}
-                      />
-                      {embedlyHtml && (
-                        <div className="k-u-margin-vertical-single">
-                          <ResponsiveIframeContainer
-                            ratio={embedRatio}
-                            style={{ ...(height && { height }) }}
-                          >
-                            {sanitizeIframeReactComp(
-                              parseHtml(embedlyHtml, { sanitize: false })
-                            )}
-                          </ResponsiveIframeContainer>
-                        </div>
-                      )}
-                      {hasOembedError && (
-                        <Field.ErrorMessage>
-                          {translations.video.problem}
-                        </Field.ErrorMessage>
-                      )}
-                      {embedlyHtml && (
-                        <Modal.Actions>
-                          {isSubmitting ? (
-                            <SubmitLoader size="large" />
-                          ) : (
-                            <Button
-                              size="large"
-                              type="submit"
-                              modifier="helium"
-                              onClick={handleSubmit}
+                  }}
+                >
+                  {({ handleSubmit, isSubmitting, values }) => {
+                    return (
+                      <>
+                        <Label
+                          className="k-u-margin-bottom-single"
+                          htmlFor="url"
+                        >
+                          {translations.image_upload.label}
+                        </Label>
+                        <InputWithButton
+                          name="url"
+                          placeholder="https://"
+                          buttonValue={translations.image_upload.preview}
+                          onClick={() => {
+                            oembedError(false);
+                            oembed({
+                              key: embedlyApiKey,
+                              maxwidth: 640,
+                              url: values.url,
+                            }).then((response) => {
+                              if (response.type === "error") {
+                                oembedError(true);
+                                return;
+                              }
+                              const {
+                                html,
+                                ratio,
+                                height = undefined,
+                              } = getDataForProvider(response);
+                              setEmbedRatio(ratio);
+                              setEmbedlyHtml(html);
+                              setHeight(height);
+                            });
+                          }}
+                        />
+                        {embedlyHtml && (
+                          <div className="k-u-margin-vertical-single">
+                            <ResponsiveIframeContainer
+                              ratio={embedRatio}
+                              style={{ ...(height && { height }) }}
                             >
-                              {translations.submit}
-                            </Button>
-                          )}
-                        </Modal.Actions>
-                      )}
-                    </>
-                  );
-                }}
-              </Formik>
-            </Modal.Form>
+                              {sanitizeIframeReactComp(
+                                parseHtml(embedlyHtml, { sanitize: false })
+                              )}
+                            </ResponsiveIframeContainer>
+                          </div>
+                        )}
+                        {hasOembedError && (
+                          <Field.ErrorMessage>
+                            {translations.video.problem}
+                          </Field.ErrorMessage>
+                        )}
+                        {embedlyHtml && (
+                          <Modal.Actions>
+                            {isSubmitting ? (
+                              <SubmitLoader size="large" />
+                            ) : (
+                              <Button
+                                size="large"
+                                type="submit"
+                                modifier="helium"
+                                onClick={handleSubmit}
+                              >
+                                {translations.submit}
+                              </Button>
+                            )}
+                          </Modal.Actions>
+                        )}
+                      </>
+                    );
+                  }}
+                </Formik>
+              </Modal.Form>
             </>
           );
         }}

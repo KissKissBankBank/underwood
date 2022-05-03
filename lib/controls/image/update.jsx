@@ -13,76 +13,69 @@ const Update = ({ onClose, description, entityKey }) => {
   }, []);
 
   return (
-    <Modal
-      isOpen
-      onClose={onClose}
-    >
+    <Modal isOpen onClose={onClose}>
       {({ close }) => {
         return (
           <>
-                  <Modal.Title>
-          {translations.image_upload.description.title}
-        </Modal.Title>
+            <Modal.Title>
+              {translations.image_upload.description.title}
+            </Modal.Title>
 
-          <Formik
-            initialValues={{ description }}
-            onSubmit={({ description }) => {
-              const contentState = editorState.getCurrentContent();
-              const contentWithNewData = contentState.mergeEntityData(
-                entityKey,
-                { description }
-              );
-              const userSelection = editorState.getSelection();
+            <Formik
+              initialValues={{ description }}
+              onSubmit={({ description }) => {
+                const contentState = editorState.getCurrentContent();
+                const contentWithNewData = contentState.mergeEntityData(
+                  entityKey,
+                  { description }
+                );
+                const userSelection = editorState.getSelection();
 
-              const newEditor = EditorState.push(
-                editorState,
-                contentWithNewData,
-                "change-block-data"
-              );
-              dispatch(
-                updateEditor(
-                  EditorState.forceSelection(newEditor, userSelection)
-                )
-              );
-              close();
-              onClose();
-            }}
-          >
-            {() => {
-              return (
-                <Form>
-                  <Modal.Form>
-                    <div className="k-u-margin-bottom-double">
-                      <Label htmlFor="description">
-                        {translations.image_upload.description.label}
-                      </Label>
-                      <InputText
-                        name="description"
-                        tag="autoresize"
-                        placeholder={
-                          translations.image_upload.description.placeholder
-                        }
-                      />
-                    </div>
+                const newEditor = EditorState.push(
+                  editorState,
+                  contentWithNewData,
+                  "change-block-data"
+                );
+                dispatch(
+                  updateEditor(
+                    EditorState.forceSelection(newEditor, userSelection)
+                  )
+                );
+                close();
+                onClose();
+              }}
+            >
+              {() => {
+                return (
+                  <Form>
+                    <Modal.Form>
+                      <div className="k-u-margin-bottom-double">
+                        <Label htmlFor="description">
+                          {translations.image_upload.description.label}
+                        </Label>
+                        <InputText
+                          name="description"
+                          tag="autoresize"
+                          placeholder={
+                            translations.image_upload.description.placeholder
+                          }
+                        />
+                      </div>
 
-                    <AlertBox>
-                      {translations.image_upload.description.helper}
-                    </AlertBox>
+                      <AlertBox>
+                        {translations.image_upload.description.helper}
+                      </AlertBox>
 
-                    <Modal.Actions className="k-u-margin-top-triple">
-                      <Button
-                        type="submit"
-                        size="large"
-                        modifier="helium"
-                      >
-                        {translations.submit}
-                      </Button>
-                    </Modal.Actions>
-                  </Modal.Form>
-                </Form>
-              );
-            }}
-          </Formik>
+                      <Modal.Actions className="k-u-margin-top-triple">
+                        <Button type="submit" size="large" modifier="helium">
+                          {translations.submit}
+                        </Button>
+                      </Modal.Actions>
+                    </Modal.Form>
+                  </Form>
+                );
+              }}
+            </Formik>
           </>
         );
       }}

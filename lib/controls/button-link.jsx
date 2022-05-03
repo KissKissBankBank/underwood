@@ -24,7 +24,7 @@ import {
   getEntityText,
   hasEntityFocus,
 } from "../utils";
-import LinkInline from './link-inline';
+import LinkInline from "./link-inline";
 
 const linkify = linkifyIt();
 linkify.tlds(tlds);
@@ -74,35 +74,35 @@ const ButtonLink = ({ contentState, entityKey, children }) => {
         <LinkInline
           url={url}
           onDelete={() => {
-              const currentContent = contentState.getBlockForKey(
-                editorState.getSelection().getFocusKey()
-              );
-              currentContent.findEntityRanges(
-                (character) => {
-                  return character.getEntity() === entityKey;
-                },
-                (start, end) => {
-                  const newsSelection = editorState.getSelection().merge({
-                    focusOffset: end,
-                    anchorOffset: start,
-                  });
-                  const newsEditorState = Modifier.applyEntity(
-                    contentState,
-                    newsSelection,
-                    null
-                  );
-                  dispatch(
-                    updateEditor(
-                      EditorState.push(
-                        editorState,
-                        newsEditorState,
-                        "apply-entity"
-                      )
+            const currentContent = contentState.getBlockForKey(
+              editorState.getSelection().getFocusKey()
+            );
+            currentContent.findEntityRanges(
+              (character) => {
+                return character.getEntity() === entityKey;
+              },
+              (start, end) => {
+                const newsSelection = editorState.getSelection().merge({
+                  focusOffset: end,
+                  anchorOffset: start,
+                });
+                const newsEditorState = Modifier.applyEntity(
+                  contentState,
+                  newsSelection,
+                  null
+                );
+                dispatch(
+                  updateEditor(
+                    EditorState.push(
+                      editorState,
+                      newsEditorState,
+                      "apply-entity"
                     )
-                  );
-                }
-              );
-            }}
+                  )
+                );
+              }
+            );
+          }}
         />
       )}
     </Wrapper>
@@ -151,121 +151,123 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
 
   return (
     <>
-    <ButtonEditor
-      icon="button_link"
-      className="Editor__toolbar__button--large"
-      disabled={disabled}
-      onToggle={() => {
-        if (modalOpened) {
+      <ButtonEditor
+        icon="button_link"
+        className="Editor__toolbar__button--large"
+        disabled={disabled}
+        onToggle={() => {
+          if (modalOpened) {
+            openModal(false);
+          } else {
+            openModal(true);
+          }
+        }}
+      />
+
+      <Modal
+        onClose={() => {
           openModal(false);
-        } else {
-          openModal(true);
-        }
-      }}
-    />
+        }}
+        isOpen={modalOpened}
+      >
+        {({ close }) => {
+          return (
+            <>
+              <Modal.Title>{translations.button_link.title}</Modal.Title>
 
-    <Modal
-      onClose={() => {
-        openModal(false);
-      }}
-      isOpen={modalOpened}
-    >
-      {({ close }) => {
-        return (
-          <>
-            <Modal.Title>
-              {translations.button_link.title}
-            </Modal.Title>
-
-            <Formik
-              enableReinitialize
-              initialValues={{
-                url: entity ? entity.getData().url : "",
-                text: textToShow(),
-              }}
-              onSubmit={({ url }) => {
-                onChange(url);
-                const link = linkify.match(url);
-                const contentState = editorState.getCurrentContent();
-                if (entity) {
-                  const newContentState = contentState.replaceEntityData(
-                    entityKey,
-                    { url: link[0].url }
-                  );
-                  dispatch(
-                    updateEditor(
-                      EditorState.push(
-                        editorState,
-                        newContentState,
-                        "change-block-data"
+              <Formik
+                enableReinitialize
+                initialValues={{
+                  url: entity ? entity.getData().url : "",
+                  text: textToShow(),
+                }}
+                onSubmit={({ url }) => {
+                  onChange(url);
+                  const link = linkify.match(url);
+                  const contentState = editorState.getCurrentContent();
+                  if (entity) {
+                    const newContentState = contentState.replaceEntityData(
+                      entityKey,
+                      { url: link[0].url }
+                    );
+                    dispatch(
+                      updateEditor(
+                        EditorState.push(
+                          editorState,
+                          newContentState,
+                          "change-block-data"
+                        )
                       )
-                    )
-                  );
-                } else {
-                  const contentStateWithEntity = contentState.createEntity(
-                    "BUTTON_LINK",
-                    "MUTABLE",
-                    { url: link[0].url }
-                  );
-                  const entityKey =
-                    contentStateWithEntity.getLastCreatedEntityKey();
-                  const newEditorState = EditorState.set(editorState, {
-                    currentContent: contentStateWithEntity,
-                  });
+                    );
+                  } else {
+                    const contentStateWithEntity = contentState.createEntity(
+                      "BUTTON_LINK",
+                      "MUTABLE",
+                      { url: link[0].url }
+                    );
+                    const entityKey =
+                      contentStateWithEntity.getLastCreatedEntityKey();
+                    const newEditorState = EditorState.set(editorState, {
+                      currentContent: contentStateWithEntity,
+                    });
 
-                  dispatch(
-                    updateEditor(
-                      RichUtils.toggleLink(
-                        newEditorState,
-                        newEditorState.getSelection(),
-                        entityKey
+                    dispatch(
+                      updateEditor(
+                        RichUtils.toggleLink(
+                          newEditorState,
+                          newEditorState.getSelection(),
+                          entityKey
+                        )
                       )
-                    )
+                    );
+                  }
+                  close();
+                  setTimeout(() => editorRef.current.blur(), 0);
+                }}
+              >
+                {({ handleSubmit }) => {
+                  return (
+                    <form>
+                      <Modal.Content align="left">
+                        <div>
+                          <Label htmlFor="">
+                            {translations.button_link.text}
+                          </Label>
+                          <InputText name="text" disabled />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="url">
+                            {translations.button_link.url}
+                          </Label>
+                          <InputText
+                            name="url"
+                            validate={(value) => {
+                              if (!linkify.test(value)) {
+                                return translations.link.error;
+                              }
+                            }}
+                          />
+                        </div>
+
+                        <Modal.Actions>
+                          <Button
+                            modifier="helium"
+                            type="submit"
+                            onClick={handleSubmit}
+                          >
+                            {translations.submit}
+                          </Button>
+                        </Modal.Actions>
+                      </Modal.Content>
+                    </form>
                   );
-                }
-                close();
-                setTimeout(() => editorRef.current.blur(), 0);
-              }}
-            >
-              {({ handleSubmit }) => {
-                return (
-                  <form>
-                    <Modal.Content align="left">
-                      <div>
-                        <Label htmlFor="">{translations.button_link.text}</Label>
-                        <InputText name="text" disabled />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="url">{translations.button_link.url}</Label>
-                        <InputText
-                          name="url"
-                          validate={(value) => {
-                            if (!linkify.test(value)) {
-                              return translations.link.error;
-                            }
-                          }}
-                        />
-                      </div>
-
-                      <Modal.Actions>
-                        <Button
-                          modifier="helium"
-                          type="submit"
-                          onClick={handleSubmit}
-                        >
-                          {translations.submit}
-                        </Button>
-                      </Modal.Actions>
-                    </Modal.Content>
-                  </form>
-                );
-              }}
-            </Formik>
-          </>
-        );
-      }}
-    </Modal>
+                }}
+              </Formik>
+            </>
+          );
+        }}
+      </Modal>
     </>
   );
 };
