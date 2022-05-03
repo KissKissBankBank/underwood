@@ -1,9 +1,10 @@
 import {
   Field,
-  ModalNext as Modal,
+  Modal,
   parseHtml,
   ResponsiveIframeContainer,
   Title,
+  Button,
 } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { Formik } from "formik";
@@ -115,13 +116,12 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
       <Modal
         onClose={() => openModal(false)}
         isOpen={modalOpened}
-        headerTitle={
-          <Title modifier="quaternary">{translations.media_upload.title}</Title>
-        }
       >
         {({ close }) => {
           return (
-            <Modal.Block>
+            <>
+            <Modal.Title>{translations.media_upload.title}</Modal.Title>
+            <Modal.Form align="left">
               <Formik
                 initialValues={{ url: "" }}
                 validationSchema={Yup.object().shape({
@@ -214,16 +214,16 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                       {embedlyHtml && (
                         <Modal.Actions>
                           {isSubmitting ? (
-                            <SubmitLoader fit="fluid" />
+                            <SubmitLoader size="large" />
                           ) : (
-                            <Modal.Button
+                            <Button
                               size="large"
-                              type="button"
+                              type="submit"
                               modifier="helium"
                               onClick={handleSubmit}
                             >
                               {translations.submit}
-                            </Modal.Button>
+                            </Button>
                           )}
                         </Modal.Actions>
                       )}
@@ -231,7 +231,8 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
                   );
                 }}
               </Formik>
-            </Modal.Block>
+            </Modal.Form>
+            </>
           );
         }}
       </Modal>
