@@ -42,19 +42,6 @@ const StyledImage = styled.div`
   }
 `;
 
-const StyledDropdownMenu = styled(DropdownMenu)`
-  &[open]::before {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--color-primary-500);
-    opacity: 0.2;
-  }
-`;
-
 const LinkManager = ({ url, entityKey }) => {
   const [{ editorState }, dispatch] = useContext(EditorContext);
   return (
@@ -93,7 +80,7 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
       >
         <div className="k-u-align-center">
           <img src={getImageUrl(src)} alt={description} />
-          <StyledDropdownMenu
+          <DropdownMenu
             className="image-menu"
             menuPosition="center"
             positionedButton
@@ -103,7 +90,7 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
                 ? translations.image_upload.add_label
                 : translations.image_upload.modify_label}
             </DropdownMenu.Button>
-          </StyledDropdownMenu>
+          </DropdownMenu>
         </div>
         {hasFocus && !!url && <LinkManager url={url} entityKey={entityKey} />}
       </div>
