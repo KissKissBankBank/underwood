@@ -116,15 +116,12 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
           }
         }}
       />
-      <Modal
-        onClose={() => openModal(false)}
-        isOpen={modalOpened}
-      >
+      <Modal onClose={() => openModal(false)} isOpen={modalOpened}>
         {({ close }) => {
           return (
             <>
-            <Modal.Title>{translations.media_upload.title}</Modal.Title>
-            <Modal.Form align="left">
+              <Modal.Title>{translations.media_upload.title}</Modal.Title>
+              <Modal.Form align="left">
                 <Formik
                   initialValues={{ url: "" }}
                   validationSchema={Yup.object().shape({

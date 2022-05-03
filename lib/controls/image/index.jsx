@@ -51,9 +51,9 @@ const StyledDropdownMenu = styled(DropdownMenu)`
     width: 100%;
     height: 100%;
     background: var(--color-primary-500);
-    opacity: .2;
+    opacity: 0.2;
   }
-`
+`;
 
 const LinkManager = ({ url, entityKey }) => {
   const [{ editorState }, dispatch] = useContext(EditorContext);
@@ -180,15 +180,12 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
           }
         }}
       />
-      <Modal
-        onClose={() => openModal(false)}
-        isOpen={modalOpened}
-      >
+      <Modal onClose={() => openModal(false)} isOpen={modalOpened}>
         {({ close }) => {
           return (
             <>
-            <Modal.Title>{translations.image_upload.title}</Modal.Title>
-            <Modal.Form>
+              <Modal.Title>{translations.image_upload.title}</Modal.Title>
+              <Modal.Form>
                 <Formik
                   initialValues={{ url: "", description: "" }}
                   validationSchema={Yup.object().shape({
