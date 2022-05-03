@@ -1,4 +1,6 @@
-import { DropdownMenu, Modal } from "@kisskissbankbank/kitten";
+import {
+  DropdownMenu,
+  Modal } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { AtomicBlockUtils, EditorState } from "draft-js";
 import { Formik } from "formik";
@@ -40,6 +42,19 @@ const StyledImage = styled.div`
   }
 `;
 
+const StyledDropdownMenu = styled(DropdownMenu)`
+  &[open]::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-primary-500);
+    opacity: .2;
+  }
+`
+
 const LinkManager = ({ url, entityKey }) => {
   const [{ editorState }, dispatch] = useContext(EditorContext);
   return (
@@ -78,7 +93,7 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
       >
         <div className="k-u-align-center">
           <img src={getImageUrl(src)} alt={description} />
-          <DropdownMenu
+          <StyledDropdownMenu
             className="image-menu"
             menuPosition="center"
             positionedButton
@@ -88,7 +103,7 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
                 ? translations.image_upload.add_label
                 : translations.image_upload.modify_label}
             </DropdownMenu.Button>
-          </DropdownMenu>
+          </StyledDropdownMenu>
         </div>
         {hasFocus && !!url && <LinkManager url={url} entityKey={entityKey} />}
       </div>
@@ -165,12 +180,15 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
           }
         }}
       />
-      <Modal onClose={() => openModal(false)} isOpen={modalOpened}>
+      <Modal
+        onClose={() => openModal(false)}
+        isOpen={modalOpened}
+      >
         {({ close }) => {
           return (
             <>
-              <Modal.Title>{translations.image_upload.title}</Modal.Title>
-              <Modal.Form>
+            <Modal.Title>{translations.image_upload.title}</Modal.Title>
+            <Modal.Form>
                 <Formik
                   initialValues={{ url: "", description: "" }}
                   validationSchema={Yup.object().shape({
