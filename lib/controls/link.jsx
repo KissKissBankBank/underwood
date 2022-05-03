@@ -258,8 +258,8 @@ const LinkControls = ({ disabled, onChange }) => {
                 {({ handleSubmit }) => {
                   return (
                     <form>
-                      <Modal.Content align="left">
-                        <div>
+                    <Modal.Content align="left">
+                      <div>
                           {entity?.get("type") === "IMAGE" ? (
                             <ImageLinked src={entity?.getData()?.src} />
                           ) : (
@@ -301,6 +301,7 @@ const LinkControls = ({ disabled, onChange }) => {
                   );
                 }}
               </Formik>
+
             </>
           );
         }}
