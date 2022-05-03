@@ -23,6 +23,10 @@ const EditorDev = () => {
             <Controls.UnorderedList />
           </Controls.Group>
           <Controls.Group>
+            <Controls.Link />
+            <Controls.Button />
+          </Controls.Group>
+          <Controls.Group>
             <Controls.Image onUpload={console.log} />
             <Controls.Video embedlyApiKey="8b7d8dd6504d41af9a77662672aabc2a" />
           </Controls.Group>
