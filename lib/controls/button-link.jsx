@@ -151,123 +151,122 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
 
   return (
     <>
-      <ButtonEditor
-        icon="button_link"
-        className="Editor__toolbar__button--large"
-        disabled={disabled}
-        onToggle={() => {
-          if (modalOpened) {
-            openModal(false);
-          } else {
-            openModal(true);
-          }
-        }}
-      />
-
-      <Modal
-        onClose={() => {
+    <ButtonEditor
+      icon="button_link"
+      className="Editor__toolbar__button--large"
+      disabled={disabled}
+      onToggle={() => {
+        if (modalOpened) {
           openModal(false);
-        }}
-        isOpen={modalOpened}
-      >
-        {({ close }) => {
-          return (
-            <>
-              <Modal.Title>{translations.button_link.title}</Modal.Title>
+        } else {
+          openModal(true);
+        }
+      }}
+    />
 
-              <Formik
-                enableReinitialize
-                initialValues={{
-                  url: entity ? entity.getData().url : "",
-                  text: textToShow(),
-                }}
-                onSubmit={({ url }) => {
-                  onChange(url);
-                  const link = linkify.match(url);
-                  const contentState = editorState.getCurrentContent();
-                  if (entity) {
-                    const newContentState = contentState.replaceEntityData(
-                      entityKey,
-                      { url: link[0].url }
-                    );
-                    dispatch(
-                      updateEditor(
-                        EditorState.push(
-                          editorState,
-                          newContentState,
-                          "change-block-data"
-                        )
-                      )
-                    );
-                  } else {
-                    const contentStateWithEntity = contentState.createEntity(
-                      "BUTTON_LINK",
-                      "MUTABLE",
-                      { url: link[0].url }
-                    );
-                    const entityKey =
-                      contentStateWithEntity.getLastCreatedEntityKey();
-                    const newEditorState = EditorState.set(editorState, {
-                      currentContent: contentStateWithEntity,
-                    });
+    <Modal
+      onClose={() => {
+        openModal(false);
+      }}
+      isOpen={modalOpened}
+    >
+      {({ close }) => {
+        return (
+          <>
+            <Modal.Title>
+              {translations.button_link.title}
+            </Modal.Title>
 
-                    dispatch(
-                      updateEditor(
-                        RichUtils.toggleLink(
-                          newEditorState,
-                          newEditorState.getSelection(),
-                          entityKey
-                        )
-                      )
-                    );
-                  }
-                  close();
-                  setTimeout(() => editorRef.current.blur(), 0);
-                }}
-              >
-                {({ handleSubmit }) => {
-                  return (
-                    <form>
-                      <Modal.Content align="left">
-                        <div>
-                          <Label htmlFor="">
-                            {translations.button_link.text}
-                          </Label>
-                          <InputText name="text" disabled />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="url">
-                            {translations.button_link.url}
-                          </Label>
-                          <InputText
-                            name="url"
-                            validate={(value) => {
-                              if (!linkify.test(value)) {
-                                return translations.link.error;
-                              }
-                            }}
-                          />
-                        </div>
-
-                        <Modal.Actions>
-                          <Button
-                            modifier="helium"
-                            type="submit"
-                            onClick={handleSubmit}
-                          >
-                            {translations.submit}
-                          </Button>
-                        </Modal.Actions>
-                      </Modal.Content>
-                    </form>
+            <Formik
+              enableReinitialize
+              initialValues={{
+                url: entity ? entity.getData().url : "",
+                text: textToShow(),
+              }}
+              onSubmit={({ url }) => {
+                onChange(url);
+                const link = linkify.match(url);
+                const contentState = editorState.getCurrentContent();
+                if (entity) {
+                  const newContentState = contentState.replaceEntityData(
+                    entityKey,
+                    { url: link[0].url }
                   );
-                }}
-              </Formik>
-            </>
-          );
-        }}
-      </Modal>
+                  dispatch(
+                    updateEditor(
+                      EditorState.push(
+                        editorState,
+                        newContentState,
+                        "change-block-data"
+                      )
+                    )
+                  );
+                } else {
+                  const contentStateWithEntity = contentState.createEntity(
+                    "BUTTON_LINK",
+                    "MUTABLE",
+                    { url: link[0].url }
+                  );
+                  const entityKey =
+                    contentStateWithEntity.getLastCreatedEntityKey();
+                  const newEditorState = EditorState.set(editorState, {
+                    currentContent: contentStateWithEntity,
+                  });
+
+                  dispatch(
+                    updateEditor(
+                      RichUtils.toggleLink(
+                        newEditorState,
+                        newEditorState.getSelection(),
+                        entityKey
+                      )
+                    )
+                  );
+                }
+                close();
+                setTimeout(() => editorRef.current.blur(), 0);
+              }}
+            >
+              {({ handleSubmit }) => {
+                return (
+                  <form>
+                    <Modal.Content align="left">
+                      <div>
+                        <Label htmlFor="">{translations.button_link.text}</Label>
+                        <InputText name="text" disabled />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="url">
+                            {translations.button_link.url}
+    </Label>                    <InputText
+                          name="url"
+                          validate={(value) => {
+                            if (!linkify.test(value)) {
+                              return translations.link.error;
+                            }
+                          }}
+                        />
+                      </div>
+
+                      <Modal.Actions>
+                        <Button
+                          modifier="helium"
+                          type="submit"
+                          onClick={handleSubmit}
+                        >
+                          {translations.submit}
+                        </Button>
+                      </Modal.Actions>
+                    </Modal.Content>
+                  </form>
+                );
+              }}
+            </Formik>
+          </>
+        );
+      }}
+    </Modal>
     </>
   );
 };
