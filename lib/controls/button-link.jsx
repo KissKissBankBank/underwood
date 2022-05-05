@@ -169,6 +169,7 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
           openModal(false);
         }}
         isOpen={modalOpened}
+        zIndex={1000}
       >
         {({ close }) => {
           return (

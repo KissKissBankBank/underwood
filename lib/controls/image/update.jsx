@@ -13,7 +13,7 @@ const Update = ({ onClose, description, entityKey }) => {
   }, []);
 
   return (
-    <Modal isOpen onClose={onClose}>
+    <Modal isOpen onClose={onClose} zIndex={1000}>
       {({ close }) => {
         return (
           <>

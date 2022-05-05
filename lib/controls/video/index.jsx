@@ -116,7 +116,7 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
           }
         }}
       />
-      <Modal onClose={() => openModal(false)} isOpen={modalOpened}>
+      <Modal onClose={() => openModal(false)} isOpen={modalOpened} zIndex={1000}>
         {({ close }) => {
           return (
             <>

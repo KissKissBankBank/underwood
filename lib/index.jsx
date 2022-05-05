@@ -16,7 +16,8 @@ const defaultTranslations = {
     title: "Add a link",
     error: "This link seems incorrect",
     button: {
-      delete: "Delete",
+      visit: "Visit link:",
+      delete: "Delete link",
     },
   },
   controls: {
