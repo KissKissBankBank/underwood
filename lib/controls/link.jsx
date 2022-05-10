@@ -1,4 +1,4 @@
-import { ModalNext as Modal, pxToRem, Title } from "@kisskissbankbank/kitten";
+import { Modal, pxToRem, Button } from "@kisskissbankbank/kitten";
 import { EditorState, Modifier, RichUtils } from "draft-js";
 import { Formik } from "formik";
 import linkifyIt from "linkify-it";
@@ -123,16 +123,14 @@ export const readDecorator = {
   component: (props) => {
     const { url } = props.contentState.getEntity(props.entityKey).getData();
     return (
-      <Wrapper>
-        <a
-          href={url}
-          target="_blank"
-          rel="nofollow noopener"
-          className="k-u-link k-u-link-primary1"
-        >
-          {props.children}
-        </a>
-      </Wrapper>
+      <a
+        href={url}
+        target="_blank"
+        rel="nofollow noopener"
+        className="k-u-link k-u-link-primary1"
+      >
+        {props.children}
+      </a>
     );
   },
 };
@@ -185,13 +183,11 @@ const LinkControls = ({ disabled, onChange }) => {
           forceFocus();
         }}
         isOpen={modalOpened}
-        headerTitle={
-          <Title modifier="quaternary">{translations.link.title}</Title>
-        }
       >
         {({ close }) => {
           return (
-            <Modal.Block>
+            <>
+              <Modal.Title>{translations.link.title}</Modal.Title>
               <Formik
                 enableReinitialize
                 initialValues={{
@@ -261,48 +257,51 @@ const LinkControls = ({ disabled, onChange }) => {
               >
                 {({ handleSubmit }) => {
                   return (
-                    <>
-                      <div className="k-u-margin-bottom-double">
-                        {entity?.get("type") === "IMAGE" ? (
-                          <ImageLinked src={entity?.getData()?.src} />
-                        ) : (
-                          <>
-                            <Label htmlFor="">
-                              {translations.link.text.label}
-                            </Label>
-                            <InputText name="text" disabled />
-                          </>
-                        )}
-                      </div>
+                    <form>
+                      <Modal.Content align="left">
+                        <div>
+                          {entity?.get("type") === "IMAGE" ? (
+                            <ImageLinked src={entity?.getData()?.src} />
+                          ) : (
+                            <>
+                              <Label htmlFor="text">
+                                {translations.link.text.label}
+                              </Label>
+                              <InputText name="text" disabled />
+                            </>
+                          )}
+                        </div>
 
-                      <div className="k-u-margin-vertical-double">
-                        <Label htmlFor="url">
-                          {translations.image_upload.url}
-                        </Label>
-                        <InputText
-                          name="url"
-                          validate={(value) => {
-                            if (!linkify.test(value)) {
-                              return translations.link.error;
-                            }
-                          }}
-                        />
-                      </div>
-                      <Modal.Actions>
-                        <Modal.Button
-                          size="large"
-                          type="button"
-                          modifier="helium"
-                          onClick={handleSubmit}
-                        >
-                          {translations.submit}
-                        </Modal.Button>
-                      </Modal.Actions>
-                    </>
+                        <div>
+                          <Label htmlFor="url">
+                            {translations.image_upload.url}
+                          </Label>
+                          <InputText
+                            name="url"
+                            validate={(value) => {
+                              if (!linkify.test(value)) {
+                                return translations.link.error;
+                              }
+                            }}
+                          />
+                        </div>
+
+                        <Modal.Actions>
+                          <Button
+                            size="large"
+                            type="submit"
+                            modifier="helium"
+                            onClick={handleSubmit}
+                          >
+                            {translations.submit}
+                          </Button>
+                        </Modal.Actions>
+                      </Modal.Content>
+                    </form>
                   );
                 }}
               </Formik>
-            </Modal.Block>
+            </>
           );
         }}
       </Modal>

@@ -1,8 +1,4 @@
-import {
-  DropdownMenu,
-  ModalNext as Modal,
-  Title,
-} from "@kisskissbankbank/kitten";
+import { DropdownMenu, Modal, Title } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { AtomicBlockUtils, EditorState } from "draft-js";
 import { Formik } from "formik";
@@ -28,6 +24,7 @@ import Update from "./update";
 const StyledImage = styled.div`
   position: relative;
   width: 100%;
+
   img {
     display: inline;
     height: auto;
@@ -161,89 +158,88 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
           }
         }}
       />
-      <Modal
-        onClose={() => openModal(false)}
-        isOpen={modalOpened}
-        headerTitle={
-          <Title modifier="quaternary">{translations.image_upload.title}</Title>
-        }
-      >
+      <Modal onClose={() => openModal(false)} isOpen={modalOpened}>
         {({ close }) => {
           return (
-            <Modal.Block>
-              <Formik
-                initialValues={{ url: "", description: "" }}
-                validationSchema={Yup.object().shape({
-                  url: Yup.string()
-                    .url(translations.image.invalid_url)
-                    .matches(
-                      /(?:jpg|jpeg|gif|png)$/,
-                      translations.image.invalid_extension
-                    ),
-                })}
-                onSubmit={(
-                  { url, fileSize, file, description },
-                  { setSubmitting }
-                ) => {
-                  return new Promise((resolve, reject) => {
-                    if (file && file.size === 0) {
-                      reject("WRONG");
-                      setSubmitting(false);
-                    }
-                    if (!isEmpty(url)) {
-                      resolve(url);
-                    } else {
-                      onUpload(file)
-                        .then((url) => resolve(url))
-                        .catch(() => {
-                          setSubmitting(false);
-                        });
-                    }
-                  }).then((url) => {
-                    const contentState = editorState.getCurrentContent();
-                    const contentStateWithEntity = contentState.createEntity(
-                      "IMAGE",
-                      "IMMUTABLE",
-                      {
-                        src: url,
-                        description,
+            <>
+              <Modal.Title>{translations.image_upload.title}</Modal.Title>
+              <Modal.Form>
+                <Formik
+                  initialValues={{ url: "", description: "" }}
+                  validationSchema={Yup.object().shape({
+                    url: Yup.string()
+                      .url(translations.image.invalid_url)
+                      .matches(
+                        /(?:jpg|jpeg|gif|png)$/,
+                        translations.image.invalid_extension
+                      ),
+                  })}
+                  onSubmit={(
+                    { url, fileSize, file, description },
+                    { setSubmitting }
+                  ) => {
+                    return new Promise((resolve, reject) => {
+                      if (file && file.size === 0) {
+                        reject("WRONG");
+                        setSubmitting(false);
                       }
-                    );
-                    const entityKey =
-                      contentStateWithEntity.getLastCreatedEntityKey();
-                    const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-                      editorState,
-                      entityKey,
-                      " "
-                    );
-                    const newState = EditorState.forceSelection(
-                      newEditorState,
-                      newEditorState.getCurrentContent().getSelectionAfter()
-                    );
-                    if (isPreviousEmptyBlock(newState)) {
-                      const newStateWithoutPreviousEmptyBlock =
-                        removePreviousEmptyBlock(newState);
+                      if (!isEmpty(url)) {
+                        resolve(url);
+                      } else {
+                        onUpload(file)
+                          .then((url) => resolve(url))
+                          .catch(() => {
+                            setSubmitting(false);
+                          });
+                      }
+                    }).then((url) => {
+                      const contentState = editorState.getCurrentContent();
+                      const contentStateWithEntity = contentState.createEntity(
+                        "IMAGE",
+                        "IMMUTABLE",
+                        {
+                          src: url,
+                          description,
+                        }
+                      );
+                      const entityKey =
+                        contentStateWithEntity.getLastCreatedEntityKey();
+                      const newEditorState = AtomicBlockUtils.insertAtomicBlock(
+                        editorState,
+                        entityKey,
+                        " "
+                      );
+                      const newState = EditorState.forceSelection(
+                        newEditorState,
+                        newEditorState.getCurrentContent().getSelectionAfter()
+                      );
+                      if (isPreviousEmptyBlock(newState)) {
+                        const newStateWithoutPreviousEmptyBlock =
+                          removePreviousEmptyBlock(newState);
 
-                      dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
-                    } else {
-                      dispatch(updateEditor(newState));
-                    }
-                    close();
-                    openModal(false);
-                    setTimeout(() => openModal(false), 500);
-                  });
-                }}
-              >
-                {() => (
-                  <Form
-                    imageUrl={imageUrl}
-                    setImageUrl={setImageUrl}
-                    errorMessage={errorMessage}
-                    onChange={onChange}
-                  />
-                )}
-              </Formik>
-            </Modal.Block>
+                        dispatch(
+                          updateEditor(newStateWithoutPreviousEmptyBlock)
+                        );
+                      } else {
+                        dispatch(updateEditor(newState));
+                      }
+                      close();
+                      openModal(false);
+                      setTimeout(() => openModal(false), 500);
+                    });
+                  }}
+                >
+                  {() => (
+                    <Form
+                      imageUrl={imageUrl}
+                      setImageUrl={setImageUrl}
+                      errorMessage={errorMessage}
+                      onChange={onChange}
+                    />
+                  )}
+                </Formik>
+              </Modal.Form>
+            </>
           );
         }}
       </Modal>
