@@ -33,7 +33,7 @@ import { EditorState, DefaultDraftBlockRenderMap, Modifier, RichUtils, AtomicBlo
 export { convertToRaw } from "draft-js";
 import PropTypes from "prop-types";
 import require$$0, { createContext, useReducer, useContext, useEffect, useState, useRef } from "react";
-import { Title as Title$1, Button as Button$1, pxToRem, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, COLORS, VisuallyHidden, ScreenConfig, ArrowContainer, Text, ModalNext, ButtonGroup, ImageDropUploader, AlertBox, DropdownMenu, parseHtml, ResponsiveIframeContainer, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, domElementHelper, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
+import { Title as Title$1, Button as Button$1, pxToRem, BoldIcon, ItalicIcon, ListIcon, AlignLeftIcon, AlignCenterIcon, AlignRightIcon, ImageIcon, VideoIcon, LinkIcon, EditorButtonIcon, BlockquoteIcon, Field, TextInputWithButton, KissKissLoadingAnimation, COLORS, VisuallyHidden, ArrowContainer, Text, ScreenConfig, Modal, ButtonGroup, ImageDropUploader, AlertBox, DropdownMenu, parseHtml, ResponsiveIframeContainer, CONTAINER_PADDING, CONTAINER_PADDING_THIN, useLazyObserver, LazyLoader, domElementHelper, TYPOGRAPHY, Paragraph, Details, ArrowIcon, ParagraphIcon, Title4Icon, Title3Icon, Title2Icon, Title1Icon } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import styled, { createGlobalStyle, css } from "styled-components";
 import { Map as Map$4, OrderedMap } from "immutable";
@@ -3961,6 +3961,78 @@ var SubmitLoader = (_e) => {
     })]
   }));
 };
+const Wrapper$4 = styled(ArrowContainer)`
+  display: flex;
+  position: absolute;
+  min-width: max-content;
+  padding: 0 ${pxToRem(20)};
+  background-color: ${COLORS.background1};
+  margin-top: ${pxToRem(0)};
+  transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
+  z-index: 99999;
+
+  .u-link-delete {
+    flex: 1 0 auto;
+    text-align: center;
+    display: block;
+  }
+  .u-link-separator {
+    flex: 0 0 auto;
+    border: none;
+    border-left: var(--border);
+    margin: ${pxToRem(5)} ${pxToRem(10)};
+  }
+  .u-link-visit {
+    flex: 2 0 auto;
+    max-width: ${pxToRem(240)};
+  }
+`;
+const LinkInline = ({
+  onDelete,
+  url
+}) => {
+  const [{
+    translations
+  }] = useContext(EditorContext);
+  return /* @__PURE__ */ jsxs(Wrapper$4, {
+    position: "top",
+    shadow: true,
+    borderWidth: 1,
+    contentEditable: false,
+    borderColor: "var(--color-grey-400)",
+    color: "var(--color-grey-000)",
+    borderRadius: 4,
+    children: [/* @__PURE__ */ jsx(Text, {
+      className: "u-link u-link-delete k-u-reset-button",
+      weight: "regular",
+      tag: "button",
+      type: "button",
+      color: "error",
+      onClick: (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onDelete(e);
+      },
+      children: translations.link.button.delete
+    }), /* @__PURE__ */ jsx("hr", {
+      className: "u-link-separator"
+    }), /* @__PURE__ */ jsx(Text, {
+      className: "u-link u-link-visit k-u-ellipsis k-u-link",
+      weight: "regular",
+      href: url,
+      target: "_blank",
+      rel: "noopener",
+      tag: "a",
+      color: "font1",
+      onClick: (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.open(url, "_blank").focus();
+      },
+      children: url
+    })]
+  });
+};
 const linkify$3 = linkifyIt();
 linkify$3.tlds(tlds);
 const Wrapper$3 = styled.div`
@@ -3971,49 +4043,19 @@ const Wrapper$3 = styled.div`
     display: inline-block;
   }
 `;
-const ButtonLinkWithFluidStyle = styled(Button$1)`
-  @media (max-width: ${pxToRem(ScreenConfig.XS.max)}) {
-    min-width: initial;
-    width: 100%;
-  }
-`;
-const StyledArrowContainer$1 = styled(ArrowContainer)`
-  display: flex;
-  position: absolute;
-  min-width: max-content;
-  padding: 0 ${pxToRem(20)};
-  background-color: ${COLORS.background1};
-  margin-top: ${pxToRem(5)};
-  transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
-`;
-const DeleteLink$1 = styled(Text)`
-  display: block;
-  width: 100%;
-  padding: 0;
-  text-align: center;
-`;
-const VerticalSeparator$1 = styled.span`
-  margin: ${pxToRem(5)} ${pxToRem(10)};
-  border-left: var(--border-width, 1px) solid ${COLORS.font2};
-`;
-const ShareLink$1 = styled(Text)`
-  overflow: hidden;
-  display: inline-block;
-  max-width: ${pxToRem(150)};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
 const StyledButtonLink = ({
   href,
   children
 }) => {
-  return /* @__PURE__ */ jsx(ButtonLinkWithFluidStyle, {
+  return /* @__PURE__ */ jsx(Button$1, {
     tag: "a",
     href,
     target: "_blank",
     rel: "nofollow noopener",
     modifier: "helium",
     size: "large",
+    fit: "content",
+    mobileFit: "fluid",
     children
   });
 };
@@ -4040,43 +4082,21 @@ const ButtonLink = ({
     children: [/* @__PURE__ */ jsx(StyledButtonLink, {
       href: url,
       children
-    }), isVisible && /* @__PURE__ */ jsxs(StyledArrowContainer$1, {
-      position: "top",
-      shadow: true,
-      borderWidth: 1,
-      borderColor: COLORS.line1,
-      contentEditable: false,
-      children: [/* @__PURE__ */ jsx(DeleteLink$1, {
-        href: "#",
-        tag: "a",
-        size: "micro",
-        weight: "regular",
-        color: "error",
-        onClick: (e) => {
-          e.preventDefault();
-          const currentContent = contentState.getBlockForKey(editorState.getSelection().getFocusKey());
-          currentContent.findEntityRanges((character) => {
-            return character.getEntity() === entityKey;
-          }, (start, end) => {
-            const newsSelection = editorState.getSelection().merge({
-              focusOffset: end,
-              anchorOffset: start
-            });
-            const newsEditorState = Modifier.applyEntity(contentState, newsSelection, null);
-            dispatch(updateEditor(EditorState.push(editorState, newsEditorState, "apply-entity")));
+    }), isVisible && /* @__PURE__ */ jsx(LinkInline, {
+      url,
+      onDelete: () => {
+        const currentContent = contentState.getBlockForKey(editorState.getSelection().getFocusKey());
+        currentContent.findEntityRanges((character) => {
+          return character.getEntity() === entityKey;
+        }, (start, end) => {
+          const newsSelection = editorState.getSelection().merge({
+            focusOffset: end,
+            anchorOffset: start
           });
-        },
-        children: translations.link.button.delete
-      }), /* @__PURE__ */ jsx(VerticalSeparator$1, {}), /* @__PURE__ */ jsx(ShareLink$1, {
-        href: url,
-        target: "_blank",
-        rel: "noopener",
-        tag: "a",
-        size: "micro",
-        weight: "regular",
-        color: "font1",
-        children: url
-      })]
+          const newsEditorState = Modifier.applyEntity(contentState, newsSelection, null);
+          dispatch(updateEditor(EditorState.push(editorState, newsEditorState, "apply-entity")));
+        });
+      }
     })]
   });
 };
@@ -4108,6 +4128,7 @@ const ButtonLinkControls = ({
   disabled,
   onChange
 }) => {
+  const [modalOpened, openModal] = useState(false);
   const [{
     editorState,
     editorRef,
@@ -4121,88 +4142,100 @@ const ButtonLinkControls = ({
     }
     return getEntityText(editorState, entityKey);
   };
-  return /* @__PURE__ */ jsx(ModalNext, {
-    headerTitle: /* @__PURE__ */ jsx(Title$1, {
-      noMargin: true,
-      modifier: "quaternary",
-      children: translations.button_link.title
-    }),
-    trigger: /* @__PURE__ */ jsx(Button, {
+  return /* @__PURE__ */ jsxs(Fragment, {
+    children: [/* @__PURE__ */ jsx(Button, {
       icon: "button_link",
       className: "Editor__toolbar__button--large",
-      disabled
-    }),
-    children: ({
-      close
-    }) => {
-      return /* @__PURE__ */ jsx(Formik, {
-        enableReinitialize: true,
-        initialValues: {
-          url: entity ? entity.getData().url : "",
-          text: textToShow()
-        },
-        onSubmit: ({
-          url
-        }) => {
-          onChange(url);
-          const link = linkify$3.match(url);
-          const contentState = editorState.getCurrentContent();
-          if (entity) {
-            const newContentState = contentState.replaceEntityData(entityKey, {
-              url: link[0].url
-            });
-            dispatch(updateEditor(EditorState.push(editorState, newContentState, "change-block-data")));
-          } else {
-            const contentStateWithEntity = contentState.createEntity("BUTTON_LINK", "MUTABLE", {
-              url: link[0].url
-            });
-            const entityKey2 = contentStateWithEntity.getLastCreatedEntityKey();
-            const newEditorState = EditorState.set(editorState, {
-              currentContent: contentStateWithEntity
-            });
-            dispatch(updateEditor(RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey2)));
-          }
-          close();
-          setTimeout(() => editorRef.current.blur(), 0);
-        },
-        children: ({
-          handleSubmit
-        }) => {
-          return /* @__PURE__ */ jsxs(Fragment, {
-            children: [/* @__PURE__ */ jsxs(ModalNext.Block, {
-              className: "k-u-margin-bottom-quadruple",
-              children: [/* @__PURE__ */ jsxs("div", {
-                className: "k-u-margin-bottom-double",
-                children: [/* @__PURE__ */ jsx(Label, {
-                  htmlFor: "",
-                  children: translations.button_link.text
-                }), /* @__PURE__ */ jsx(InputText, {
-                  name: "text",
-                  disabled: true
-                })]
-              }), /* @__PURE__ */ jsx(Label, {
-                htmlFor: "url",
-                children: translations.button_link.url
-              }), /* @__PURE__ */ jsx(InputText, {
-                name: "url",
-                validate: (value) => {
-                  if (!linkify$3.test(value)) {
-                    return translations.link.error;
-                  }
-                }
-              })]
-            }), /* @__PURE__ */ jsx(ModalNext.Button, {
-              fit: "fluid",
-              size: "large",
-              type: "button",
-              modifier: "helium",
-              onClick: handleSubmit,
-              children: translations.submit
-            })]
-          });
+      disabled,
+      onToggle: () => {
+        if (modalOpened) {
+          openModal(false);
+        } else {
+          openModal(true);
         }
-      });
-    }
+      }
+    }), /* @__PURE__ */ jsx(Modal, {
+      onClose: () => {
+        openModal(false);
+      },
+      isOpen: modalOpened,
+      children: ({
+        close
+      }) => {
+        return /* @__PURE__ */ jsxs(Fragment, {
+          children: [/* @__PURE__ */ jsx(Modal.Title, {
+            children: translations.button_link.title
+          }), /* @__PURE__ */ jsx(Formik, {
+            enableReinitialize: true,
+            initialValues: {
+              url: entity ? entity.getData().url : "",
+              text: textToShow()
+            },
+            onSubmit: ({
+              url
+            }) => {
+              onChange(url);
+              const link = linkify$3.match(url);
+              const contentState = editorState.getCurrentContent();
+              if (entity) {
+                const newContentState = contentState.replaceEntityData(entityKey, {
+                  url: link[0].url
+                });
+                dispatch(updateEditor(EditorState.push(editorState, newContentState, "change-block-data")));
+              } else {
+                const contentStateWithEntity = contentState.createEntity("BUTTON_LINK", "MUTABLE", {
+                  url: link[0].url
+                });
+                const entityKey2 = contentStateWithEntity.getLastCreatedEntityKey();
+                const newEditorState = EditorState.set(editorState, {
+                  currentContent: contentStateWithEntity
+                });
+                dispatch(updateEditor(RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey2)));
+              }
+              close();
+              setTimeout(() => editorRef.current.blur(), 0);
+            },
+            children: ({
+              handleSubmit
+            }) => {
+              return /* @__PURE__ */ jsx("form", {
+                children: /* @__PURE__ */ jsxs(Modal.Content, {
+                  align: "left",
+                  children: [/* @__PURE__ */ jsxs("div", {
+                    children: [/* @__PURE__ */ jsx(Label, {
+                      htmlFor: "",
+                      children: translations.button_link.text
+                    }), /* @__PURE__ */ jsx(InputText, {
+                      name: "text",
+                      disabled: true
+                    })]
+                  }), /* @__PURE__ */ jsxs("div", {
+                    children: [/* @__PURE__ */ jsx(Label, {
+                      htmlFor: "url",
+                      children: translations.button_link.url
+                    }), /* @__PURE__ */ jsx(InputText, {
+                      name: "url",
+                      validate: (value) => {
+                        if (!linkify$3.test(value)) {
+                          return translations.link.error;
+                        }
+                      }
+                    })]
+                  }), /* @__PURE__ */ jsx(Modal.Actions, {
+                    children: /* @__PURE__ */ jsx(Button$1, {
+                      modifier: "helium",
+                      type: "submit",
+                      onClick: handleSubmit,
+                      children: translations.submit
+                    })
+                  })]
+                })
+              });
+            }
+          })]
+        });
+      }
+    })]
   });
 };
 ButtonLinkControls.propTypes = {
@@ -4213,76 +4246,6 @@ ButtonLinkControls.defaultProps = {
   disabled: false,
   onChange: () => null
 };
-const StyledArrowContainer = styled(ArrowContainer)`
-  display: flex;
-  position: absolute;
-  min-width: max-content;
-  padding: 0 ${pxToRem(20)};
-  background-color: ${COLORS.background1};
-  margin-top: ${pxToRem(0)};
-  transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
-  z-index: 99999;
-`;
-const DeleteLink = styled(Text)`
-  flex: 1;
-  width: 100%;
-  text-align: center;
-  display: block;
-  padding: 0;
-`;
-const VerticalSeparator = styled.span`
-  flex: 0;
-  border-left: var(--border-width, 1px) solid ${COLORS.font2};
-  margin: ${pxToRem(5)} ${pxToRem(10)};
-`;
-const ShareLink = styled(Text)`
-  flex: 2;
-  max-width: ${pxToRem(240)};
-  text-overflow: ellipsis;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-`;
-const LinkInline = ({
-  onDelete,
-  url
-}) => {
-  const [{
-    translations
-  }] = useContext(EditorContext);
-  return /* @__PURE__ */ jsxs(StyledArrowContainer, {
-    position: "top",
-    shadow: true,
-    borderWidth: 1,
-    borderColor: COLORS.line1,
-    contentEditable: false,
-    children: [/* @__PURE__ */ jsx(DeleteLink, {
-      href: "#",
-      tag: "a",
-      size: "micro",
-      color: "error",
-      onClick: (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onDelete(e);
-      },
-      children: translations.link.button.delete
-    }), /* @__PURE__ */ jsx(VerticalSeparator, {}), /* @__PURE__ */ jsx(ShareLink, {
-      href: url,
-      target: "_blank",
-      rel: "noopener",
-      tag: "a",
-      size: "micro",
-      color: "font1",
-      onClick: (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        window.open(url, "_blank").focus();
-      },
-      children: url
-    })]
-  });
-};
 const StyledButtonGroup = styled(ButtonGroup)`
   .k-ButtonGroup__button {
     width: 50%;
@@ -4292,6 +4255,7 @@ const ImagePreview = styled.img`
   width: 100%;
   object-fit: contain;
   aspect-ratio: 16/10;
+  background-color: var(--color-grey-200);
 `;
 const UPLOAD_METHOD = {
   URL: "URL",
@@ -4314,7 +4278,7 @@ const Form = ({
   } = useFormikContext();
   const [, , urlHelpers] = useField("url");
   const [, , fileHelpers] = useField("file");
-  return /* @__PURE__ */ jsxs(Fragment, {
+  return /* @__PURE__ */ jsxs("form", {
     children: [/* @__PURE__ */ jsxs(StyledButtonGroup, {
       className: "k-u-margin-bottom-double",
       children: [/* @__PURE__ */ jsx(ButtonGroup.Button, {
@@ -4332,57 +4296,65 @@ const Form = ({
         },
         children: translations.image_upload.button_url
       })]
-    }), uploadMethod === UPLOAD_METHOD.FILE && !imageUrl && /* @__PURE__ */ jsx(ImageDropUploader, {
-      id: "underwood-image-drop-uploader",
-      dimensionErrorText: translations.image_upload.dimension_error,
-      sizeErrorText: translations.image_upload.max_size,
-      errorMessage,
-      onChange: (event) => {
-        var _a;
-        onChange(event);
-        const file = event.file;
-        if (!((_a = file == null ? void 0 : file.type) == null ? void 0 : _a.match("image.*"))) {
-          return;
-        }
-        fileHelpers.setValue(file);
-        urlHelpers.setValue("");
-        setImageUrl(event.value);
-      },
-      acceptedFileSize: 5242880,
-      acceptedImageDimensions: {
-        height: 4e3,
-        width: 1e3
-      },
-      acceptedMimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
-      buttonTitle: translations.image_upload.button_title,
-      buttonText: /* @__PURE__ */ jsxs("div", {
-        className: "k-u-flex k-u-flex-direction-column k-u-flex-gap-noneHalf",
-        children: [/* @__PURE__ */ jsx("span", {
-          children: translations.image_upload.help_file.formats
-        }), /* @__PURE__ */ jsx("span", {
-          children: translations.image_upload.help_file.width
-        }), /* @__PURE__ */ jsx("span", {
-          children: translations.image_upload.help_file.size
-        })]
-      })
-    }), uploadMethod === UPLOAD_METHOD.URL && /* @__PURE__ */ jsxs(Fragment, {
-      children: [/* @__PURE__ */ jsx("div", {
-        className: "k-u-margin-top-single",
-        children: /* @__PURE__ */ jsx(Label, {
-          htmlFor: "url",
-          children: translations.image_upload.label
+    }), /* @__PURE__ */ jsxs("div", {
+      "aria-live": "polite",
+      children: [uploadMethod === UPLOAD_METHOD.FILE && !imageUrl && /* @__PURE__ */ jsx(ImageDropUploader, {
+        id: "underwood-image-drop-uploader",
+        dimensionErrorText: translations.image_upload.dimension_error,
+        sizeErrorText: translations.image_upload.max_size,
+        errorMessage,
+        onChange: (event) => {
+          var _a;
+          onChange(event);
+          const file = event.file;
+          if (!((_a = file == null ? void 0 : file.type) == null ? void 0 : _a.match("image.*"))) {
+            return;
+          }
+          fileHelpers.setValue(file);
+          urlHelpers.setValue("");
+          setImageUrl(event.value);
+        },
+        acceptedFileSize: 5242880,
+        acceptedImageDimensions: {
+          height: 4e3,
+          width: 1e3
+        },
+        acceptedMimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+        buttonTitle: translations.image_upload.button_title,
+        buttonText: /* @__PURE__ */ jsxs("div", {
+          className: "k-u-flex k-u-flex-direction-column k-u-flex-gap-noneHalf",
+          children: [/* @__PURE__ */ jsx("span", {
+            children: translations.image_upload.help_file.formats
+          }), /* @__PURE__ */ jsx("span", {
+            children: translations.image_upload.help_file.width
+          }), /* @__PURE__ */ jsx("span", {
+            children: translations.image_upload.help_file.size
+          })]
         })
-      }), /* @__PURE__ */ jsx(FormikInputWithButton, {
-        name: "url",
-        placeholder: "https://",
-        buttonValue: translations.image_upload.preview,
-        onClick: () => {
-          setImageUrl(values.url);
-        }
+      }), uploadMethod === UPLOAD_METHOD.URL && /* @__PURE__ */ jsxs(Fragment, {
+        children: [/* @__PURE__ */ jsx("div", {
+          className: "k-u-margin-top-single",
+          children: /* @__PURE__ */ jsx(Label, {
+            htmlFor: "url",
+            children: translations.image_upload.label
+          })
+        }), /* @__PURE__ */ jsx(FormikInputWithButton, {
+          name: "url",
+          placeholder: "https://",
+          buttonValue: translations.image_upload.preview,
+          onClick: () => {
+            setImageUrl(values.url);
+          }
+        }), /* @__PURE__ */ jsx(ErrorMessage, {
+          name: "url",
+          children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
+            children: msg
+          })
+        })]
       })]
-    }), /* @__PURE__ */ jsx("div", {
-      className: "k-u-margin-vertical-single",
-      children: imageUrl && /* @__PURE__ */ jsxs(Fragment, {
+    }), imageUrl && /* @__PURE__ */ jsxs(Fragment, {
+      children: [/* @__PURE__ */ jsxs("div", {
+        className: "k-u-margin-top-single",
         children: [/* @__PURE__ */ jsx(ImagePreview, {
           src: imageUrl,
           alt: ""
@@ -4391,15 +4363,14 @@ const Form = ({
           children: /* @__PURE__ */ jsx(Text, {
             size: "small",
             tag: "button",
+            type: "button",
             weight: "regular",
             onClick: () => setImageUrl(void 0),
             className: "k-u-reset-button k-u-link k-u-link-primary1",
             children: translations.image_upload.modify_image
           })
         })]
-      })
-    }), imageUrl && /* @__PURE__ */ jsxs(Fragment, {
-      children: [/* @__PURE__ */ jsxs("div", {
+      }), /* @__PURE__ */ jsxs("div", {
         className: "k-u-margin-vertical-double",
         children: [/* @__PURE__ */ jsx(Label, {
           htmlFor: "description",
@@ -4411,22 +4382,18 @@ const Form = ({
         })]
       }), /* @__PURE__ */ jsx(AlertBox, {
         children: translations.image_upload.description.helper
+      }), /* @__PURE__ */ jsx(Modal.Actions, {
+        className: "k-u-margin-top-triple",
+        children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
+          fit: "fluid"
+        }) : /* @__PURE__ */ jsx(Button$1, {
+          type: "submit",
+          size: "large",
+          modifier: "helium",
+          onClick: handleSubmit,
+          children: translations.submit
+        })
       })]
-    }), /* @__PURE__ */ jsx(ErrorMessage, {
-      name: "url",
-      children: (msg) => /* @__PURE__ */ jsx(Field.ErrorMessage, {
-        children: msg
-      })
-    }), imageUrl && /* @__PURE__ */ jsx(ModalNext.Actions, {
-      children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
-        fit: "fluid"
-      }) : /* @__PURE__ */ jsx(ModalNext.Button, {
-        type: "button",
-        size: "large",
-        modifier: "helium",
-        onClick: handleSubmit,
-        children: translations.submit
-      })
     })]
   });
 };
@@ -4443,60 +4410,60 @@ const Update = ({
     dispatch(updateDisabled(true));
     return () => dispatch(updateDisabled(false));
   }, []);
-  return /* @__PURE__ */ jsx(ModalNext, {
+  return /* @__PURE__ */ jsx(Modal, {
     isOpen: true,
     onClose,
-    headerTitle: /* @__PURE__ */ jsx(Title$1, {
-      modifier: "quaternary",
-      children: translations.image_upload.description.title
-    }),
     children: ({
       close
     }) => {
-      return /* @__PURE__ */ jsx(Formik, {
-        initialValues: {
-          description
-        },
-        onSubmit: ({
-          description: description2
-        }) => {
-          const contentState = editorState.getCurrentContent();
-          const contentWithNewData = contentState.mergeEntityData(entityKey, {
+      return /* @__PURE__ */ jsxs(Fragment, {
+        children: [/* @__PURE__ */ jsx(Modal.Title, {
+          children: translations.image_upload.description.title
+        }), /* @__PURE__ */ jsx(Formik, {
+          initialValues: {
+            description
+          },
+          onSubmit: ({
             description: description2
-          });
-          const userSelection = editorState.getSelection();
-          const newEditor = EditorState.push(editorState, contentWithNewData, "change-block-data");
-          dispatch(updateEditor(EditorState.forceSelection(newEditor, userSelection)));
-          close();
-          onClose();
-        },
-        children: () => {
-          return /* @__PURE__ */ jsx(Form$1, {
-            children: /* @__PURE__ */ jsxs(ModalNext.Block, {
-              children: [/* @__PURE__ */ jsxs("div", {
-                className: "k-u-margin-vertical-double",
-                children: [/* @__PURE__ */ jsx(Label, {
-                  htmlFor: "description",
-                  children: translations.image_upload.description.label
-                }), /* @__PURE__ */ jsx(InputText, {
-                  name: "description",
-                  tag: "autoresize",
-                  placeholder: translations.image_upload.description.placeholder
+          }) => {
+            const contentState = editorState.getCurrentContent();
+            const contentWithNewData = contentState.mergeEntityData(entityKey, {
+              description: description2
+            });
+            const userSelection = editorState.getSelection();
+            const newEditor = EditorState.push(editorState, contentWithNewData, "change-block-data");
+            dispatch(updateEditor(EditorState.forceSelection(newEditor, userSelection)));
+            close();
+            onClose();
+          },
+          children: () => {
+            return /* @__PURE__ */ jsx(Form$1, {
+              children: /* @__PURE__ */ jsxs(Modal.Form, {
+                children: [/* @__PURE__ */ jsxs("div", {
+                  className: "k-u-margin-bottom-double",
+                  children: [/* @__PURE__ */ jsx(Label, {
+                    htmlFor: "description",
+                    children: translations.image_upload.description.label
+                  }), /* @__PURE__ */ jsx(InputText, {
+                    name: "description",
+                    tag: "autoresize",
+                    placeholder: translations.image_upload.description.placeholder
+                  })]
+                }), /* @__PURE__ */ jsx(AlertBox, {
+                  children: translations.image_upload.description.helper
+                }), /* @__PURE__ */ jsx(Modal.Actions, {
+                  className: "k-u-margin-top-triple",
+                  children: /* @__PURE__ */ jsx(Button$1, {
+                    type: "submit",
+                    size: "large",
+                    modifier: "helium",
+                    children: translations.submit
+                  })
                 })]
-              }), /* @__PURE__ */ jsx(AlertBox, {
-                children: translations.image_upload.description.helper
-              }), /* @__PURE__ */ jsx(ModalNext.Actions, {
-                children: /* @__PURE__ */ jsx(ModalNext.Button, {
-                  type: "submit",
-                  size: "large",
-                  modifier: "helium",
-                  fit: "fluid",
-                  children: translations.submit
-                })
-              })]
-            })
-          });
-        }
+              })
+            });
+          }
+        })]
       });
     }
   });
@@ -4504,6 +4471,7 @@ const Update = ({
 const StyledImage = styled.div`
   position: relative;
   width: 100%;
+
   img {
     display: inline;
     height: auto;
@@ -4657,72 +4625,72 @@ const ImageControls = ({
           openModal(true);
         }
       }
-    }), /* @__PURE__ */ jsx(ModalNext, {
+    }), /* @__PURE__ */ jsx(Modal, {
       onClose: () => openModal(false),
       isOpen: modalOpened,
-      headerTitle: /* @__PURE__ */ jsx(Title$1, {
-        modifier: "quaternary",
-        children: translations.image_upload.title
-      }),
       children: ({
         close
       }) => {
-        return /* @__PURE__ */ jsx(ModalNext.Block, {
-          children: /* @__PURE__ */ jsx(Formik, {
-            initialValues: {
-              url: "",
-              description: ""
-            },
-            validationSchema: Yup.object().shape({
-              url: Yup.string().url(translations.image.invalid_url).matches(/(?:jpg|jpeg|gif|png)$/, translations.image.invalid_extension)
-            }),
-            onSubmit: ({
-              url,
-              fileSize,
-              file,
-              description
-            }, {
-              setSubmitting
-            }) => {
-              return new Promise((resolve, reject) => {
-                if (file && file.size === 0) {
-                  reject("WRONG");
-                  setSubmitting(false);
-                }
-                if (!isEmpty(url)) {
-                  resolve(url);
-                } else {
-                  onUpload(file).then((url2) => resolve(url2)).catch(() => {
+        return /* @__PURE__ */ jsxs(Fragment, {
+          children: [/* @__PURE__ */ jsx(Modal.Title, {
+            children: translations.image_upload.title
+          }), /* @__PURE__ */ jsx(Modal.Form, {
+            children: /* @__PURE__ */ jsx(Formik, {
+              initialValues: {
+                url: "",
+                description: ""
+              },
+              validationSchema: Yup.object().shape({
+                url: Yup.string().url(translations.image.invalid_url).matches(/(?:jpg|jpeg|gif|png)$/, translations.image.invalid_extension)
+              }),
+              onSubmit: ({
+                url,
+                fileSize,
+                file,
+                description
+              }, {
+                setSubmitting
+              }) => {
+                return new Promise((resolve, reject) => {
+                  if (file && file.size === 0) {
+                    reject("WRONG");
                     setSubmitting(false);
+                  }
+                  if (!isEmpty(url)) {
+                    resolve(url);
+                  } else {
+                    onUpload(file).then((url2) => resolve(url2)).catch(() => {
+                      setSubmitting(false);
+                    });
+                  }
+                }).then((url2) => {
+                  const contentState = editorState.getCurrentContent();
+                  const contentStateWithEntity = contentState.createEntity("IMAGE", "IMMUTABLE", {
+                    src: url2,
+                    description
                   });
-                }
-              }).then((url2) => {
-                const contentState = editorState.getCurrentContent();
-                const contentStateWithEntity = contentState.createEntity("IMAGE", "IMMUTABLE", {
-                  src: url2,
-                  description
+                  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+                  const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
+                  const newState = EditorState.forceSelection(newEditorState, newEditorState.getCurrentContent().getSelectionAfter());
+                  if (isPreviousEmptyBlock(newState)) {
+                    const newStateWithoutPreviousEmptyBlock = removePreviousEmptyBlock(newState);
+                    dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
+                  } else {
+                    dispatch(updateEditor(newState));
+                  }
+                  close();
+                  openModal(false);
+                  setTimeout(() => openModal(false), 500);
                 });
-                const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-                const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
-                const newState = EditorState.forceSelection(newEditorState, newEditorState.getCurrentContent().getSelectionAfter());
-                if (isPreviousEmptyBlock(newState)) {
-                  const newStateWithoutPreviousEmptyBlock = removePreviousEmptyBlock(newState);
-                  dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
-                } else {
-                  dispatch(updateEditor(newState));
-                }
-                close();
-                openModal(false);
-                setTimeout(() => openModal(false), 500);
-              });
-            },
-            children: () => /* @__PURE__ */ jsx(Form, {
-              imageUrl,
-              setImageUrl,
-              errorMessage,
-              onChange
+              },
+              children: () => /* @__PURE__ */ jsx(Form, {
+                imageUrl,
+                setImageUrl,
+                errorMessage,
+                onChange
+              })
             })
-          })
+          })]
         });
       }
     })]
@@ -4823,14 +4791,12 @@ const readDecorator$1 = {
     const {
       url
     } = props.contentState.getEntity(props.entityKey).getData();
-    return /* @__PURE__ */ jsx(Wrapper$2, {
-      children: /* @__PURE__ */ jsx("a", {
-        href: url,
-        target: "_blank",
-        rel: "nofollow noopener",
-        className: "k-u-link k-u-link-primary1",
-        children: props.children
-      })
+    return /* @__PURE__ */ jsx("a", {
+      href: url,
+      target: "_blank",
+      rel: "nofollow noopener",
+      className: "k-u-link k-u-link-primary1",
+      children: props.children
     });
   }
 };
@@ -4874,21 +4840,19 @@ const LinkControls = ({
           openModal(true);
         }
       }
-    }), /* @__PURE__ */ jsx(ModalNext, {
+    }), /* @__PURE__ */ jsx(Modal, {
       onClose: () => {
         openModal(false);
         forceFocus();
       },
       isOpen: modalOpened,
-      headerTitle: /* @__PURE__ */ jsx(Title$1, {
-        modifier: "quaternary",
-        children: translations.link.title
-      }),
       children: ({
         close
       }) => {
-        return /* @__PURE__ */ jsx(ModalNext.Block, {
-          children: /* @__PURE__ */ jsx(Formik, {
+        return /* @__PURE__ */ jsxs(Fragment, {
+          children: [/* @__PURE__ */ jsx(Modal.Title, {
+            children: translations.link.title
+          }), /* @__PURE__ */ jsx(Formik, {
             enableReinitialize: true,
             initialValues: {
               url: entity ? entity.getData().url : "",
@@ -4930,45 +4894,46 @@ const LinkControls = ({
               handleSubmit
             }) => {
               var _a;
-              return /* @__PURE__ */ jsxs(Fragment, {
-                children: [/* @__PURE__ */ jsx("div", {
-                  className: "k-u-margin-bottom-double",
-                  children: (entity == null ? void 0 : entity.get("type")) === "IMAGE" ? /* @__PURE__ */ jsx(ImageLinked, {
-                    src: (_a = entity == null ? void 0 : entity.getData()) == null ? void 0 : _a.src
-                  }) : /* @__PURE__ */ jsxs(Fragment, {
+              return /* @__PURE__ */ jsx("form", {
+                children: /* @__PURE__ */ jsxs(Modal.Content, {
+                  align: "left",
+                  children: [/* @__PURE__ */ jsx("div", {
+                    children: (entity == null ? void 0 : entity.get("type")) === "IMAGE" ? /* @__PURE__ */ jsx(ImageLinked, {
+                      src: (_a = entity == null ? void 0 : entity.getData()) == null ? void 0 : _a.src
+                    }) : /* @__PURE__ */ jsxs(Fragment, {
+                      children: [/* @__PURE__ */ jsx(Label, {
+                        htmlFor: "text",
+                        children: translations.link.text.label
+                      }), /* @__PURE__ */ jsx(InputText, {
+                        name: "text",
+                        disabled: true
+                      })]
+                    })
+                  }), /* @__PURE__ */ jsxs("div", {
                     children: [/* @__PURE__ */ jsx(Label, {
-                      htmlFor: "",
-                      children: translations.link.text.label
+                      htmlFor: "url",
+                      children: translations.image_upload.url
                     }), /* @__PURE__ */ jsx(InputText, {
-                      name: "text",
-                      disabled: true
-                    })]
-                  })
-                }), /* @__PURE__ */ jsxs("div", {
-                  className: "k-u-margin-vertical-double",
-                  children: [/* @__PURE__ */ jsx(Label, {
-                    htmlFor: "url",
-                    children: translations.image_upload.url
-                  }), /* @__PURE__ */ jsx(InputText, {
-                    name: "url",
-                    validate: (value) => {
-                      if (!linkify$2.test(value)) {
-                        return translations.link.error;
+                      name: "url",
+                      validate: (value) => {
+                        if (!linkify$2.test(value)) {
+                          return translations.link.error;
+                        }
                       }
-                    }
+                    })]
+                  }), /* @__PURE__ */ jsx(Modal.Actions, {
+                    children: /* @__PURE__ */ jsx(Button$1, {
+                      size: "large",
+                      type: "submit",
+                      modifier: "helium",
+                      onClick: handleSubmit,
+                      children: translations.submit
+                    })
                   })]
-                }), /* @__PURE__ */ jsx(ModalNext.Actions, {
-                  children: /* @__PURE__ */ jsx(ModalNext.Button, {
-                    size: "large",
-                    type: "button",
-                    modifier: "helium",
-                    onClick: handleSubmit,
-                    children: translations.submit
-                  })
-                })]
+                })
               });
             }
-          })
+          })]
         });
       }
     })]
@@ -5128,124 +5093,125 @@ const VideoControls = ({
           openModal(true);
         }
       }
-    }), /* @__PURE__ */ jsx(ModalNext, {
+    }), /* @__PURE__ */ jsx(Modal, {
       onClose: () => openModal(false),
       isOpen: modalOpened,
-      headerTitle: /* @__PURE__ */ jsx(Title$1, {
-        modifier: "quaternary",
-        children: translations.media_upload.title
-      }),
       children: ({
         close
       }) => {
-        return /* @__PURE__ */ jsx(ModalNext.Block, {
-          children: /* @__PURE__ */ jsx(Formik, {
-            initialValues: {
-              url: ""
-            },
-            validationSchema: Yup.object().shape({
-              url: Yup.string().url(translations.video.invalid_url)
-            }),
-            onSubmit: ({
-              url
-            }) => {
-              onChange(url);
-              oembedError(false);
-              return oembed({
-                key: embedlyApiKey,
-                maxwidth: 640,
+        return /* @__PURE__ */ jsxs(Fragment, {
+          children: [/* @__PURE__ */ jsx(Modal.Title, {
+            children: translations.media_upload.title
+          }), /* @__PURE__ */ jsx(Modal.Form, {
+            align: "left",
+            children: /* @__PURE__ */ jsx(Formik, {
+              initialValues: {
+                url: ""
+              },
+              validationSchema: Yup.object().shape({
+                url: Yup.string().url(translations.video.invalid_url)
+              }),
+              onSubmit: ({
                 url
-              }).then((response) => {
-                if (response.type === "error") {
-                  oembedError(true);
-                  return;
-                }
-                const {
-                  html,
-                  ratio,
-                  height: height2
-                } = getDataForProvider(response);
-                const newState = createMediaBlock(editorState, __spreadValues({
-                  html,
-                  embedRatio: ratio
-                }, height2 && {
-                  height: height2
-                }));
-                if (isPreviousEmptyBlock(newState)) {
-                  const newStateWithoutPreviousEmptyBlock = removePreviousEmptyBlock(newState);
-                  dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
-                } else {
-                  dispatch(updateEditor(newState));
-                }
-                close();
-                setTimeout(() => {
-                  openModal(false);
-                  setEmbedlyHtml(void 0);
-                }, 500);
-              });
-            },
-            children: ({
-              handleSubmit,
-              isSubmitting,
-              values
-            }) => {
-              return /* @__PURE__ */ jsxs(Fragment, {
-                children: [/* @__PURE__ */ jsx(Label, {
-                  className: "k-u-margin-bottom-single",
-                  htmlFor: "url",
-                  children: translations.image_upload.label
-                }), /* @__PURE__ */ jsx(FormikInputWithButton, {
-                  name: "url",
-                  placeholder: "https://",
-                  buttonValue: translations.image_upload.preview,
-                  onClick: () => {
-                    oembedError(false);
-                    oembed({
-                      key: embedlyApiKey,
-                      maxwidth: 640,
-                      url: values.url
-                    }).then((response) => {
-                      if (response.type === "error") {
-                        oembedError(true);
-                        return;
-                      }
-                      const {
-                        html,
-                        ratio,
-                        height: height2 = void 0
-                      } = getDataForProvider(response);
-                      setEmbedRatio(ratio);
-                      setEmbedlyHtml(html);
-                      setHeight(height2);
-                    });
+              }) => {
+                onChange(url);
+                oembedError(false);
+                return oembed({
+                  key: embedlyApiKey,
+                  maxwidth: 640,
+                  url
+                }).then((response) => {
+                  if (response.type === "error") {
+                    oembedError(true);
+                    return;
                   }
-                }), embedlyHtml && /* @__PURE__ */ jsx("div", {
-                  className: "k-u-margin-vertical-single",
-                  children: /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
-                    ratio: embedRatio,
-                    style: __spreadValues({}, height && {
-                      height
-                    }),
-                    children: sanitizeIframeReactComp(parseHtml(embedlyHtml, {
-                      sanitize: false
-                    }))
-                  })
-                }), hasOembedError && /* @__PURE__ */ jsx(Field.ErrorMessage, {
-                  children: translations.video.problem
-                }), embedlyHtml && /* @__PURE__ */ jsx(ModalNext.Actions, {
-                  children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
-                    fit: "fluid"
-                  }) : /* @__PURE__ */ jsx(ModalNext.Button, {
-                    size: "large",
-                    type: "button",
-                    modifier: "helium",
-                    onClick: handleSubmit,
-                    children: translations.submit
-                  })
-                })]
-              });
-            }
-          })
+                  const {
+                    html,
+                    ratio,
+                    height: height2
+                  } = getDataForProvider(response);
+                  const newState = createMediaBlock(editorState, __spreadValues({
+                    html,
+                    embedRatio: ratio
+                  }, height2 && {
+                    height: height2
+                  }));
+                  if (isPreviousEmptyBlock(newState)) {
+                    const newStateWithoutPreviousEmptyBlock = removePreviousEmptyBlock(newState);
+                    dispatch(updateEditor(newStateWithoutPreviousEmptyBlock));
+                  } else {
+                    dispatch(updateEditor(newState));
+                  }
+                  close();
+                  setTimeout(() => {
+                    openModal(false);
+                    setEmbedlyHtml(void 0);
+                  }, 500);
+                });
+              },
+              children: ({
+                handleSubmit,
+                isSubmitting,
+                values
+              }) => {
+                return /* @__PURE__ */ jsxs(Fragment, {
+                  children: [/* @__PURE__ */ jsx(Label, {
+                    className: "k-u-margin-bottom-single",
+                    htmlFor: "url",
+                    children: translations.image_upload.label
+                  }), /* @__PURE__ */ jsx(FormikInputWithButton, {
+                    name: "url",
+                    placeholder: "https://",
+                    buttonValue: translations.image_upload.preview,
+                    onClick: () => {
+                      oembedError(false);
+                      oembed({
+                        key: embedlyApiKey,
+                        maxwidth: 640,
+                        url: values.url
+                      }).then((response) => {
+                        if (response.type === "error") {
+                          oembedError(true);
+                          return;
+                        }
+                        const {
+                          html,
+                          ratio,
+                          height: height2 = void 0
+                        } = getDataForProvider(response);
+                        setEmbedRatio(ratio);
+                        setEmbedlyHtml(html);
+                        setHeight(height2);
+                      });
+                    }
+                  }), embedlyHtml && /* @__PURE__ */ jsx("div", {
+                    className: "k-u-margin-vertical-single",
+                    children: /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
+                      ratio: embedRatio,
+                      style: __spreadValues({}, height && {
+                        height
+                      }),
+                      children: sanitizeIframeReactComp(parseHtml(embedlyHtml, {
+                        sanitize: false
+                      }))
+                    })
+                  }), hasOembedError && /* @__PURE__ */ jsx(Field.ErrorMessage, {
+                    children: translations.video.problem
+                  }), embedlyHtml && /* @__PURE__ */ jsx(Modal.Actions, {
+                    children: isSubmitting ? /* @__PURE__ */ jsx(SubmitLoader, {
+                      size: "large"
+                    }) : /* @__PURE__ */ jsx(Button$1, {
+                      size: "large",
+                      type: "submit",
+                      modifier: "helium",
+                      onClick: handleSubmit,
+                      children: translations.submit
+                    })
+                  })]
+                });
+              }
+            })
+          })]
         });
       }
     })]
@@ -5901,7 +5867,8 @@ const HtmlEditor = ({
     const defaultImage = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><path fill='%23caf4fe' d='M0 0h400v300H0z'/></svg>`;
     const imageRegEx = /<img([\S ]*?) src="[\S]+?"/gm;
     const imageReplacer = `<img $1 src="${defaultImage}"`;
-    html = html.replace(imageRegEx, imageReplacer);
+    html = html.replaceAll(imageRegEx, imageReplacer);
+    html = html.replaceAll("\n", "<br/>");
     if (perfEnabled) {
       html = html.replace(/<(img|iframe)([\S ]+?) (src=")/gm, "<$1 $2 data-$3");
     }
@@ -5917,7 +5884,7 @@ const HtmlEditor = ({
       "kiss-RichText": useRichTextStyle
     }),
     children: /* @__PURE__ */ jsx(Editor$1, {
-      editorState: EditorState.set(html !== null ? createContent(html) : EditorState.createEmpty(), {
+      editorState: EditorState.set(createContent(html), {
         decorator: perfEnabled ? performanceDecorators : lazyDecorators
       }),
       onChange: () => null,
@@ -7043,7 +7010,7 @@ const DraftDisplayer = ({
   }) : /* @__PURE__ */ jsx(EditorProvider, {
     configResponsiveImageHandler,
     children: /* @__PURE__ */ jsx(HtmlEditor, {
-      html: text,
+      html: text.replaceAll("\n", "<br/>"),
       perfEnabled,
       useRichTextStyle
     })
