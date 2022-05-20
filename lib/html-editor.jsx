@@ -1,19 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
+import { domElementHelper, parseHtml } from "@kisskissbankbank/kitten";
+import classNames from "classnames";
 import {
   convertToRaw,
   DefaultDraftBlockRenderMap,
   Editor,
   EditorState,
 } from "draft-js";
-import { parseHtml, domElementHelper } from "@kisskissbankbank/kitten";
+import { Map } from "immutable";
+import PropTypes from "prop-types";
+import React from "react";
 import converter, {
   lazyDecorators,
   performanceDecorators,
 } from "./converter/html-convert-to-draft";
 import editionConverter from "./converter/html-convert-to-draft-editor";
-import { Map } from "immutable";
-import classNames from "classnames";
 
 const blockRenderMap = Map({
   paragraph: {
@@ -53,7 +53,8 @@ const HtmlEditor = ({ html, perfEnabled, useRichTextStyle }) => {
     const defaultImage = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><path fill='%23caf4fe' d='M0 0h400v300H0z'/></svg>`;
     const imageRegEx = /<img([\S ]*?) src="[\S]+?"/gm;
     const imageReplacer = `<img $1 src="${defaultImage}"`;
-    html = html.replace(imageRegEx, imageReplacer);
+    html = html.replaceAll(imageRegEx, imageReplacer);
+    html = html.replaceAll("\n", "<br/>");
 
     // This is a temporary fix to disable display of images and iFrames
     // while the SSR doesn’t compile DraftJS contents,
@@ -72,12 +73,9 @@ const HtmlEditor = ({ html, perfEnabled, useRichTextStyle }) => {
   return (
     <section className={classNames({ "kiss-RichText": useRichTextStyle })}>
       <Editor
-        editorState={EditorState.set(
-          html !== null ? createContent(html) : EditorState.createEmpty(),
-          {
-            decorator: perfEnabled ? performanceDecorators : lazyDecorators,
-          }
-        )}
+        editorState={EditorState.set(createContent(html), {
+          decorator: perfEnabled ? performanceDecorators : lazyDecorators,
+        })}
         onChange={() => null}
         blockRenderMap={DefaultDraftBlockRenderMap.merge(blockRenderMap)}
         blockStyleFn={(contentBlock) => {

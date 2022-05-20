@@ -95,7 +95,7 @@ const DraftDisplayer = ({
   ) : (
     <EditorProvider configResponsiveImageHandler={configResponsiveImageHandler}>
       <HtmlEditor
-        html={text}
+        html={text.replaceAll("\n", "<br/>")}
         perfEnabled={perfEnabled}
         useRichTextStyle={useRichTextStyle}
       />
