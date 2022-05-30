@@ -7010,7 +7010,7 @@ const DraftDisplayer = ({
   }) : /* @__PURE__ */ jsx(EditorProvider, {
     configResponsiveImageHandler,
     children: /* @__PURE__ */ jsx(HtmlEditor, {
-      html: text.replaceAll("\n", "<br/>"),
+      html: text == null ? void 0 : text.replaceAll("\n", "<br/>"),
       perfEnabled,
       useRichTextStyle
     })
