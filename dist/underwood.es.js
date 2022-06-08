@@ -5019,6 +5019,8 @@ const VideoEditor = ({
   const reactComp = parseHtml(embedlyHtml || html, {
     sanitize: false
   });
+  if (!reactComp)
+    return null;
   return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
     ratio: embedRatio || 67.5,
     className: "kiss-Draft__media",
@@ -5044,6 +5046,8 @@ const VideoDisplayer = (props) => {
   const reactComp = parseHtml(embedlyHtml || html, {
     sanitize: false
   });
+  if (!reactComp)
+    return null;
   return /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
     ratio: embedRatio || 67.5,
     className: "kiss-Draft__media-read",
@@ -5502,6 +5506,8 @@ const Media = (props) => {
   const reactComp = parseHtml(html, {
     sanitize: false
   });
+  if (!reactComp)
+    return null;
   return /* @__PURE__ */ jsx(LazyLoader, {
     children: /* @__PURE__ */ jsx(ResponsiveIframeContainer, {
       ratio: 67.5,
