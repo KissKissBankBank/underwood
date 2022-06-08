@@ -3,7 +3,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import LexicalContentEditable from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import LexicalOnChangePlugin from "@lexical/react/LexicalOnChangePlugin";
-import LexicalPlainTextPlugin from "@lexical/react/LexicalPlainTextPlugin";
+import LexicalRichTextPlugin from "@lexical/react/LexicalRichTextPlugin";
 import { $getRoot, $getSelection } from "lexical";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
@@ -16,17 +16,6 @@ const theme = {
   placeholder: "editor-placeholder",
   paragraph: "editor-paragraph",
 };
-
-// When the editor changes, you can get notified via the
-// LexicalOnChangePlugin!
-function onChange(editorState) {
-  editorState.read(() => {
-    // Read the contents of the EditorState here.
-    const root = $getRoot();
-    const selection = $getSelection();
-    console.log(root);
-  });
-}
 
 // Lexical React plugins are React components, which makes them
 // highly composable. Furthermore, you can lazy load plugins if
@@ -56,17 +45,28 @@ function EditorDev() {
     onError,
   };
 
+  function onChange(editorState) {
+    editorState.read(() => {
+      // Read the contents of the EditorState here.
+      const root = $getRoot();
+      const selection = $getSelection();
+      // console.log(root);
+    });
+  }
+
   return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <Controls />
-      <LexicalPlainTextPlugin
-        contentEditable={<LexicalContentEditable />}
-        placeholder={<div>Enter some text...</div>}
-      />
-      <LexicalOnChangePlugin onChange={onChange} />
-      <HistoryPlugin />
-      <MyCustomAutoFocusPlugin />
-    </LexicalComposer>
+    <>
+      <LexicalComposer initialConfig={initialConfig}>
+        <Controls />
+        <LexicalRichTextPlugin
+          contentEditable={<LexicalContentEditable />}
+          placeholder={<div>Enter some text...</div>}
+        />
+        <LexicalOnChangePlugin onChange={onChange} />
+        <HistoryPlugin />
+        <MyCustomAutoFocusPlugin />
+      </LexicalComposer>
+    </>
   );
 }
 

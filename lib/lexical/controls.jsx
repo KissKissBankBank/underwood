@@ -1,35 +1,32 @@
 import { Button } from "@kisskissbankbank/kitten";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import {
-  $getSelection,
-  COMMAND_PRIORITY_LOW,
-  FORMAT_TEXT_COMMAND,
-} from "lexical";
-import React, { useEffect } from "react";
+import LexicalOnChangePlugin from "@lexical/react/LexicalOnChangePlugin";
+import { $getSelection, FORMAT_TEXT_COMMAND } from "lexical";
+import React, { useState } from "react";
 
 const Controls = () => {
+  const [isSelectionItalic, setSelectionItalic] = useState(false);
   const [editor] = useLexicalComposerContext();
-  useEffect(() => {
-    editor.registerCommand(
-      FORMAT_TEXT_COMMAND,
-      (payload) => {
-        const node = $getSelection().anchor.getNode();
-        node.setFormat(payload);
-        return true;
-      },
-      COMMAND_PRIORITY_LOW
-    );
-  });
+
+  const onChange = () => {
+    editor.getEditorState().read(() => {
+      const selection = $getSelection();
+      if (!selection) return;
+      const currentNode = selection.focus.getNode();
+      setSelectionItalic(currentNode.hasFormat("italic"));
+    });
+  };
   return (
     <div className="k-u-margin-bottom-double">
       <Button
+        active={isSelectionItalic}
         onClick={() => {
-          console.log("CLICK");
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
         }}
       >
         ITALIC
       </Button>
+      <LexicalOnChangePlugin onChange={onChange} />
     </div>
   );
 };
