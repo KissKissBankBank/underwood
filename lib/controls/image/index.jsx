@@ -66,7 +66,7 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
   const onClick = () => {
     setTimeout(
       () => dispatch(updateEditor(moveSelectionTo(editorState, blockKey))),
-      1
+      10
     );
   };
   return (
