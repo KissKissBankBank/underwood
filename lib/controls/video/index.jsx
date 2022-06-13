@@ -32,7 +32,9 @@ const VideoEditor = ({ contentState, entityKey, blockKey }) => {
   const onClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+    setTimeout(() => {
+      dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+    }, 1);
   };
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
   const reactComp = parseHtml(embedlyHtml || html, { sanitize: false });

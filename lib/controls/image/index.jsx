@@ -1,4 +1,4 @@
-import { DropdownMenu, Modal, Title } from "@kisskissbankbank/kitten";
+import { DropdownMenu, Modal } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { AtomicBlockUtils, EditorState } from "draft-js";
 import { Formik } from "formik";
@@ -57,10 +57,17 @@ const LinkManager = ({ url, entityKey }) => {
 const ImageEditor = ({ contentState, entityKey, blockKey }) => {
   const [{ editorState, translations }, dispatch] = useContext(EditorContext);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
+  const hasFocus = hasEntityFocus(
+    editorState.getCurrentContent(),
+    editorState,
+    entityKey
+  );
   const { src, url, description } = contentState.getEntity(entityKey).getData();
   const onClick = () => {
-    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+    setTimeout(
+      () => dispatch(updateEditor(moveSelectionTo(editorState, blockKey))),
+      1
+    );
   };
   return (
     <StyledImage className="kiss-Draft__image" onClick={onClick}>
