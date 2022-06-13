@@ -378,7 +378,7 @@ object-assign
 `,"<br/>"),perfEnabled:r,useRichTextStyle:t})}):ew(e);Hr.propTypes={text:y.default.oneOfType([y.default.object,y.default.string]).isRequired,useRichTextStyle:y.default.bool,isDisabled:y.default.bool,perfEnabled:y.default.bool,compact:y.default.bool},Hr.defaultProps={useRichTextStyle:!1,isDisabled:!1,perfEnabled:!1,compact:!1};const tw=Ie.createGlobalStyle`
   .DraftEditor-wrapper {
       .public-DraftEditorPlaceholder-root {
-        ${l.TYPOGRAPHY.fontStyles.bold};
+        ${l.TYPOGRAPHY.fontStyles[700]};
         font-size: ${l.pxToRem(28)};
         @media (min-width: ${l.pxToRem(l.ScreenConfig.M.min)}) {
           font-size: ${l.pxToRem(36)};
@@ -389,7 +389,7 @@ object-assign
       }
   }
   .DraftEditor-editorContainer__title {
-    ${l.TYPOGRAPHY.fontStyles.bold};
+    ${l.TYPOGRAPHY.fontStyles[700]};
     font-size: ${l.pxToRem(28)};
     @media (min-width: ${l.pxToRem(l.ScreenConfig.M.min)}) {
       font-size: ${l.pxToRem(36)};
