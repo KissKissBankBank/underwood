@@ -4510,14 +4510,14 @@ const ImageEditor = ({
     translations
   }, dispatch] = useContext(EditorContext);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
+  const hasFocus = hasEntityFocus(editorState.getCurrentContent(), editorState, entityKey);
   const {
     src,
     url,
     description
   } = contentState.getEntity(entityKey).getData();
   const onClick = () => {
-    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+    setTimeout(() => dispatch(updateEditor(moveSelectionTo(editorState, blockKey))), 1);
   };
   return /* @__PURE__ */ jsxs(StyledImage, {
     className: "kiss-Draft__image",
@@ -5013,7 +5013,9 @@ const VideoEditor = ({
   const onClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+    setTimeout(() => {
+      dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+    }, 1);
   };
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
   const reactComp = parseHtml(embedlyHtml || html, {
