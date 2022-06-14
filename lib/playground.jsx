@@ -11,6 +11,7 @@ import {
   updateEditor,
   updateEditorRef,
 } from "./context";
+import keyBindingHandler from "./handlers/key-binding";
 import keyCommandHandler from "./handlers/key-command";
 import returnHandler from "./handlers/return";
 import { EditorStyle, styleBlock } from "./style";
@@ -113,6 +114,7 @@ const Playground = React.forwardRef(
             editorState={editorState}
             placeholder={placeholder}
             readOnly={isDisabled || disabled}
+            keyBindingFn={keyBindingHandler(editorState)}
             handleKeyCommand={keyCommandHandler(onChange)}
             handleReturn={returnHandler(onChange)}
             onChange={onChange}

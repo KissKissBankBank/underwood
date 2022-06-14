@@ -29,7 +29,7 @@ var __objRest = (source, exclude) => {
     }
   return target;
 };
-import { EditorState, DefaultDraftBlockRenderMap, Modifier, RichUtils, AtomicBlockUtils, CompositeDecorator, convertToRaw, Editor as Editor$1, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, convertFromHTML as convertFromHTML$1 } from "draft-js";
+import { EditorState, DefaultDraftBlockRenderMap, Modifier, RichUtils, AtomicBlockUtils, CompositeDecorator, convertToRaw, Editor as Editor$1, ContentState, SelectionState, convertFromRaw, ContentBlock, genKey, getDefaultKeyBinding, convertFromHTML as convertFromHTML$1 } from "draft-js";
 export { convertToRaw } from "draft-js";
 import PropTypes from "prop-types";
 import require$$0, { createContext, useReducer, useContext, useEffect, useState, useRef } from "react";
@@ -6179,8 +6179,21 @@ const createMediaBlock = (editorState, data = {}) => {
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   return AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ");
 };
+const KEYCODE_BACKSPACE = 8;
+const KEYCODE_ARROWUP = 38;
+const KEYCODE_ARROWDOWN = 40;
+const keyBindingHandler = (editorState) => (e) => {
+  const currentEntity = getEntity(editorState);
+  if (![KEYCODE_BACKSPACE, KEYCODE_ARROWUP, KEYCODE_ARROWDOWN].includes(e.keyCode) && isImageBlock(currentEntity)) {
+    return "new-text-block";
+  }
+  return getDefaultKeyBinding(e);
+};
 var keyCommandHandler = (onChange) => (command, editorState) => {
   const currentEntity = getEntity(editorState);
+  if (command === "new-text-block" && isImageBlock(currentEntity)) {
+    return "handled";
+  }
   if (command === "backspace" && isImageBlock(currentEntity) || isVideoBlock(currentEntity)) {
     onChange(forceSelection(editorState));
     return "handled";
@@ -6450,6 +6463,7 @@ const Playground = require$$0.forwardRef((_g, ref) => {
         editorState,
         placeholder: placeholder2,
         readOnly: isDisabled || disabled,
+        keyBindingFn: keyBindingHandler(editorState),
         handleKeyCommand: keyCommandHandler(onChange),
         handleReturn: returnHandler(onChange),
         onChange,
