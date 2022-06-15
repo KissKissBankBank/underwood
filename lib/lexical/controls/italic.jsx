@@ -1,10 +1,10 @@
-import { Button } from "@kisskissbankbank/kitten";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import LexicalOnChangePlugin from "@lexical/react/LexicalOnChangePlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { $getSelection, FORMAT_TEXT_COMMAND } from "lexical";
 import React, { useState } from "react";
+import Button from "./button";
 
-const Controls = () => {
+const Italic = () => {
   const [isSelectionItalic, setSelectionItalic] = useState(false);
   const [editor] = useLexicalComposerContext();
 
@@ -17,8 +17,10 @@ const Controls = () => {
     });
   };
   return (
-    <div className="k-u-margin-bottom-double">
+    <>
       <Button
+        key="format_italic"
+        icon="format_italic"
         active={isSelectionItalic}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
@@ -26,9 +28,9 @@ const Controls = () => {
       >
         ITALIC
       </Button>
-      <LexicalOnChangePlugin onChange={onChange} />
-    </div>
+      <OnChangePlugin onChange={onChange} />
+    </>
   );
 };
 
-export default Controls;
+export default Italic;
