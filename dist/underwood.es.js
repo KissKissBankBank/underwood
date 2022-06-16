@@ -4959,6 +4959,7 @@ const oembed = (customConfig) => {
 };
 const calculRatio = ({ height, width }) => (height / width * 100).toPrecision(4);
 const getDataForProvider = (response) => {
+  var _a, _b;
   if (response.type === "video" || response.type === "rich" && response.provider_name !== "SoundCloud") {
     return {
       ratio: calculRatio({
@@ -4966,6 +4967,12 @@ const getDataForProvider = (response) => {
         width: response.width
       }),
       html: response.html
+    };
+  }
+  if (((_a = response == null ? void 0 : response.url) == null ? void 0 : _a.includes("/shorts/")) && ((_b = response == null ? void 0 : response.url) == null ? void 0 : _b.includes("youtube."))) {
+    return {
+      ratio: 67.5,
+      html: `<iframe class="embedly-embed" src="${encodeURI(response.url.replace("/shorts/", "/embed/"))}" width="100%" height="auto" title="YouTube shorts embed" allow="autoplay; fullscreen" allowfullscreen="true"></iframe>`
     };
   }
   switch (response.provider_name) {
