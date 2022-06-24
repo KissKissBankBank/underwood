@@ -21,7 +21,6 @@ function MyCustomAutoFocusPlugin() {
 }
 
 const onChange = (editorState) => {
-  console.log(editorState.toJSON());
   editorState.read(() => {
     // Read the contents of the EditorState here.
     const root = $getRoot();

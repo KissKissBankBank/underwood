@@ -12,6 +12,11 @@ const EditorDev = () => {
           <Controls.Italic />
           <Controls.Bold />
         </Controls.Group>
+        <Controls.Group>
+          <Controls.Left />
+          <Controls.Center />
+          <Controls.Right />
+        </Controls.Group>
       </Controls>
       <Playground />
     </Editor>
