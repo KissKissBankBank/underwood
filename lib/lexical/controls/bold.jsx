@@ -4,8 +4,8 @@ import { $getSelection, FORMAT_TEXT_COMMAND } from "lexical";
 import React, { useState } from "react";
 import Button from "./button";
 
-const Italic = () => {
-  const [isSelectionItalic, setSelectionItalic] = useState(false);
+const Bold = () => {
+  const [isSelectionBold, setSelectionBold] = useState(false);
   const [editor] = useLexicalComposerContext();
 
   const onChange = () => {
@@ -13,17 +13,17 @@ const Italic = () => {
       const selection = $getSelection();
       if (!selection) return;
       const currentNode = selection.focus.getNode();
-      setSelectionItalic(currentNode.hasFormat("italic"));
+      setSelectionBold(currentNode.hasFormat("bold"));
     });
   };
   return (
     <>
       <Button
-        key="format_italic"
-        icon="format_italic"
-        active={isSelectionItalic}
+        key="format_bold"
+        icon="format_bold"
+        active={isSelectionBold}
         onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
         }}
       />
       <OnChangePlugin onChange={onChange} />
@@ -31,4 +31,4 @@ const Italic = () => {
   );
 };
 
-export default Italic;
+export default Bold;

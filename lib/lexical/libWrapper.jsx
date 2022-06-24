@@ -10,6 +10,7 @@ const EditorDev = () => {
       <Controls>
         <Controls.Group style={{ marginLeft: 20 }}>
           <Controls.Italic />
+          <Controls.Bold />
         </Controls.Group>
       </Controls>
       <Playground />
