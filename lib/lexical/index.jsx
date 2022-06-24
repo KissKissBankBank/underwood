@@ -2,6 +2,7 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { EditorProvider } from "./context";
+import { theme } from "./theme";
 
 const defaultTranslations = {
   button_link: {
@@ -89,13 +90,6 @@ const defaultTranslations = {
     tooltip_action_label: "More informations",
     button_loading: "Loading",
   },
-};
-
-const theme = {
-  ltr: "ltr",
-  rtl: "rtl",
-  placeholder: "editor-placeholder",
-  paragraph: "editor-paragraph",
 };
 
 const initialConfig = {

@@ -6,6 +6,7 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import classNames from "classnames";
 import { $getRoot, $getSelection } from "lexical";
 import React, { useEffect } from "react";
+import TreeViewPlugin from "./dev/plugins/TreeViewPlugin";
 import { EditorStyle } from "./style";
 
 function MyCustomAutoFocusPlugin() {
@@ -20,11 +21,11 @@ function MyCustomAutoFocusPlugin() {
 }
 
 const onChange = (editorState) => {
+  console.log(editorState.toJSON());
   editorState.read(() => {
     // Read the contents of the EditorState here.
     const root = $getRoot();
     const selection = $getSelection();
-    // console.log(root);
   });
 };
 
@@ -46,6 +47,7 @@ const Playground = ({ className = "", withoutBorder = false }) => {
       <OnChangePlugin onChange={onChange} />
       <HistoryPlugin />
       <MyCustomAutoFocusPlugin />
+      <TreeViewPlugin />
     </>
   );
 };
