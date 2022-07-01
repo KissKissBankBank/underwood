@@ -120,6 +120,14 @@ const Form = ({
               onClick={() => {
                 setImageUrl(values.url);
               }}
+              onKeyPress={(event) => {
+                if(event.key === 'Enter'){
+                  event.preventDefault()
+                  event.stopPropagation()
+                  event.target.nextSibling.focus();
+                  event.target.nextSibling.click();
+                }
+              }}
             />
 
             <ErrorMessage name="url">
