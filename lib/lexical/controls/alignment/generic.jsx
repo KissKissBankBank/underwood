@@ -35,10 +35,8 @@ const Generic = ({ disabled, label, onChange }) => {
             const selection = $getSelection();
             if (!selection) return;
             const currentNode = selection.focus.getNode();
-            setSelection(
-              (!currentNode?.getStyle() && label === "left") ||
-                currentNode?.getStyle() === label
-            );
+            if (!currentNode.getStyle) return;
+            setSelection(currentNode?.getStyle() === label);
           });
         }}
       />

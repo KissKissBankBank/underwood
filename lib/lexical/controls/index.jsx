@@ -8,6 +8,8 @@ import Left from "./alignment/left";
 import Right from "./alignment/right";
 import Bold from "./bold";
 import Italic from "./italic";
+import MediaControls from "./media";
+import TagsList from "./tags-list";
 import Toolbar from "./toolbar";
 
 const Controls = ({ whiteMode, disabled, className, centered, children }) => {
@@ -35,6 +37,8 @@ Controls.Bold = Bold;
 Controls.Left = Left;
 Controls.Right = Right;
 Controls.Center = Center;
+Controls.TagList = TagsList;
+Controls.Media = MediaControls;
 // Style
 Controls.Group = Actions;
 

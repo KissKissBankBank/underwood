@@ -7,6 +7,8 @@ import classNames from "classnames";
 import { $getRoot, $getSelection } from "lexical";
 import React, { useEffect } from "react";
 import TreeViewPlugin from "./dev/plugins/TreeViewPlugin";
+import EmoticonPlugin from "./plugins/emoticon";
+import MediaPlugin from "./plugins/media";
 import { EditorStyle } from "./style";
 
 function MyCustomAutoFocusPlugin() {
@@ -46,6 +48,8 @@ const Playground = ({ className = "", withoutBorder = false }) => {
       <OnChangePlugin onChange={onChange} />
       <HistoryPlugin />
       <MyCustomAutoFocusPlugin />
+      <EmoticonPlugin />
+      <MediaPlugin />
       <TreeViewPlugin />
     </>
   );

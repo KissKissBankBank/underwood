@@ -1,7 +1,3 @@
-import React, { useContext, useEffect } from "react";
-import PropTypes from "prop-types";
-import styled, { css } from "styled-components";
-import { RichUtils } from "draft-js";
 import {
   ArrowIcon,
   COLORS,
@@ -13,8 +9,12 @@ import {
   Title3Icon,
   Title4Icon,
 } from "@kisskissbankbank/kitten";
-import { EditorContext, updateEditor } from "../context";
+import { RichUtils } from "draft-js";
+import PropTypes from "prop-types";
+import React, { useContext, useEffect } from "react";
+import styled, { css } from "styled-components";
 import { StyledButton } from "../components/button";
+import { EditorContext, updateEditor } from "../context";
 
 const Wrapper = styled(Details)`
   summary.Editor__toolbar__tagListToggle {

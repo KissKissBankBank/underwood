@@ -1,7 +1,10 @@
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { HeadingNode } from "@lexical/rich-text";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { EditorProvider } from "./context";
+import { EmoticonNode } from "./nodes/EmoticonNode";
+import { MediaNode } from "./nodes/MediaNode";
 import { theme } from "./theme";
 
 const defaultTranslations = {
@@ -96,6 +99,7 @@ const initialConfig = {
   namespace: "u",
   theme,
   onError: (error) => console.error(error),
+  nodes: [HeadingNode, EmoticonNode, MediaNode],
 };
 
 const Editor = ({
