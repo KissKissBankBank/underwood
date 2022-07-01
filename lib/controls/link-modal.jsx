@@ -151,7 +151,6 @@ const LinkModal = ({ onClose, isOpen, onChange }) => {
                         <InputText
                           name="url"
                           validate={(value) => {
-                            if (!value) return
                             if (!linkify.test(value)) {
                               return translations.link.error;
                             }
