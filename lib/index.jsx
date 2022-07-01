@@ -49,6 +49,7 @@ const defaultTranslations = {
     button_url: "From a URL",
     modify_image: "Change image",
     modify_label: "Modify the image description",
+    remove_image: "Remove the image",
     add_label: "Add a description to the image",
     label: "URL:",
     url: "URL:",

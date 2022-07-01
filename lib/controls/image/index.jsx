@@ -1,4 +1,4 @@
-import { DropdownMenu, Modal } from "@kisskissbankbank/kitten";
+import { DropdownMenu, Modal, EditIconNext, LinkIconNext, CrossIconNext, GarbageIcon } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { AtomicBlockUtils, EditorState } from "draft-js";
 import { Formik } from "formik";
@@ -57,6 +57,7 @@ const LinkManager = ({ url, entityKey }) => {
 const ImageEditor = ({ contentState, entityKey, blockKey }) => {
   const [{ editorState, translations }, dispatch] = useContext(EditorContext);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showLinkModal, setShowLinkModal] = useState(false);
   const hasFocus = hasEntityFocus(
     editorState.getCurrentContent(),
     editorState,
@@ -75,6 +76,10 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
       1
     );
   };
+
+  const handleRemoveImage = () => {
+  };
+
   return (
     <div className="u-Draft__image" onClick={onClick}>
       <div
@@ -91,29 +96,33 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
           contentEditable={false}
           onClose={() => setMenuVisible(false)}
         >
-          <DropdownMenu.Button onClick={() => setShowUpdateModal(true)}>
+          <DropdownMenu.Button onClick={() => setShowUpdateModal(true)} icon={<EditIconNext />}>
             {isEmpty(description)
               ? translations.image_upload.add_label
               : translations.image_upload.modify_label}
           </DropdownMenu.Button>
           {!url && (
-            <DropdownMenu.Button onClick={() => setShowLinkModal(true)}>
-              TODO CHANGERE Ajouter un lien
+            <DropdownMenu.Button onClick={() => setShowLinkModal(true)} icon={<LinkIconNext />}>
+              {translations.link.title}
             </DropdownMenu.Button>
           )}
           {!!url && (
             <>
               <DropdownMenu.Separator />
-              <DropdownMenu.Button onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                dispatch(
-                  updateEditor(removeDataFromEntity(editorState, entityKey, ["url"]))
-                );
-              }}>
+              <DropdownMenu.Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  dispatch(
+                    updateEditor(removeDataFromEntity(editorState, entityKey, ["url"]))
+                  );
+                }}
+                icon={<CrossIconNext />}
+              >
                 {translations.link.button.delete}
               </DropdownMenu.Button>
               <DropdownMenu.Link
+                icon={<LinkIconNext />}
                 href={url}
                 target="_blank"
                 rel="noopener"
@@ -132,6 +141,9 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
               </DropdownMenu.Link>
             </>
           )}
+          <DropdownMenu.Button onClick={handleRemoveImage} icon={<GarbageIcon />}>
+            {translations.image_upload.remove_image}
+          </DropdownMenu.Button>
         </DropdownMenu>
       </div>
       {showUpdateModal && (
