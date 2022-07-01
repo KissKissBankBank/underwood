@@ -1,4 +1,4 @@
-import { DropdownMenu, Modal, Title } from "@kisskissbankbank/kitten";
+import { DropdownMenu, Modal } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { AtomicBlockUtils, EditorState } from "draft-js";
 import { Formik } from "formik";
@@ -20,13 +20,48 @@ import {
 import LinkInline from "../link-inline";
 import Form from "./form";
 import Update from "./update";
-import LinkModal from '../link-modal'
+
+const StyledImage = styled.div`
+  position: relative;
+  width: 100%;
+
+  img {
+    display: inline;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .image-menu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    height: 100%;
+  }
+`;
+
+const LinkManager = ({ url, entityKey }) => {
+  const [{ editorState }, dispatch] = useContext(EditorContext);
+  return (
+    <LinkInline
+      url={url}
+      onDelete={() => {
+        dispatch(
+          updateEditor(removeDataFromEntity(editorState, entityKey, ["url"]))
+        );
+      }}
+    />
+  );
+};
 
 const ImageEditor = ({ contentState, entityKey, blockKey }) => {
   const [{ editorState, translations }, dispatch] = useContext(EditorContext);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [showLinkModal, setShowLinkModal] = useState(false);
-  const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
+  const hasFocus = hasEntityFocus(
+    editorState.getCurrentContent(),
+    editorState,
+    entityKey
+  );
   const { src, url, description } = contentState.getEntity(entityKey).getData();
   const [isMenuVisible, setMenuVisible] = useState(hasFocus);
 
@@ -35,7 +70,10 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
   }, [hasFocus, showUpdateModal, showLinkModal])
 
   const onClick = () => {
-    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+    setTimeout(
+      () => dispatch(updateEditor(moveSelectionTo(editorState, blockKey))),
+      1
+    );
   };
   return (
     <div className="u-Draft__image" onClick={onClick}>

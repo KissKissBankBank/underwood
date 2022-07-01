@@ -9,6 +9,7 @@ import { sanitizeIframeReactComp } from "../utils";
 const Media = (props) => {
   const { html } = props.contentState.getEntity(props.entityKey).getData();
   const reactComp = parseHtml(html, { sanitize: false });
+  if (!reactComp) return null;
   return (
     <LazyLoader>
       <ResponsiveIframeContainer ratio={67.5}>

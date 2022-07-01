@@ -1,10 +1,9 @@
 import {
+  Button,
   Field,
   Modal,
   parseHtml,
   ResponsiveIframeContainer,
-  Title,
-  Button,
 } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { Formik } from "formik";
@@ -33,10 +32,13 @@ const VideoEditor = ({ contentState, entityKey, blockKey }) => {
   const onClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+    setTimeout(() => {
+      dispatch(updateEditor(moveSelectionTo(editorState, blockKey)));
+    }, 1);
   };
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
   const reactComp = parseHtml(embedlyHtml || html, { sanitize: false });
+  if (!reactComp) return null;
   return (
     <ResponsiveIframeContainer
       ratio={embedRatio || 67.5}
@@ -60,6 +62,7 @@ const VideoDisplayer = (props) => {
     .getEntity(props.entityKey)
     .getData();
   const reactComp = parseHtml(embedlyHtml || html, { sanitize: false });
+  if (!reactComp) return null;
   return (
     <ResponsiveIframeContainer
       ratio={embedRatio || 67.5}

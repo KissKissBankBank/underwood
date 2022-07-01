@@ -161,14 +161,135 @@ const LinkControls = ({ disabled, onChange }) => {
           }
         }}
       />
-      <LinkModal
+      <Modal
         onClose={() => {
           openModal(false);
           forceFocus();
         }}
         isOpen={modalOpened}
-        onChange={onChange}
-      />
+        zIndex={1000}
+      >
+        {({ close }) => {
+          return (
+            <>
+              <Modal.Title>{translations.link.title}</Modal.Title>
+              <Formik
+                enableReinitialize
+                initialValues={{
+                  url: entity ? entity.getData().url : "",
+                  text: textToShow(),
+                }}
+                onSubmit={({ url }) => {
+                  const link = linkify.match(url);
+                  const contentState = editorState.getCurrentContent();
+                  onChange();
+                  if (entity) {
+                    if (entity?.get("type") === "IMAGE") {
+                      const newImageContentState = contentState.mergeEntityData(
+                        entityKey,
+                        { url: link[0].url }
+                      );
+                      dispatch(
+                        updateEditor(
+                          EditorState.push(
+                            editorState,
+                            newImageContentState,
+                            "change-block-data"
+                          )
+                        )
+                      );
+                    } else {
+                      const newContentState = contentState.replaceEntityData(
+                        entityKey,
+                        { url: link[0].url }
+                      );
+                      dispatch(
+                        updateEditor(
+                          EditorState.push(
+                            editorState,
+                            newContentState,
+                            "change-block-data"
+                          )
+                        )
+                      );
+                    }
+                  } else {
+                    const contentStateWithEntity = contentState.createEntity(
+                      "LINK",
+                      "MUTABLE",
+                      { url: link[0].url }
+                    );
+                    const entityKey =
+                      contentStateWithEntity.getLastCreatedEntityKey();
+                    const newEditorState = EditorState.set(editorState, {
+                      currentContent: contentStateWithEntity,
+                    });
+
+                    dispatch(
+                      updateEditor(
+                        RichUtils.toggleLink(
+                          newEditorState,
+                          newEditorState.getSelection(),
+                          entityKey
+                        )
+                      )
+                    );
+                  }
+                  close();
+                  openModal(false);
+                  setTimeout(() => editorRef.current.focus(), 0);
+                }}
+              >
+                {({ handleSubmit }) => {
+                  return (
+                    <form>
+                      <Modal.Content align="left">
+                        <div>
+                          {entity?.get("type") === "IMAGE" ? (
+                            <ImageLinked src={entity?.getData()?.src} />
+                          ) : (
+                            <>
+                              <Label htmlFor="text">
+                                {translations.link.text.label}
+                              </Label>
+                              <InputText name="text" disabled />
+                            </>
+                          )}
+                        </div>
+
+                        <div>
+                          <Label htmlFor="url">
+                            {translations.image_upload.url}
+                          </Label>
+                          <InputText
+                            name="url"
+                            validate={(value) => {
+                              if (!linkify.test(value)) {
+                                return translations.link.error;
+                              }
+                            }}
+                          />
+                        </div>
+
+                        <Modal.Actions>
+                          <Button
+                            size="large"
+                            type="submit"
+                            modifier="helium"
+                            onClick={handleSubmit}
+                          >
+                            {translations.submit}
+                          </Button>
+                        </Modal.Actions>
+                      </Modal.Content>
+                    </form>
+                  );
+                }}
+              </Formik>
+            </>
+          );
+        }}
+      </Modal>
     </>
   );
 };

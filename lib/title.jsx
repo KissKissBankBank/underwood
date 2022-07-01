@@ -9,7 +9,7 @@ import { TYPOGRAPHY, pxToRem, ScreenConfig } from '@kisskissbankbank/kitten'
 const TitleStyle = createGlobalStyle`
   .DraftEditor-wrapper {
       .public-DraftEditorPlaceholder-root {
-        ${TYPOGRAPHY.fontStyles.bold};
+        ${TYPOGRAPHY.fontStyles['700']};
         font-size: ${pxToRem(28)};
         @media (min-width: ${pxToRem(ScreenConfig.M.min)}) {
           font-size: ${pxToRem(36)};
@@ -20,7 +20,7 @@ const TitleStyle = createGlobalStyle`
       }
   }
   .DraftEditor-editorContainer__title {
-    ${TYPOGRAPHY.fontStyles.bold};
+    ${TYPOGRAPHY.fontStyles['700']};
     font-size: ${pxToRem(28)};
     @media (min-width: ${pxToRem(ScreenConfig.M.min)}) {
       font-size: ${pxToRem(36)};
