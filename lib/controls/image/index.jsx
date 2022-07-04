@@ -1,11 +1,17 @@
-import { DropdownMenu, Modal, EditIconNext, LinkIconNext, CrossIconNext, GarbageIcon } from "@kisskissbankbank/kitten";
+import {
+  CrossIconNext,
+  DropdownMenu,
+  EditIconNext,
+  GarbageIcon,
+  LinkIconNext,
+  Modal,
+} from "@kisskissbankbank/kitten";
 import classNames from "classnames";
-import { AtomicBlockUtils, EditorState } from "draft-js";
+import { AtomicBlockUtils, EditorState, SelectionState } from "draft-js";
 import { Formik } from "formik";
 import isEmpty from "lodash/fp/isEmpty";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
 import * as Yup from "yup";
 import ButtonEditor from "../../components/button";
 import { EditorContext, updateEditor } from "../../context";
@@ -14,45 +20,13 @@ import {
   hasEntityFocus,
   isPreviousEmptyBlock,
   moveSelectionTo,
+  removeCurrentBlock,
   removeDataFromEntity,
   removePreviousEmptyBlock,
 } from "../../utils";
-import LinkInline from "../link-inline";
 import Form from "./form";
+import LinkImageModal from "./link";
 import Update from "./update";
-
-const StyledImage = styled.div`
-  position: relative;
-  width: 100%;
-
-  img {
-    display: inline;
-    height: auto;
-    max-width: 100%;
-  }
-
-  .image-menu {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    top: 0;
-    height: 100%;
-  }
-`;
-
-const LinkManager = ({ url, entityKey }) => {
-  const [{ editorState }, dispatch] = useContext(EditorContext);
-  return (
-    <LinkInline
-      url={url}
-      onDelete={() => {
-        dispatch(
-          updateEditor(removeDataFromEntity(editorState, entityKey, ["url"]))
-        );
-      }}
-    />
-  );
-};
 
 const ImageEditor = ({ contentState, entityKey, blockKey }) => {
   const [{ editorState, translations }, dispatch] = useContext(EditorContext);
@@ -67,8 +41,8 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
   const [isMenuVisible, setMenuVisible] = useState(hasFocus);
 
   useEffect(() => {
-    setMenuVisible(hasFocus)
-  }, [hasFocus, showUpdateModal, showLinkModal])
+    setMenuVisible(hasFocus);
+  }, [hasFocus, showUpdateModal, showLinkModal]);
 
   const onClick = () => {
     setTimeout(
@@ -77,7 +51,28 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
     );
   };
 
-  const handleRemoveImage = () => {
+  const handleRemoveImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const previousBlock = editorState
+      .getCurrentContent()
+      .getBlockBefore(blockKey);
+    const previousKey = editorState.getCurrentContent().getKeyBefore(blockKey);
+    const nextKey = editorState.getCurrentContent().getKeyAfter(blockKey);
+    removeCurrentBlock(editorState, blockKey);
+    let newSelectionState = SelectionState.createEmpty(previousKey || nextKey);
+    newSelectionState = newSelectionState.merge({
+      anchorOffset: previousBlock?.getLength() ?? 0,
+      focusOffset: previousBlock?.getLength() ?? 0,
+    });
+    dispatch(
+      updateEditor(
+        EditorState.forceSelection(
+          removeCurrentBlock(editorState, blockKey),
+          newSelectionState
+        )
+      )
+    );
   };
 
   return (
@@ -96,13 +91,19 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
           contentEditable={false}
           onClose={() => setMenuVisible(false)}
         >
-          <DropdownMenu.Button onClick={() => setShowUpdateModal(true)} icon={<EditIconNext />}>
+          <DropdownMenu.Button
+            onClick={() => setShowUpdateModal(true)}
+            icon={<EditIconNext />}
+          >
             {isEmpty(description)
               ? translations.image_upload.add_label
               : translations.image_upload.modify_label}
           </DropdownMenu.Button>
           {!url && (
-            <DropdownMenu.Button onClick={() => setShowLinkModal(true)} icon={<LinkIconNext />}>
+            <DropdownMenu.Button
+              onClick={() => setShowLinkModal(true)}
+              icon={<LinkIconNext />}
+            >
               {translations.link.title}
             </DropdownMenu.Button>
           )}
@@ -114,7 +115,9 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
                   e.preventDefault();
                   e.stopPropagation();
                   dispatch(
-                    updateEditor(removeDataFromEntity(editorState, entityKey, ["url"]))
+                    updateEditor(
+                      removeDataFromEntity(editorState, entityKey, ["url"])
+                    )
                   );
                 }}
                 icon={<CrossIconNext />}
@@ -135,13 +138,15 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
                 }}
                 className="k-u-ellipsis"
               >
-                {translations.link.button.visit}
-                {' '}
+                {translations.link.button.visit}{" "}
                 <span className="k-u-ellipsis">{url}</span>
               </DropdownMenu.Link>
             </>
           )}
-          <DropdownMenu.Button onClick={handleRemoveImage} icon={<GarbageIcon />}>
+          <DropdownMenu.Button
+            onClick={handleRemoveImage}
+            icon={<GarbageIcon />}
+          >
             {translations.image_upload.remove_image}
           </DropdownMenu.Button>
         </DropdownMenu>
@@ -154,14 +159,14 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
         />
       )}
       {showLinkModal && (
-        <LinkModal
+        <LinkImageModal
+          entityKey={entityKey}
+          url={url}
           onClose={() => {
             setShowLinkModal(false);
           }}
           isOpen
-          /*onChange={onChange}*/
         />
-
       )}
     </div>
   );
@@ -225,7 +230,11 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
           }
         }}
       />
-      <Modal onClose={() => openModal(false)} isOpen={modalOpened} zIndex={1000}>
+      <Modal
+        onClose={() => openModal(false)}
+        isOpen={modalOpened}
+        zIndex={1000}
+      >
         {({ close }) => {
           return (
             <>
