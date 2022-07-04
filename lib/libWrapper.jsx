@@ -34,6 +34,7 @@ const EditorDev = () => {
         <Playground
           className="k-u-margin-top-double"
           onChange={(text) => {
+            console.log(text);
             setBody(JSON.stringify(text));
           }}
         />
