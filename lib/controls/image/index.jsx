@@ -24,8 +24,8 @@ import {
   removeDataFromEntity,
   removePreviousEmptyBlock,
 } from "../../utils";
-import LinkModal from "../link-modal";
 import Form from "./form";
+import LinkImageModal from "./link";
 import Update from "./update";
 
 const ImageEditor = ({ contentState, entityKey, blockKey }) => {
@@ -159,12 +159,13 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
         />
       )}
       {showLinkModal && (
-        <LinkModal
+        <LinkImageModal
+          entityKey={entityKey}
+          url={url}
           onClose={() => {
             setShowLinkModal(false);
           }}
           isOpen
-          /*onChange={onChange}*/
         />
       )}
     </div>
