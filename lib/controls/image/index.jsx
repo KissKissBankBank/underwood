@@ -2,7 +2,7 @@ import {
   CrossIconNext,
   DropdownMenu,
   EditIconNext,
-  GarbageIcon,
+  GarbageIconNext,
   LinkIconNext,
   Modal,
 } from "@kisskissbankbank/kitten";
@@ -136,16 +136,18 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
                   e.stopPropagation();
                   window.open(url, "_blank").focus();
                 }}
-                className="k-u-ellipsis"
+                textProps={{
+                  className: 'k-u-ellipsis'
+                }}
               >
                 {translations.link.button.visit}{" "}
-                <span className="k-u-ellipsis">{url}</span>
+                {url}
               </DropdownMenu.Link>
             </>
           )}
           <DropdownMenu.Button
             onClick={handleRemoveImage}
-            icon={<GarbageIcon />}
+            icon={<GarbageIconNext />}
           >
             {translations.image_upload.remove_image}
           </DropdownMenu.Button>
