@@ -1,11 +1,17 @@
-import { DropdownMenu, Modal } from "@kisskissbankbank/kitten";
+import {
+  CrossIconNext,
+  DropdownMenu,
+  EditIconNext,
+  GarbageIconNext,
+  LinkIconNext,
+  Modal,
+} from "@kisskissbankbank/kitten";
 import classNames from "classnames";
-import { AtomicBlockUtils, EditorState } from "draft-js";
+import { AtomicBlockUtils, EditorState, SelectionState } from "draft-js";
 import { Formik } from "formik";
 import isEmpty from "lodash/fp/isEmpty";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
 import * as Yup from "yup";
 import ButtonEditor from "../../components/button";
 import { EditorContext, updateEditor } from "../../context";
@@ -14,83 +20,138 @@ import {
   hasEntityFocus,
   isPreviousEmptyBlock,
   moveSelectionTo,
+  removeCurrentBlock,
   removeDataFromEntity,
   removePreviousEmptyBlock,
 } from "../../utils";
-import LinkInline from "../link-inline";
 import Form from "./form";
+import LinkImageModal from "./link";
 import Update from "./update";
-
-const StyledImage = styled.div`
-  position: relative;
-  width: 100%;
-
-  img {
-    display: inline;
-    height: auto;
-    max-width: 100%;
-  }
-
-  .image-menu {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    top: 0;
-    height: 100%;
-  }
-`;
-
-const LinkManager = ({ url, entityKey }) => {
-  const [{ editorState }, dispatch] = useContext(EditorContext);
-  return (
-    <LinkInline
-      url={url}
-      onDelete={() => {
-        dispatch(
-          updateEditor(removeDataFromEntity(editorState, entityKey, ["url"]))
-        );
-      }}
-    />
-  );
-};
 
 const ImageEditor = ({ contentState, entityKey, blockKey }) => {
   const [{ editorState, translations }, dispatch] = useContext(EditorContext);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showLinkModal, setShowLinkModal] = useState(false);
   const hasFocus = hasEntityFocus(
     editorState.getCurrentContent(),
     editorState,
     entityKey
   );
   const { src, url, description } = contentState.getEntity(entityKey).getData();
+  const [isMenuVisible, setMenuVisible] = useState(hasFocus);
+
+  useEffect(() => {
+    setMenuVisible(hasFocus);
+  }, [hasFocus, showUpdateModal, showLinkModal]);
+
   const onClick = () => {
     setTimeout(
       () => dispatch(updateEditor(moveSelectionTo(editorState, blockKey))),
       1
     );
   };
+
+  const handleRemoveImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const previousBlock = editorState
+      .getCurrentContent()
+      .getBlockBefore(blockKey);
+    const previousKey = editorState.getCurrentContent().getKeyBefore(blockKey);
+    const nextKey = editorState.getCurrentContent().getKeyAfter(blockKey);
+    removeCurrentBlock(editorState, blockKey);
+    let newSelectionState = SelectionState.createEmpty(previousKey || nextKey);
+    newSelectionState = newSelectionState.merge({
+      anchorOffset: previousBlock?.getLength() ?? 0,
+      focusOffset: previousBlock?.getLength() ?? 0,
+    });
+    dispatch(
+      updateEditor(
+        EditorState.forceSelection(
+          removeCurrentBlock(editorState, blockKey),
+          newSelectionState
+        )
+      )
+    );
+  };
+
   return (
-    <StyledImage className="kiss-Draft__image" onClick={onClick}>
+    <div className="u-Draft__image" onClick={onClick}>
       <div
-        className={classNames("kiss-Draft__image-focus", {
-          "kiss-Draft__image-focus__focused": hasFocus,
+        className={classNames("u-Draft__image-focus", {
+          "u-Draft__image-focus__focused": hasFocus,
         })}
       >
-        <div className="k-u-align-center">
-          <img src={getImageUrl(src)} alt={description} />
-          <DropdownMenu
-            className="image-menu"
-            menuPosition="center"
-            positionedButton
+        <img src={getImageUrl(src)} alt={description} />
+        <DropdownMenu
+          className="u-Draft__image__menu"
+          menuPosition="center"
+          positionedButton
+          open={isMenuVisible}
+          contentEditable={false}
+          onClose={() => setMenuVisible(false)}
+        >
+          <DropdownMenu.Button
+            onClick={() => setShowUpdateModal(true)}
+            icon={<EditIconNext />}
           >
-            <DropdownMenu.Button onClick={() => setShowUpdateModal(true)}>
-              {isEmpty(description)
-                ? translations.image_upload.add_label
-                : translations.image_upload.modify_label}
+            {isEmpty(description)
+              ? translations.image_upload.add_label
+              : translations.image_upload.modify_label}
+          </DropdownMenu.Button>
+          {!url && (
+            <DropdownMenu.Button
+              onClick={() => setShowLinkModal(true)}
+              icon={<LinkIconNext />}
+            >
+              {translations.link.title}
             </DropdownMenu.Button>
-          </DropdownMenu>
-        </div>
-        {hasFocus && !!url && <LinkManager url={url} entityKey={entityKey} />}
+          )}
+          {!!url && (
+            <>
+              <DropdownMenu.Separator />
+              <DropdownMenu.Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  dispatch(
+                    updateEditor(
+                      removeDataFromEntity(editorState, entityKey, ["url"])
+                    )
+                  );
+                }}
+                icon={<CrossIconNext />}
+              >
+                {translations.link.button.delete}
+              </DropdownMenu.Button>
+              <DropdownMenu.Link
+                icon={<LinkIconNext />}
+                href={url}
+                target="_blank"
+                rel="noopener"
+                tag="a"
+                color="font1"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(url, "_blank").focus();
+                }}
+                textProps={{
+                  className: 'k-u-ellipsis'
+                }}
+              >
+                {translations.link.button.visit}{" "}
+                {url}
+              </DropdownMenu.Link>
+            </>
+          )}
+          <DropdownMenu.Button
+            onClick={handleRemoveImage}
+            icon={<GarbageIconNext />}
+          >
+            {translations.image_upload.remove_image}
+          </DropdownMenu.Button>
+        </DropdownMenu>
       </div>
       {showUpdateModal && (
         <Update
@@ -99,26 +160,32 @@ const ImageEditor = ({ contentState, entityKey, blockKey }) => {
           description={description}
         />
       )}
-    </StyledImage>
+      {showLinkModal && (
+        <LinkImageModal
+          entityKey={entityKey}
+          url={url}
+          onClose={() => {
+            setShowLinkModal(false);
+          }}
+          isOpen
+        />
+      )}
+    </div>
   );
 };
 
 const ImageDisplayer = ({ contentState, entityKey }) => {
   const { src, url, description } = contentState.getEntity(entityKey).getData();
   return (
-    <StyledImage className="kiss-Draft__image-read">
+    <div className="u-Draft__image-read">
       {url ? (
         <a href={url} target="_blank" rel="nofollow noopener">
-          <div className="k-u-align-center">
-            <img src={getImageUrl(src)} alt={description} />
-          </div>
+          <img src={getImageUrl(src)} alt={description} />
         </a>
       ) : (
-        <div className="k-u-align-center">
-          <img src={getImageUrl(src)} alt={description} />
-        </div>
+        <img src={getImageUrl(src)} alt={description} />
       )}
-    </StyledImage>
+    </div>
   );
 };
 
@@ -165,7 +232,11 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
           }
         }}
       />
-      <Modal onClose={() => openModal(false)} isOpen={modalOpened}>
+      <Modal
+        onClose={() => openModal(false)}
+        isOpen={modalOpened}
+        zIndex={1000}
+      >
         {({ close }) => {
           return (
             <>

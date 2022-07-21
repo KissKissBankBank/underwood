@@ -1,9 +1,9 @@
-import { AlertBox, Modal, Button } from "@kisskissbankbank/kitten";
-import { EditorState } from "draft-js";
+import { AlertBox, Button, Modal } from "@kisskissbankbank/kitten";
 import { Form, Formik } from "formik";
 import React, { useContext, useEffect } from "react";
 import { InputText, Label } from "../../components/form";
 import { EditorContext, updateDisabled, updateEditor } from "../../context";
+import { addDataToEntity } from "../../utils";
 
 const Update = ({ onClose, description, entityKey }) => {
   const [{ editorState, translations }, dispatch] = useContext(EditorContext);
@@ -13,7 +13,7 @@ const Update = ({ onClose, description, entityKey }) => {
   }, []);
 
   return (
-    <Modal isOpen onClose={onClose}>
+    <Modal isOpen onClose={onClose} zIndex={1000}>
       {({ close }) => {
         return (
           <>
@@ -24,21 +24,9 @@ const Update = ({ onClose, description, entityKey }) => {
             <Formik
               initialValues={{ description }}
               onSubmit={({ description }) => {
-                const contentState = editorState.getCurrentContent();
-                const contentWithNewData = contentState.mergeEntityData(
-                  entityKey,
-                  { description }
-                );
-                const userSelection = editorState.getSelection();
-
-                const newEditor = EditorState.push(
-                  editorState,
-                  contentWithNewData,
-                  "change-block-data"
-                );
                 dispatch(
                   updateEditor(
-                    EditorState.forceSelection(newEditor, userSelection)
+                    addDataToEntity(editorState, entityKey, { description })
                   )
                 );
                 close();
