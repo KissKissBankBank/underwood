@@ -1,3 +1,4 @@
+import { RichText } from "@kisskissbankbank/kitten";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -9,7 +10,6 @@ import React, { useEffect } from "react";
 import TreeViewPlugin from "./dev/plugins/TreeViewPlugin";
 import EmoticonPlugin from "./plugins/emoticon";
 import MediaPlugin from "./plugins/media";
-import { EditorStyle } from "./style";
 
 function MyCustomAutoFocusPlugin() {
   const [editor] = useLexicalComposerContext();
@@ -33,7 +33,7 @@ const onChange = (editorState) => {
 const Playground = ({ className = "", withoutBorder = false }) => {
   return (
     <>
-      <EditorStyle
+      <RichText
         className={classNames("u-Editor k-u-margin-top-double", className, {
           "u-Editor--hasBorder": !withoutBorder,
         })}
@@ -44,7 +44,7 @@ const Playground = ({ className = "", withoutBorder = false }) => {
             <div className="editor-placeholder">Enter some text...</div>
           }
         />
-      </EditorStyle>
+      </RichText>
       <OnChangePlugin onChange={onChange} />
       <HistoryPlugin />
       <MyCustomAutoFocusPlugin />
