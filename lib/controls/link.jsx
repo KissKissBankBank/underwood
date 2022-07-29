@@ -24,11 +24,6 @@ import LinkModal from "./link-modal";
 const linkify = linkifyIt();
 linkify.tlds(tlds);
 
-const Wrapper = styled.div`
-  display: inline-block;
-  position: relative;
-`;
-
 const Link = ({ contentState, entityKey, children }) => {
   const [isVisible, setVisible] = useState(false);
   const { url } = contentState.getEntity(entityKey).getData();
@@ -38,7 +33,7 @@ const Link = ({ contentState, entityKey, children }) => {
     setTimeout(() => setVisible(hasFocus && focus), 0);
   }, [focus, editorState]);
   return (
-    <Wrapper aria-live="assertive">
+    <span className="u-Draft__link_inline">
       <a
         href={url}
         target="_blank"
@@ -83,7 +78,7 @@ const Link = ({ contentState, entityKey, children }) => {
           }}
         />
       )}
-    </Wrapper>
+    </span>
   );
 };
 

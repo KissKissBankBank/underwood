@@ -23,24 +23,6 @@ import LinkInline from "./link-inline";
 const linkify = linkifyIt();
 linkify.tlds(tlds);
 
-const ImageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  img {
-    max-height: ${pxToRem(200)};
-    max-width: 100%;
-  }
-`;
-
-
-const ImageLinked = ({ src }) => {
-  return (
-    <ImageWrapper>
-      <img src={getImageUrl(src)} alt="" />
-    </ImageWrapper>
-  );
-};
-
 const LinkModal = ({ onClose, isOpen, onChange }) => {
   const [
     { editorState, editorRef, translations, disabled: contextDisabled },
@@ -133,7 +115,9 @@ const LinkModal = ({ onClose, isOpen, onChange }) => {
                     <Modal.Content align="left">
                       <div>
                         {entity?.get("type") === "IMAGE" ? (
-                          <ImageLinked src={entity?.getData()?.src} />
+                          <div className="u-Draft__image_wrapper">
+                            <img src={getImageUrl(entity?.getData()?.src)} alt="" />
+                          </div>
                         ) : (
                           <>
                             <Label htmlFor="text">
