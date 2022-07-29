@@ -1,12 +1,4 @@
-import {
-  ArrowContainer,
-  Button,
-  COLORS,
-  Modal,
-  pxToRem,
-  ScreenConfig,
-  Text,
-} from "@kisskissbankbank/kitten";
+import { Button, Modal } from "@kisskissbankbank/kitten";
 import { EditorState, Modifier, RichUtils } from "draft-js";
 import { Formik } from "formik";
 import linkifyIt from "linkify-it";
@@ -28,15 +20,6 @@ import LinkInline from "./link-inline";
 
 const linkify = linkifyIt();
 linkify.tlds(tlds);
-
-const Wrapper = styled.div`
-  position: relative;
-  margin: ${pxToRem(30)} 0;
-
-  @media (min-width: ${pxToRem(ScreenConfig.S.min)}) {
-    display: inline-block;
-  }
-`;
 
 const StyledButtonLink = ({ href, children }) => {
   return (
@@ -67,7 +50,7 @@ const ButtonLink = ({ contentState, entityKey, children }) => {
   }, [focus, editorState]);
 
   return (
-    <Wrapper aria-live="assertive">
+    <div className="u-Draft__link_button">
       <StyledButtonLink href={url}>{children}</StyledButtonLink>
 
       {isVisible && (
@@ -105,7 +88,7 @@ const ButtonLink = ({ contentState, entityKey, children }) => {
           }}
         />
       )}
-    </Wrapper>
+    </div>
   );
 };
 
@@ -129,9 +112,9 @@ export const readDecorator = {
   component: (props) => {
     const { url } = props.contentState.getEntity(props.entityKey).getData();
     return (
-      <Wrapper>
+      <div className="u-Draft__link_button">
         <StyledButtonLink href={url}>{props.children}</StyledButtonLink>
-      </Wrapper>
+      </div>
     );
   },
 };
