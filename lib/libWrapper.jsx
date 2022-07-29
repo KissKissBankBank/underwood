@@ -12,7 +12,7 @@ const EditorDev = () => {
     <>
       <Editor>
         <Controls>
-          <Controls.Group style={{ marginLeft: 20 }}>
+          <Controls.Group>
             <Controls.TagList
               tags={["header-two", "header-three", "unstyled"]}
             />
@@ -25,6 +25,11 @@ const EditorDev = () => {
           <Controls.Group>
             <Controls.Link />
             <Controls.Button />
+          </Controls.Group>
+          <Controls.Group>
+            <Controls.Left />
+            <Controls.Center />
+            <Controls.Right />
           </Controls.Group>
           <Controls.Group>
             <Controls.Image onUpload={console.log} />

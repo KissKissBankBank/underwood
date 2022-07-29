@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import tlds from "tlds";
-import ButtonEditor from "../components/button";
 import { InputText, Label } from "../components/form";
 import { EditorContext, updateEditor } from "../context";
 import {
@@ -56,7 +55,7 @@ const LinkModal = ({ onClose, isOpen, onChange }) => {
   };
 
   return (
-    <Modal zIndex={1000} onClose={onClose} isOpen={isOpen}>
+    <Modal zIndex={1000} onClose={onClose} isOpen={isOpen} as={React.Fragment}>
       {({ close }) => {
         return (
           <>

@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import tlds from "tlds";
-import ButtonEditor from "../components/button";
+import EditorButton from "../components/button";
 import { InputText, Label } from "../components/form";
 import { EditorContext, updateEditor } from "../context";
 import {
@@ -150,7 +150,7 @@ const LinkControls = ({ disabled, onChange }) => {
     !contextDisabled && !disabled && (entity || !isEmtpy(textToShow()));
   return (
     <>
-      <ButtonEditor
+      <EditorButton
         icon="link"
         disabled={!active}
         onToggle={() => {

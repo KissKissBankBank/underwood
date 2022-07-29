@@ -13,7 +13,7 @@ import isEmpty from "lodash/fp/isEmpty";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useState } from "react";
 import * as Yup from "yup";
-import ButtonEditor from "../../components/button";
+import EditorButton from "../../components/button";
 import { EditorContext, updateEditor } from "../../context";
 import {
   getImageUrl,
@@ -221,7 +221,7 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
   }, [modalOpened]);
   return (
     <>
-      <ButtonEditor
+      <EditorButton
         icon="image"
         disabled={contextDisabled || disabled}
         onToggle={() => {
@@ -236,6 +236,7 @@ const ImageControls = ({ disabled, onUpload, onChange, errorMessage }) => {
         onClose={() => openModal(false)}
         isOpen={modalOpened}
         zIndex={1000}
+        as={React.Fragment}
       >
         {({ close }) => {
           return (

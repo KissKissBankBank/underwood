@@ -1,4 +1,3 @@
-import { Paragraph, pxToRem } from "@kisskissbankbank/kitten";
 import classNames from "classnames";
 import { convertToRaw, Editor as DraftEditor, EditorState } from "draft-js";
 import PropTypes from "prop-types";
@@ -23,7 +22,7 @@ const Wrapper = styled.div`
 
   &.u-Editor--hasBorder {
     border: var(--border);
-    padding: ${pxToRem(15)};
+    padding: var(--spacing-5);
 
     &.u-Editor--focused,
     &:focus-within {
@@ -99,11 +98,8 @@ const Playground = React.forwardRef(
         onClick={handleWrapperClick}
       >
         <EditorStyle />
-        <Paragraph
+        <section
           data-test-id={props["data-test-id"]}
-          tag="section"
-          modifier="tertiary"
-          noMargin
           className={classNames("u-Editor__root", {
             "u-Editor__compact": compact,
           })}
@@ -129,7 +125,7 @@ const Playground = React.forwardRef(
             blockStyleFn={styleBlock({ isDisabled, useRichTextStyle, compact })}
             blockRenderMap={customBlockRenderMap}
           />
-        </Paragraph>
+        </section>
       </Wrapper>
     );
   }

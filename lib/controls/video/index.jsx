@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import * as Yup from "yup";
 import { oembed } from "../../api/embedly";
-import ButtonEditor from "../../components/button";
+import EditorButton from "../../components/button";
 import { InputWithButton, Label, SubmitLoader } from "../../components/form";
 import { EditorContext, updateEditor } from "../../context";
 import {
@@ -105,7 +105,7 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
 
   return (
     <>
-      <ButtonEditor
+      <EditorButton
         icon="video"
         disabled={contextDisabled || disabled}
         onToggle={() => {
@@ -116,7 +116,12 @@ const VideoControls = ({ disabled, onChange, embedlyApiKey }) => {
           }
         }}
       />
-      <Modal onClose={() => openModal(false)} isOpen={modalOpened} zIndex={1000}>
+      <Modal
+        onClose={() => openModal(false)}
+        isOpen={modalOpened}
+        zIndex={1000}
+        as={React.Fragment}
+      >
         {({ close }) => {
           return (
             <>
