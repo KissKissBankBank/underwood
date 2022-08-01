@@ -16,7 +16,7 @@ import UnorderedList from "./controls/unordered-list";
 import Video from "./controls/video";
 import { EditorBar, ScrollableContainer } from '@kisskissbankbank/kitten'
 
-const Controls = ({ whiteMode, disabled, centered, className, ...props }) => {
+const Controls = ({ as, whiteMode, disabled, centered, className, ...props }) => {
   const [, dispatch] = useContext(EditorContext);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Controls = ({ whiteMode, disabled, centered, className, ...props }) => {
   return (
     <ScrollableContainer
       shadowColor={`var(--color-grey-${whiteMode ? 0 : 2}00)`}
-      as="div"
+      as={as}
     >
       <EditorBar
         className={classNames(className, 'k-u-flex-grow-single')}
@@ -60,11 +60,13 @@ Controls.propTypes = {
   whiteMode: PropTypes.bool,
   centered: PropTypes.bool,
   className: PropTypes.string,
+  as: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 Controls.defaultProps = {
   disabled: false,
   whiteMode: false,
   centered: false,
+  as: 'div',
 };
 
 export default Controls;
