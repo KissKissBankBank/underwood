@@ -14,9 +14,9 @@ import Quote from "./controls/quote";
 import TagList from "./controls/tags-list";
 import UnorderedList from "./controls/unordered-list";
 import Video from "./controls/video";
-import { EditorBar } from '@kisskissbankbank/kitten'
+import { EditorBar, ScrollableContainer } from '@kisskissbankbank/kitten'
 
-const Controls = ({ whiteMode, disabled, centered, ...props }) => {
+const Controls = ({ whiteMode, disabled, centered, className, ...props }) => {
   const [, dispatch] = useContext(EditorContext);
 
   useEffect(() => {
@@ -24,12 +24,18 @@ const Controls = ({ whiteMode, disabled, centered, ...props }) => {
   }, [disabled]);
 
   return (
-    <EditorBar
-      theme={whiteMode ? 'white' : 'grey'}
-      align={centered ? 'center' : 'start'}
-      disabled={disabled}
-      {...props}
-    />
+    <ScrollableContainer
+      shadowColor={`var(--color-grey-${whiteMode ? 0 : 2}00)`}
+      as="div"
+    >
+      <EditorBar
+        className={classNames(className, 'k-u-flex-grow-single')}
+        theme={whiteMode ? 'white' : 'grey'}
+        align={centered ? 'center' : 'start'}
+        disabled={disabled}
+        {...props}
+      />
+    </ScrollableContainer>
   );
 };
 
