@@ -53,11 +53,13 @@
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "qs": "^6.11.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "styled-components": "^5.3.5",
     "tlds": "^1.231.0",
     "yup": "^0.32.11"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "browserslist": {
     "production": [
