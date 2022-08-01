@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect } from "react";
-import Actions from "./components/actions";
 import { EditorContext, updateDisabled } from "./context";
 import Center from "./controls/alignment/center";
 import Left from "./controls/alignment/left";
@@ -13,11 +12,11 @@ import Italic from "./controls/italic";
 import Link from "./controls/link";
 import Quote from "./controls/quote";
 import TagList from "./controls/tags-list";
-import Toolbar from "./controls/toolbar";
 import UnorderedList from "./controls/unordered-list";
 import Video from "./controls/video";
+import { EditorBar, ScrollableContainer } from '@kisskissbankbank/kitten'
 
-const Controls = ({ whiteMode, disabled, className, centered, children }) => {
+const Controls = ({ as, whiteMode, disabled, centered, className, ...props }) => {
   const [, dispatch] = useContext(EditorContext);
 
   useEffect(() => {
@@ -25,14 +24,18 @@ const Controls = ({ whiteMode, disabled, className, centered, children }) => {
   }, [disabled]);
 
   return (
-    <Toolbar
-      className={classNames(className, {
-        "Editor-Toolbar__whiteMode": whiteMode,
-        "Editor-Toolbar__centered": centered,
-      })}
+    <ScrollableContainer
+      shadowColor={`var(--color-grey-${whiteMode ? 0 : 2}00)`}
+      as={as}
     >
-      {children}
-    </Toolbar>
+      <EditorBar
+        className={classNames(className, 'k-u-flex-grow-single')}
+        theme={whiteMode ? 'white' : 'grey'}
+        align={centered ? 'center' : 'start'}
+        disabled={disabled}
+        {...props}
+      />
+    </ScrollableContainer>
   );
 };
 
@@ -50,18 +53,20 @@ Controls.Link = Link;
 Controls.Button = ButtonLinkControls;
 Controls.Video = Video;
 // Style
-Controls.Group = Actions;
+Controls.Group = EditorBar.Group;
 
 Controls.propTypes = {
   disabled: PropTypes.bool,
   whiteMode: PropTypes.bool,
   centered: PropTypes.bool,
   className: PropTypes.string,
+  as: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 Controls.defaultProps = {
   disabled: false,
   whiteMode: false,
   centered: false,
+  as: 'div',
 };
 
 export default Controls;

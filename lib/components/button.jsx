@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { EditorContext } from "../context";
 import {
   BoldIcon,
@@ -15,31 +14,7 @@ import {
   LinkIcon,
   ButtonIcon,
 } from "../controls/icons";
-import {
-  Button as KittenButton,
-  COLORS,
-  pxToRem,
-} from "@kisskissbankbank/kitten";
-
-export const StyledButton = styled(KittenButton)`
-  &.Editor__toolbar__button--large {
-    width: ${pxToRem(80)};
-  }
-
-  &:not(:last-of-type) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  &:not(:first-of-type) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  &[aria-checked="true"] {
-    z-index: 2;
-    position: relative;
-  }
-`;
+import { EditorBar } from "@kisskissbankbank/kitten";
 
 const iconComponents = {
   format_bold: BoldIcon,
@@ -74,19 +49,16 @@ const Button = ({
   };
 
   return (
-    <StyledButton
+    <EditorBar.Button
       disabled={disabled}
       active={active && focus}
-      aria-checked={active && focus}
       onMouseDown={handleMouseDown}
       title={title}
       aria-label={title}
-      fit="icon"
-      tag={tag}
-      type={tag === 'button' ? tag : null}
+      as={tag}
     >
       <Icon />
-    </StyledButton>
+    </EditorBar.Button>
   );
 };
 

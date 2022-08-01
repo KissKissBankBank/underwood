@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import tlds from "tlds";
-import ButtonEditor from "../components/button";
+import EditorButton from "../components/button";
 import { InputText, Label } from "../components/form";
 import { EditorContext, updateEditor } from "../context";
 import {
@@ -151,9 +151,9 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
 
   return (
     <>
-      <ButtonEditor
+      <EditorButton
         icon="button_link"
-        className="Editor__toolbar__button--large"
+        wide
         disabled={disabled}
         onToggle={() => {
           if (modalOpened) {
@@ -170,6 +170,7 @@ const ButtonLinkControls = ({ disabled, onChange }) => {
         }}
         isOpen={modalOpened}
         zIndex={1000}
+        as={React.Fragment}
       >
         {({ close }) => {
           return (
