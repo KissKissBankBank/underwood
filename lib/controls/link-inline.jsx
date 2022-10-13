@@ -1,10 +1,5 @@
 import React, { useContext } from "react";
-import {
-  ArrowContainer,
-  COLORS,
-  pxToRem,
-  Text,
-} from "@kisskissbankbank/kitten";
+import { ArrowContainer, pxToRem, Text } from "@kisskissbankbank/kitten";
 import styled from "styled-components";
 import { EditorContext } from "../context";
 
@@ -13,7 +8,7 @@ const Wrapper = styled(ArrowContainer)`
   position: absolute;
   min-width: max-content;
   padding: 0 ${pxToRem(20)};
-  background-color: ${COLORS.background1};
+  background-color: var(--color-grey-000);
   margin-top: ${pxToRem(0)};
   transition: opacity 0.1s ease-out, margin-top 0.1s ease-out;
   z-index: 99999;

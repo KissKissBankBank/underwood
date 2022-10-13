@@ -1,6 +1,5 @@
 import {
   Button,
-  COLORS,
   KissKissLoadingAnimation,
   VisuallyHidden,
 } from "@kisskissbankbank/kitten";
@@ -19,7 +18,7 @@ export default ({ className, ...props }) => {
       className={classNames("k-u-cursor-not-allowed", className)}
       {...props}
     >
-      <KissKissLoadingAnimation color={COLORS.background1} />
+      <KissKissLoadingAnimation color="var(--color-grey-000)" />
       <VisuallyHidden>{translations.button_loading}</VisuallyHidden>
     </Button>
   );

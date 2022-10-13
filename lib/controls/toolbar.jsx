@@ -1,11 +1,11 @@
 import styled, { css } from 'styled-components'
-import { COLORS, pxToRem, ScreenConfig } from '@kisskissbankbank/kitten'
+import { pxToRem, ScreenConfig } from '@kisskissbankbank/kitten'
 
 const Toolbar = styled.div`
   display: flex;
   overflow-y: scroll;
   padding: ${pxToRem(12)} 0;
-  background-color: ${COLORS.background3};
+  background-color: var(--color-grey-200);
 
   > :last-child {
     margin-right: 0;
@@ -17,7 +17,7 @@ const Toolbar = styled.div`
   }
 
   &.Editor-Toolbar__whiteMode {
-    background-color: ${COLORS.background1};
+    background-color: var(--color-grey-000);
   }
 
   &.Editor-Toolbar__centered {
@@ -27,7 +27,7 @@ const Toolbar = styled.div`
   ${({ whiteMode }) =>
     whiteMode &&
     css`
-      background-color: ${COLORS.background1};
+      background-color: var(--color-grey-000);
     `}
 `
 
