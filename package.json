@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@braintree/sanitize-url": "^6.0.0",
-    "@kisskissbankbank/kitten": "^11.7.0",
+    "@kisskissbankbank/kitten": "^12.13.0",
     "classnames": "^2.3.1",
     "draft-convert": "^2.1.12",
     "draft-js": "^0.11.7",
@@ -58,8 +58,8 @@
     "yup": "^0.32.11"
   },
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^17.0.2 || ^18.0.0",
+    "react-dom": "^17.0.2 || ^18.0.0"
   },
   "browserslist": {
     "production": [
@@ -80,6 +80,8 @@
     "docusaurus-plugin-sass": "0.2.2",
     "prettier": "2.7.1",
     "sass": "1.54.3",
-    "vite": "3.0.4"
+    "vite": "3.0.4",
+    "react": "^17.0.2 || ^18.0.0",
+    "react-dom": "^17.0.2 || ^18.0.0"
   }
 }
