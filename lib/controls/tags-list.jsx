@@ -4,7 +4,6 @@ import styled, { css } from "styled-components";
 import { RichUtils } from "draft-js";
 import {
   ArrowIcon,
-  COLORS,
   Details,
   ParagraphIcon,
   pxToRem,
@@ -56,7 +55,7 @@ const Wrapper = styled(Details)`
     padding: 0;
 
     & li:last-child .Editor__toolbar__tagsList__Item {
-      border-bottom: var(--border, ${pxToRem(1)} solid ${COLORS.line1});
+      border-bottom: var(--border, ${pxToRem(1)} solid var(--color-grey-300);
     }
 
     .Editor__toolbar__tagsList__Item {
@@ -65,8 +64,8 @@ const Wrapper = styled(Details)`
       padding: ${pxToRem(15)} ${pxToRem(20)};
       background-color: var(--color-grey-000);
       border: ${pxToRem(1)} solid transparent;
-      border-left: var(--border, ${pxToRem(1)} solid ${COLORS.line1});
-      border-right: var(--border, ${pxToRem(1)} solid ${COLORS.line1});
+      border-left: var(--border, ${pxToRem(1)} solid var(--color-grey-300);
+      border-right: var(--border, ${pxToRem(1)} solid var(--color-grey-300);
       text-align: left;
       cursor: pointer;
       transition: border var(--transition), background-color var(--transition);
@@ -87,7 +86,7 @@ const Wrapper = styled(Details)`
       &[aria-selected="true"] {
         svg,
         path {
-          fill: ${COLORS.primary1};
+          fill: var(--color-primary-500);
         }
       }
 

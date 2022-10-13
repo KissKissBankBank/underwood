@@ -1,12 +1,4 @@
-import {
-  ArrowContainer,
-  Button,
-  COLORS,
-  Modal,
-  pxToRem,
-  ScreenConfig,
-  Text,
-} from "@kisskissbankbank/kitten";
+import { Button, Modal, pxToRem, ScreenConfig } from "@kisskissbankbank/kitten";
 import { EditorState, Modifier, RichUtils } from "draft-js";
 import { Formik } from "formik";
 import linkifyIt from "linkify-it";
@@ -58,7 +50,7 @@ const StyledButtonLink = ({ href, children }) => {
 const ButtonLink = ({ contentState, entityKey, children }) => {
   const [isVisible, setVisible] = useState(false);
   const { url } = contentState.getEntity(entityKey).getData();
-  const [{ editorState, focus, translations }, dispatch] =
+  const [{ editorState, focus }, dispatch] =
     useContext(EditorContext);
   const hasFocus = hasEntityFocus(contentState, editorState, entityKey);
 

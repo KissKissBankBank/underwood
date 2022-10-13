@@ -15,11 +15,7 @@ import {
   LinkIcon,
   ButtonIcon,
 } from "../controls/icons";
-import {
-  Button as KittenButton,
-  COLORS,
-  pxToRem,
-} from "@kisskissbankbank/kitten";
+import { Button as KittenButton, pxToRem } from "@kisskissbankbank/kitten";
 
 export const StyledButton = styled(KittenButton)`
   &.Editor__toolbar__button--large {
@@ -55,14 +51,7 @@ const iconComponents = {
   quote: BlockquoteIcon,
 };
 
-const Button = ({
-  tag,
-  onToggle,
-  style,
-  active,
-  icon,
-  disabled,
-}) => {
+const Button = ({ tag, onToggle, style, active, icon, disabled }) => {
   const [{ focus, translations }] = useContext(EditorContext);
   const Icon = iconComponents[icon];
   const title = translations?.controls[active ? `activated_${icon}` : icon];
@@ -83,7 +72,7 @@ const Button = ({
       aria-label={title}
       fit="icon"
       tag={tag}
-      type={tag === 'button' ? tag : null}
+      type={tag === "button" ? tag : null}
     >
       <Icon />
     </StyledButton>
@@ -101,7 +90,7 @@ Button.defaultProps = {
   disabled: false,
   active: false,
   onToggle: () => null,
-  tag: 'button',
+  tag: "button",
 };
 
 export default Button;
