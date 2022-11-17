@@ -41,10 +41,10 @@
     "translations": "docusaurus write-translations"
   },
   "dependencies": {
-    "@braintree/sanitize-url": "^6.0.0",
-    "@kisskissbankbank/kitten": "^13.0.0-beta0",
-    "classnames": "^2.3.1",
-    "draft-convert": "^2.1.12",
+    "@braintree/sanitize-url": "^6.0.2",
+    "@kisskissbankbank/kitten": "^13.0.0",
+    "classnames": "^2.3.2",
+    "draft-convert": "^2.1.13",
     "draft-js": "^0.11.7",
     "draft-js-export-html": "^1.4.1",
     "formik": "^2.2.9",
@@ -53,8 +53,8 @@
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "qs": "^6.11.0",
-    "styled-components": "^5.3.5",
-    "tlds": "^1.231.0",
+    "styled-components": "^5.3.6",
+    "tlds": "^1.233.0",
     "yup": "^0.32.11"
   },
   "peerDependencies": {
@@ -74,13 +74,13 @@
     ]
   },
   "devDependencies": {
-    "@docusaurus/core": "2.0.1",
-    "@docusaurus/preset-classic": "2.0.1",
-    "@vitejs/plugin-react": "2.0.0",
+    "@docusaurus/core": "2.2.0",
+    "@docusaurus/preset-classic": "2.2.0",
+    "@vitejs/plugin-react": "2.2.0",
     "docusaurus-plugin-sass": "0.2.2",
     "prettier": "2.7.1",
-    "sass": "1.54.3",
-    "vite": "3.0.4",
+    "sass": "1.56.1",
+    "vite": "3.2.4",
     "react": "^17.0.2 || ^18.0.0",
     "react-dom": "^17.0.2 || ^18.0.0"
   }
