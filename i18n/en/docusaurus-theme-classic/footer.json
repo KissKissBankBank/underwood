@@ -15,21 +15,9 @@
     "message": "Style Guide",
     "description": "The label of footer link with label=Style Guide linking to docs/doc1"
   },
-  "link.item.label.Second Doc": {
-    "message": "Second Doc",
-    "description": "The label of footer link with label=Second Doc linking to docs/doc2"
-  },
   "link.item.label.Stack Overflow": {
     "message": "Stack Overflow",
     "description": "The label of footer link with label=Stack Overflow linking to https://stackoverflow.com/questions/tagged/underwood"
-  },
-  "link.item.label.Twitter": {
-    "message": "Twitter",
-    "description": "The label of footer link with label=Twitter linking to https://twitter.com/Kissbankers"
-  },
-  "link.item.label.Blog": {
-    "message": "Blog",
-    "description": "The label of footer link with label=Blog linking to blog"
   },
   "link.item.label.GitHub": {
     "message": "GitHub",
