@@ -26,7 +26,6 @@ module.exports = {
           label: "Docs",
           position: "left",
         },
-        { to: "blog", label: "Blog", position: "left" },
         { to: "playground", label: "Playground", position: "left" },
         {
           href: "https://github.com/KissKissBankBank/underwood",
@@ -49,10 +48,6 @@ module.exports = {
               label: "Style Guide",
               to: "docs/doc1",
             },
-            {
-              label: "Second Doc",
-              to: "docs/doc2",
-            },
           ],
         },
         {
@@ -62,19 +57,11 @@ module.exports = {
               label: "Stack Overflow",
               href: "https://stackoverflow.com/questions/tagged/underwood",
             },
-            {
-              label: "Twitter",
-              href: "https://twitter.com/Kissbankers",
-            },
           ],
         },
         {
           title: "More",
           items: [
-            {
-              label: "Blog",
-              to: "blog",
-            },
             {
               label: "GitHub",
               href: "https://github.com/KissKissBankBank/underwood",
@@ -93,11 +80,6 @@ module.exports = {
           sidebarPath: require.resolve("./sidebars.js"),
           editUrl:
             "https://github.com/KissKissBankBank/underwood/edit/master/website/",
-        },
-        blog: {
-          showReadingTime: true,
-          editUrl:
-            "https://github.com/KissKissBankBank/underwood/edit/master/website/blog/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.scss"),
